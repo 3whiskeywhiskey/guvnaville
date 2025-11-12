@@ -1,0 +1,8 @@
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Placeholder icon for Ashes to Empire -->
+  <rect width="128" height="128" fill="#2d2d2d"/>
+  <circle cx="64" cy="64" r="50" fill="#d9534f" opacity="0.8"/>
+  <circle cx="64" cy="64" r="35" fill="#f0ad4e" opacity="0.6"/>
+  <circle cx="64" cy="64" r="20" fill="#ffd700" opacity="0.8"/>
+  <text x="64" y="108" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" text-anchor="middle">A2E</text>
+</svg>

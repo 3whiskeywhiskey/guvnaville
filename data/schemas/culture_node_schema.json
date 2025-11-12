@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Culture Node Schema",
+  "description": "Schema for defining culture tree nodes in Ashes to Empire",
+  "type": "object",
+  "required": ["id", "name", "axis", "tier", "cost", "effects", "description"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the culture node",
+      "pattern": "^[a-z_]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the culture node"
+    },
+    "axis": {
+      "type": "string",
+      "description": "Culture development axis",
+      "enum": ["military", "economic", "social", "technological"]
+    },
+    "tier": {
+      "type": "integer",
+      "description": "Progression tier (1-5)",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "prerequisites": {
+      "type": "array",
+      "description": "Required culture nodes to unlock",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "effects": {
+      "type": "object",
+      "description": "Bonuses and unlocks provided by this node",
+      "properties": {
+        "unit_unlocks": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "building_unlocks": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "stat_modifiers": {
+          "type": "object",
+          "properties": {
+            "unit_attack_bonus": {"type": "number"},
+            "unit_defense_bonus": {"type": "number"},
+            "unit_hp_bonus": {"type": "number"},
+            "resource_production_bonus": {"type": "number"},
+            "population_growth_bonus": {"type": "number"},
+            "research_speed_bonus": {"type": "number"},
+            "unit_cost_reduction": {"type": "number"},
+            "building_cost_reduction": {"type": "number"}
+          }
+        },
+        "special_abilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "name": {"type": "string"},
+              "description": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "cost": {
+      "type": "integer",
+      "description": "Culture points required to unlock",
+      "minimum": 1
+    },
+    "description": {
+      "type": "string",
+      "description": "Lore and gameplay description"
+    },
+    "flavor_text": {
+      "type": "string",
+      "description": "Thematic quote or description"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon resource path"
+    },
+    "mutually_exclusive": {
+      "type": "array",
+      "description": "Culture nodes that cannot be chosen with this one",
+      "items": {"type": "string"},
+      "default": []
+    }
+  }
+}

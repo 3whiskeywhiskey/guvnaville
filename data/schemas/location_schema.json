@@ -1,0 +1,170 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Unique Location Schema",
+  "description": "Schema for defining unique locations on the world map",
+  "type": "object",
+  "required": ["id", "name", "type", "description"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the location",
+      "pattern": "^[a-z_]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the location"
+    },
+    "type": {
+      "type": "string",
+      "description": "Location category",
+      "enum": [
+        "ruins",
+        "bunker",
+        "military_base",
+        "research_facility",
+        "industrial_complex",
+        "hospital",
+        "power_plant",
+        "airport",
+        "seaport",
+        "mine",
+        "farm",
+        "city_ruins",
+        "monument",
+        "vault",
+        "wasteland_anomaly",
+        "radioactive_zone",
+        "natural_resource",
+        "settlement_site"
+      ]
+    },
+    "position": {
+      "type": "object",
+      "description": "Optional fixed position on map",
+      "properties": {
+        "x": {"type": "integer"},
+        "y": {"type": "integer"},
+        "z": {"type": "integer"}
+      }
+    },
+    "resources": {
+      "type": "object",
+      "description": "Scavengeable resources at this location",
+      "properties": {
+        "scrap": {
+          "type": "object",
+          "properties": {
+            "initial": {"type": "integer"},
+            "max": {"type": "integer"},
+            "regen_rate": {"type": "number"}
+          }
+        },
+        "food": {
+          "type": "object",
+          "properties": {
+            "initial": {"type": "integer"},
+            "max": {"type": "integer"},
+            "regen_rate": {"type": "number"}
+          }
+        },
+        "medicine": {
+          "type": "object",
+          "properties": {
+            "initial": {"type": "integer"},
+            "max": {"type": "integer"},
+            "regen_rate": {"type": "number"}
+          }
+        },
+        "fuel": {
+          "type": "object",
+          "properties": {
+            "initial": {"type": "integer"},
+            "max": {"type": "integer"},
+            "regen_rate": {"type": "number"}
+          }
+        }
+      },
+      "default": {}
+    },
+    "description": {
+      "type": "string",
+      "description": "Lore and narrative description"
+    },
+    "special_features": {
+      "type": "array",
+      "description": "Unique gameplay features",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "effect": {
+            "type": "object",
+            "properties": {
+              "defense_bonus": {"type": "integer"},
+              "resource_bonus": {"type": "object"},
+              "unit_spawns": {"type": "array"},
+              "event_trigger": {"type": "string"}
+            }
+          }
+        }
+      },
+      "default": []
+    },
+    "danger_level": {
+      "type": "integer",
+      "description": "Threat level (1-5)",
+      "minimum": 1,
+      "maximum": 5,
+      "default": 1
+    },
+    "defenders": {
+      "type": "object",
+      "description": "Enemy units guarding this location",
+      "properties": {
+        "unit_types": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "count_range": {
+          "type": "object",
+          "properties": {
+            "min": {"type": "integer"},
+            "max": {"type": "integer"}
+          }
+        }
+      }
+    },
+    "capture_requirements": {
+      "type": "object",
+      "description": "Special requirements to claim this location",
+      "properties": {
+        "culture_nodes": {"type": "array", "items": {"type": "string"}},
+        "units": {"type": "array", "items": {"type": "string"}},
+        "event_completion": {"type": "string"}
+      }
+    },
+    "capture_bonus": {
+      "type": "object",
+      "description": "One-time rewards for capturing",
+      "properties": {
+        "resources": {"type": "object"},
+        "units": {"type": "array"},
+        "culture_points": {"type": "integer"},
+        "unlock_tech": {"type": "string"}
+      }
+    },
+    "is_settleable": {
+      "type": "boolean",
+      "description": "Can a settlement be established here",
+      "default": false
+    },
+    "tags": {
+      "type": "array",
+      "description": "Categorization tags",
+      "items": {"type": "string"},
+      "default": []
+    }
+  }
+}

@@ -1,0 +1,459 @@
+{
+  "culture_tree": {
+    "military": [
+      {
+        "id": "militia_training",
+        "name": "Militia Training",
+        "axis": "military",
+        "tier": 1,
+        "prerequisites": [],
+        "effects": {
+          "unit_unlocks": ["militia"],
+          "stat_modifiers": {
+            "unit_attack_bonus": 0.05
+          }
+        },
+        "cost": 50,
+        "description": "Basic combat training for survivors. The first step toward organized military forces.",
+        "flavor_text": "In the wasteland, even the untrained must learn to fight."
+      },
+      {
+        "id": "organized_warfare",
+        "name": "Organized Warfare",
+        "axis": "military",
+        "tier": 2,
+        "prerequisites": ["militia_training"],
+        "effects": {
+          "unit_unlocks": ["soldier"],
+          "building_unlocks": ["barracks"],
+          "stat_modifiers": {
+            "unit_attack_bonus": 0.1,
+            "unit_defense_bonus": 0.1
+          }
+        },
+        "cost": 100,
+        "description": "Establishing formal military structure and training facilities.",
+        "flavor_text": "Discipline and training separate soldiers from rabble."
+      },
+      {
+        "id": "marksmanship",
+        "name": "Marksmanship",
+        "axis": "military",
+        "tier": 3,
+        "prerequisites": ["organized_warfare"],
+        "effects": {
+          "unit_unlocks": ["sniper"],
+          "stat_modifiers": {
+            "unit_attack_bonus": 0.15
+          }
+        },
+        "cost": 150,
+        "description": "Precision shooting techniques using salvaged firearms.",
+        "flavor_text": "One shot, one kill. Ammunition is too precious to waste."
+      },
+      {
+        "id": "heavy_arms",
+        "name": "Heavy Armaments",
+        "axis": "military",
+        "tier": 3,
+        "prerequisites": ["organized_warfare"],
+        "effects": {
+          "unit_unlocks": ["heavy"],
+          "stat_modifiers": {
+            "unit_hp_bonus": 0.2,
+            "unit_defense_bonus": 0.15
+          }
+        },
+        "cost": 180,
+        "description": "Deploy heavy weapons and armor salvaged from military stockpiles.",
+        "flavor_text": "When diplomacy fails, bring overwhelming force."
+      },
+      {
+        "id": "raider_culture",
+        "name": "Raider Doctrine",
+        "axis": "military",
+        "tier": 2,
+        "prerequisites": ["militia_training"],
+        "effects": {
+          "unit_unlocks": ["raider"],
+          "stat_modifiers": {
+            "unit_attack_bonus": 0.12
+          },
+          "special_abilities": [
+            {
+              "id": "scavenger_bonus",
+              "name": "Scavenger's Luck",
+              "description": "+20% resources from pillaging"
+            }
+          ]
+        },
+        "cost": 120,
+        "description": "Embrace aggressive scavenging and hit-and-run tactics.",
+        "flavor_text": "Take what you need, before someone else does.",
+        "mutually_exclusive": ["organized_warfare"]
+      },
+      {
+        "id": "combined_arms",
+        "name": "Combined Arms",
+        "axis": "military",
+        "tier": 4,
+        "prerequisites": ["marksmanship", "heavy_arms"],
+        "effects": {
+          "stat_modifiers": {
+            "unit_attack_bonus": 0.25,
+            "unit_defense_bonus": 0.2
+          },
+          "special_abilities": [
+            {
+              "id": "tactical_coordination",
+              "name": "Tactical Coordination",
+              "description": "Units fighting together gain +15% combat effectiveness"
+            }
+          ]
+        },
+        "cost": 250,
+        "description": "Coordinate different unit types for maximum battlefield effectiveness.",
+        "flavor_text": "The whole is greater than the sum of its parts."
+      }
+    ],
+    "economic": [
+      {
+        "id": "salvage_operations",
+        "name": "Salvage Operations",
+        "axis": "economic",
+        "tier": 1,
+        "prerequisites": [],
+        "effects": {
+          "stat_modifiers": {
+            "resource_production_bonus": 0.1
+          }
+        },
+        "cost": 50,
+        "description": "Systematic scavenging of pre-war ruins for useful materials.",
+        "flavor_text": "One person's trash is another's survival."
+      },
+      {
+        "id": "agricultural_recovery",
+        "name": "Agricultural Recovery",
+        "axis": "economic",
+        "tier": 2,
+        "prerequisites": ["salvage_operations"],
+        "effects": {
+          "building_unlocks": ["farm"],
+          "stat_modifiers": {
+            "resource_production_bonus": 0.15
+          }
+        },
+        "cost": 100,
+        "description": "Restore food production through hydroponic systems and hardy crops.",
+        "flavor_text": "He who controls the food supply, controls everything."
+      },
+      {
+        "id": "trade_networks",
+        "name": "Trade Networks",
+        "axis": "economic",
+        "tier": 2,
+        "prerequisites": ["salvage_operations"],
+        "effects": {
+          "building_unlocks": ["market"],
+          "unit_unlocks": ["trader"],
+          "stat_modifiers": {
+            "resource_production_bonus": 0.2
+          }
+        },
+        "cost": 120,
+        "description": "Establish routes for exchanging goods with other survivors.",
+        "flavor_text": "Trade routes are the lifeblood of civilization."
+      },
+      {
+        "id": "industrial_recycling",
+        "name": "Industrial Recycling",
+        "axis": "economic",
+        "tier": 3,
+        "prerequisites": ["salvage_operations"],
+        "effects": {
+          "stat_modifiers": {
+            "resource_production_bonus": 0.25,
+            "building_cost_reduction": 0.15
+          }
+        },
+        "cost": 180,
+        "description": "Advanced techniques for breaking down and repurposing materials.",
+        "flavor_text": "Waste not, want not."
+      },
+      {
+        "id": "market_economy",
+        "name": "Market Economy",
+        "axis": "economic",
+        "tier": 3,
+        "prerequisites": ["trade_networks", "agricultural_recovery"],
+        "effects": {
+          "stat_modifiers": {
+            "resource_production_bonus": 0.3
+          },
+          "special_abilities": [
+            {
+              "id": "trade_bonus",
+              "name": "Trade Prosperity",
+              "description": "Gain 5% of trade partner's resource production"
+            }
+          ]
+        },
+        "cost": 200,
+        "description": "Create a thriving market-based economy through specialization and trade.",
+        "flavor_text": "A rising tide lifts all boats."
+      },
+      {
+        "id": "resource_efficiency",
+        "name": "Resource Efficiency",
+        "axis": "economic",
+        "tier": 4,
+        "prerequisites": ["industrial_recycling", "market_economy"],
+        "effects": {
+          "stat_modifiers": {
+            "unit_cost_reduction": 0.2,
+            "building_cost_reduction": 0.25
+          }
+        },
+        "cost": 250,
+        "description": "Maximize output while minimizing waste through careful planning.",
+        "flavor_text": "Do more with less."
+      }
+    ],
+    "social": [
+      {
+        "id": "community_organizing",
+        "name": "Community Organizing",
+        "axis": "social",
+        "tier": 1,
+        "prerequisites": [],
+        "effects": {
+          "building_unlocks": ["shelter"],
+          "stat_modifiers": {
+            "population_growth_bonus": 0.1
+          }
+        },
+        "cost": 50,
+        "description": "Bring survivors together to form stable communities.",
+        "flavor_text": "Alone we are weak, together we survive."
+      },
+      {
+        "id": "healthcare_initiative",
+        "name": "Healthcare Initiative",
+        "axis": "social",
+        "tier": 2,
+        "prerequisites": ["community_organizing"],
+        "effects": {
+          "building_unlocks": ["clinic"],
+          "unit_unlocks": ["medic"],
+          "stat_modifiers": {
+            "population_growth_bonus": 0.15
+          }
+        },
+        "cost": 100,
+        "description": "Establish basic medical services to keep the population healthy.",
+        "flavor_text": "Health is the foundation of prosperity."
+      },
+      {
+        "id": "education_system",
+        "name": "Education System",
+        "axis": "social",
+        "tier": 3,
+        "prerequisites": ["community_organizing"],
+        "effects": {
+          "stat_modifiers": {
+            "research_speed_bonus": 0.2
+          },
+          "special_abilities": [
+            {
+              "id": "knowledge_preservation",
+              "name": "Knowledge Preservation",
+              "description": "Gain +2 culture points per turn"
+            }
+          ]
+        },
+        "cost": 150,
+        "description": "Preserve and transmit knowledge to future generations.",
+        "flavor_text": "Education is the key to rebuilding what was lost."
+      },
+      {
+        "id": "strongman_rule",
+        "name": "Strongman Rule",
+        "axis": "social",
+        "tier": 2,
+        "prerequisites": ["community_organizing"],
+        "effects": {
+          "stat_modifiers": {
+            "unit_attack_bonus": 0.1
+          },
+          "special_abilities": [
+            {
+              "id": "iron_fist",
+              "name": "Iron Fist",
+              "description": "Units never retreat, but happiness -10"
+            }
+          ]
+        },
+        "cost": 100,
+        "description": "Centralize power under a single charismatic leader.",
+        "flavor_text": "Order through strength.",
+        "mutually_exclusive": ["democratic_council"]
+      },
+      {
+        "id": "democratic_council",
+        "name": "Democratic Council",
+        "axis": "social",
+        "tier": 2,
+        "prerequisites": ["community_organizing"],
+        "effects": {
+          "stat_modifiers": {
+            "population_growth_bonus": 0.2
+          },
+          "special_abilities": [
+            {
+              "id": "collective_decision",
+              "name": "Collective Decision",
+              "description": "Happiness +15, but military production -10%"
+            }
+          ]
+        },
+        "cost": 100,
+        "description": "Govern through representative democracy and consensus.",
+        "flavor_text": "The voice of the people guides our path.",
+        "mutually_exclusive": ["strongman_rule"]
+      },
+      {
+        "id": "cultural_revival",
+        "name": "Cultural Revival",
+        "axis": "social",
+        "tier": 4,
+        "prerequisites": ["education_system"],
+        "effects": {
+          "stat_modifiers": {
+            "research_speed_bonus": 0.3
+          },
+          "special_abilities": [
+            {
+              "id": "renaissance",
+              "name": "Post-Apocalyptic Renaissance",
+              "description": "+50% culture point generation"
+            }
+          ]
+        },
+        "cost": 250,
+        "description": "Spark a new golden age of art, science, and philosophy.",
+        "flavor_text": "From the ashes, a new culture rises."
+      }
+    ],
+    "technological": [
+      {
+        "id": "basic_repairs",
+        "name": "Basic Repairs",
+        "axis": "technological",
+        "tier": 1,
+        "prerequisites": [],
+        "effects": {
+          "building_unlocks": ["workshop"],
+          "stat_modifiers": {}
+        },
+        "cost": 50,
+        "description": "Learn to maintain and fix salvaged equipment.",
+        "flavor_text": "Keep the old machines running, and we survive."
+      },
+      {
+        "id": "engineering_corps",
+        "name": "Engineering Corps",
+        "axis": "technological",
+        "tier": 2,
+        "prerequisites": ["basic_repairs"],
+        "effects": {
+          "unit_unlocks": ["engineer"],
+          "stat_modifiers": {
+            "building_cost_reduction": 0.1
+          }
+        },
+        "cost": 100,
+        "description": "Train specialists in construction and repair.",
+        "flavor_text": "Engineers are the unsung heroes of the wasteland."
+      },
+      {
+        "id": "scientific_method",
+        "name": "Scientific Method",
+        "axis": "technological",
+        "tier": 2,
+        "prerequisites": ["basic_repairs"],
+        "effects": {
+          "building_unlocks": ["lab"],
+          "stat_modifiers": {
+            "research_speed_bonus": 0.15
+          }
+        },
+        "cost": 120,
+        "description": "Rediscover systematic experimentation and research.",
+        "flavor_text": "Question, experiment, understand, advance."
+      },
+      {
+        "id": "old_world_knowledge",
+        "name": "Old World Knowledge",
+        "axis": "technological",
+        "tier": 3,
+        "prerequisites": ["scientific_method"],
+        "effects": {
+          "unit_unlocks": ["specialist"],
+          "stat_modifiers": {
+            "research_speed_bonus": 0.25
+          },
+          "special_abilities": [
+            {
+              "id": "tech_salvage",
+              "name": "Advanced Salvage",
+              "description": "+30% resources from technological locations"
+            }
+          ]
+        },
+        "cost": 180,
+        "description": "Unlock the secrets stored in pre-war databases and facilities.",
+        "flavor_text": "The past holds the keys to the future."
+      },
+      {
+        "id": "power_generation",
+        "name": "Power Generation",
+        "axis": "technological",
+        "tier": 3,
+        "prerequisites": ["engineering_corps", "scientific_method"],
+        "effects": {
+          "stat_modifiers": {
+            "resource_production_bonus": 0.2
+          },
+          "special_abilities": [
+            {
+              "id": "electrification",
+              "name": "Electrification",
+              "description": "All buildings produce +20% resources"
+            }
+          ]
+        },
+        "cost": 200,
+        "description": "Restore electrical power to settlements.",
+        "flavor_text": "Let there be light."
+      },
+      {
+        "id": "advanced_manufacturing",
+        "name": "Advanced Manufacturing",
+        "axis": "technological",
+        "tier": 4,
+        "prerequisites": ["old_world_knowledge", "power_generation"],
+        "effects": {
+          "stat_modifiers": {
+            "unit_cost_reduction": 0.25,
+            "building_cost_reduction": 0.3,
+            "unit_production_bonus": 0.5
+          }
+        },
+        "cost": 300,
+        "description": "Establish sophisticated production facilities rivaling pre-war industry.",
+        "flavor_text": "We have not just survived—we have rebuilt."
+      }
+    ]
+  }
+}

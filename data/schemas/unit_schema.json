@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Unit Definition Schema",
+  "description": "Schema for defining unit types in Ashes to Empire",
+  "type": "object",
+  "required": ["id", "name", "type", "stats", "description"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the unit type",
+      "pattern": "^[a-z_]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the unit"
+    },
+    "type": {
+      "type": "string",
+      "description": "Unit category",
+      "enum": ["infantry", "ranged", "support", "specialist", "heavy"]
+    },
+    "stats": {
+      "type": "object",
+      "required": ["hp", "attack", "defense", "movement", "cost"],
+      "properties": {
+        "hp": {
+          "type": "integer",
+          "description": "Hit points",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "attack": {
+          "type": "integer",
+          "description": "Attack power",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "defense": {
+          "type": "integer",
+          "description": "Defense rating",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "movement": {
+          "type": "integer",
+          "description": "Movement points per turn",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "cost": {
+          "type": "object",
+          "description": "Resource costs to produce",
+          "properties": {
+            "scrap": {"type": "integer", "minimum": 0},
+            "food": {"type": "integer", "minimum": 0},
+            "medicine": {"type": "integer", "minimum": 0},
+            "fuel": {"type": "integer", "minimum": 0}
+          }
+        },
+        "morale": {
+          "type": "integer",
+          "description": "Base morale value",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 50
+        },
+        "vision_range": {
+          "type": "integer",
+          "description": "Tiles visible around unit",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 2
+        }
+      }
+    },
+    "abilities": {
+      "type": "array",
+      "description": "Special abilities this unit can perform",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "cooldown": {"type": "integer", "minimum": 0},
+          "cost": {"type": "object"}
+        }
+      },
+      "default": []
+    },
+    "description": {
+      "type": "string",
+      "description": "Lore and gameplay description"
+    },
+    "production_time": {
+      "type": "integer",
+      "description": "Turns required to produce",
+      "minimum": 1,
+      "default": 1
+    },
+    "prerequisites": {
+      "type": "object",
+      "description": "Requirements to unlock this unit",
+      "properties": {
+        "culture_nodes": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "buildings": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Gameplay tags for categorization",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  }
+}

@@ -1,0 +1,184 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop, "claude/**" ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: 4.2.2
+  EXPORT_NAME: ashes-to-empire
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.2.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Godot files
+        uses: actions/cache@v3
+        with:
+          path: |
+            .godot/
+            .import/
+          key: ${{ runner.os }}-godot-${{ hashFiles('**/*.tscn', '**/*.tres', '**/*.gd') }}
+          restore-keys: |
+            ${{ runner.os }}-godot-
+
+      - name: Run GUT tests
+        run: |
+          godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/unit,res://tests/integration,res://tests/system -gexit
+        continue-on-error: false
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: |
+            .gut_editor_config.json
+            *.log
+
+  lint:
+    name: GDScript Lint
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.2.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint GDScript files
+        run: |
+          echo "GDScript linting..."
+          # Basic syntax check by parsing all .gd files
+          find . -name "*.gd" -not -path "./addons/*" | while read file; do
+            echo "Checking $file"
+            godot --headless --check-only --script "$file" || exit 1
+          done
+
+  build-linux:
+    name: Build Linux
+    needs: test
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.2.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup export templates
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Create exports directory
+        run: mkdir -v -p build/linux
+
+      - name: Build Linux
+        run: |
+          godot --headless --verbose --export-release "Linux/X11" build/linux/$EXPORT_NAME.x86_64
+
+      - name: Upload Linux build
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-build
+          path: build/linux
+
+  build-windows:
+    name: Build Windows
+    needs: test
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.2.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup export templates
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Create exports directory
+        run: mkdir -v -p build/windows
+
+      - name: Build Windows
+        run: |
+          godot --headless --verbose --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-build
+          path: build/windows
+
+  build-macos:
+    name: Build macOS
+    needs: test
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.2.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup export templates
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Create exports directory
+        run: mkdir -v -p build/macos
+
+      - name: Build macOS
+        run: |
+          godot --headless --verbose --export-release "macOS" build/macos/$EXPORT_NAME.zip
+
+      - name: Upload macOS build
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-build
+          path: build/macos
+
+  status-report:
+    name: Status Report
+    needs: [test, lint, build-linux, build-windows, build-macos]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check job statuses
+        run: |
+          echo "## CI/CD Pipeline Status Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Tests | ${{ needs.test.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Lint | ${{ needs.lint.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Linux Build | ${{ needs.build-linux.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Windows Build | ${{ needs.build-windows.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| macOS Build | ${{ needs.build-macos.result }} |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Report success
+        if: ${{ needs.test.result == 'success' && needs.lint.result == 'success' && needs.build-linux.result == 'success' && needs.build-windows.result == 'success' && needs.build-macos.result == 'success' }}
+        run: echo "✅ All jobs completed successfully!"
+
+      - name: Report failure
+        if: ${{ needs.test.result != 'success' || needs.lint.result != 'success' || needs.build-linux.result != 'success' || needs.build-windows.result != 'success' || needs.build-macos.result != 'success' }}
+        run: |
+          echo "❌ One or more jobs failed"
+          exit 1

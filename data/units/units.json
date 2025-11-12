@@ -1,0 +1,349 @@
+{
+  "units": [
+    {
+      "id": "militia",
+      "name": "Militia",
+      "type": "infantry",
+      "stats": {
+        "hp": 50,
+        "attack": 8,
+        "defense": 5,
+        "movement": 3,
+        "cost": {
+          "scrap": 20,
+          "food": 10
+        },
+        "morale": 40,
+        "vision_range": 2
+      },
+      "abilities": [],
+      "description": "Hastily armed survivors with makeshift weapons. Weak but cheap to recruit and maintain.",
+      "production_time": 1,
+      "tags": ["basic", "infantry"]
+    },
+    {
+      "id": "soldier",
+      "name": "Soldier",
+      "type": "infantry",
+      "stats": {
+        "hp": 80,
+        "attack": 15,
+        "defense": 12,
+        "movement": 3,
+        "cost": {
+          "scrap": 50,
+          "food": 20,
+          "fuel": 5
+        },
+        "morale": 60,
+        "vision_range": 2
+      },
+      "abilities": [
+        {
+          "id": "entrench",
+          "name": "Entrench",
+          "description": "Dig in for +5 defense bonus. Cannot move for 1 turn.",
+          "cooldown": 0
+        }
+      ],
+      "description": "Trained fighters equipped with salvaged pre-war military gear. The backbone of any faction's army.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["barracks"]
+      },
+      "tags": ["infantry", "trained"]
+    },
+    {
+      "id": "scout",
+      "name": "Scout",
+      "type": "specialist",
+      "stats": {
+        "hp": 40,
+        "attack": 6,
+        "defense": 4,
+        "movement": 5,
+        "cost": {
+          "scrap": 30,
+          "food": 15
+        },
+        "morale": 50,
+        "vision_range": 4
+      },
+      "abilities": [
+        {
+          "id": "recon",
+          "name": "Reconnaissance",
+          "description": "Reveal fog of war in extended radius without moving",
+          "cooldown": 3
+        }
+      ],
+      "description": "Swift survivors skilled in navigation and reconnaissance. Essential for exploring the wasteland.",
+      "production_time": 1,
+      "tags": ["specialist", "mobile", "recon"]
+    },
+    {
+      "id": "engineer",
+      "name": "Engineer",
+      "type": "support",
+      "stats": {
+        "hp": 60,
+        "attack": 5,
+        "defense": 8,
+        "movement": 2,
+        "cost": {
+          "scrap": 60,
+          "food": 15,
+          "fuel": 10
+        },
+        "morale": 55,
+        "vision_range": 2
+      },
+      "abilities": [
+        {
+          "id": "repair",
+          "name": "Field Repairs",
+          "description": "Restore 20 HP to adjacent friendly unit",
+          "cooldown": 1
+        },
+        {
+          "id": "fortify",
+          "name": "Build Fortification",
+          "description": "Construct defensive structure at current position",
+          "cooldown": 5
+        }
+      ],
+      "description": "Technical specialists capable of repairs and construction. Invaluable for maintaining equipment.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["workshop"]
+      },
+      "tags": ["support", "engineer"]
+    },
+    {
+      "id": "medic",
+      "name": "Medic",
+      "type": "support",
+      "stats": {
+        "hp": 45,
+        "attack": 3,
+        "defense": 6,
+        "movement": 3,
+        "cost": {
+          "scrap": 40,
+          "food": 10,
+          "medicine": 30
+        },
+        "morale": 65,
+        "vision_range": 2
+      },
+      "abilities": [
+        {
+          "id": "heal",
+          "name": "Medical Treatment",
+          "description": "Restore 30 HP to adjacent friendly unit",
+          "cooldown": 0
+        },
+        {
+          "id": "stabilize",
+          "name": "Stabilize",
+          "description": "Prevent morale loss in adjacent units",
+          "cooldown": 2
+        }
+      ],
+      "description": "Trained healers keeping survivors alive in the harsh wasteland. Boost morale through care.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["clinic"]
+      },
+      "tags": ["support", "healer"]
+    },
+    {
+      "id": "heavy",
+      "name": "Heavy Trooper",
+      "type": "heavy",
+      "stats": {
+        "hp": 120,
+        "attack": 20,
+        "defense": 18,
+        "movement": 2,
+        "cost": {
+          "scrap": 100,
+          "food": 30,
+          "fuel": 20
+        },
+        "morale": 70,
+        "vision_range": 2
+      },
+      "abilities": [
+        {
+          "id": "suppressive_fire",
+          "name": "Suppressive Fire",
+          "description": "Reduce enemy movement by 1 in target area",
+          "cooldown": 2
+        }
+      ],
+      "description": "Elite fighters in salvaged power armor or heavy equipment. Devastating but expensive.",
+      "production_time": 3,
+      "prerequisites": {
+        "buildings": ["barracks"],
+        "culture_nodes": ["heavy_arms"]
+      },
+      "tags": ["heavy", "elite"]
+    },
+    {
+      "id": "sniper",
+      "name": "Sniper",
+      "type": "ranged",
+      "stats": {
+        "hp": 50,
+        "attack": 25,
+        "defense": 6,
+        "movement": 3,
+        "cost": {
+          "scrap": 70,
+          "food": 20,
+          "fuel": 15
+        },
+        "morale": 55,
+        "vision_range": 5
+      },
+      "abilities": [
+        {
+          "id": "overwatch",
+          "name": "Overwatch",
+          "description": "Automatically attack first enemy that moves in range",
+          "cooldown": 1
+        },
+        {
+          "id": "headshot",
+          "name": "Precision Shot",
+          "description": "Deal double damage, ignoring defense bonuses",
+          "cooldown": 3
+        }
+      ],
+      "description": "Skilled marksmen with pre-war rifles. Deadly from distance but vulnerable up close.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["barracks"],
+        "culture_nodes": ["marksmanship"]
+      },
+      "tags": ["ranged", "precision"]
+    },
+    {
+      "id": "raider",
+      "name": "Raider",
+      "type": "infantry",
+      "stats": {
+        "hp": 65,
+        "attack": 18,
+        "defense": 8,
+        "movement": 4,
+        "cost": {
+          "scrap": 45,
+          "food": 15,
+          "fuel": 10
+        },
+        "morale": 45,
+        "vision_range": 2
+      },
+      "abilities": [
+        {
+          "id": "pillage",
+          "name": "Pillage",
+          "description": "Gain bonus resources when defeating enemy units",
+          "cooldown": 0
+        },
+        {
+          "id": "intimidate",
+          "name": "Intimidate",
+          "description": "Reduce enemy morale by 10",
+          "cooldown": 2
+        }
+      ],
+      "description": "Aggressive scavengers focused on speed and looting. High risk, high reward units.",
+      "production_time": 2,
+      "prerequisites": {
+        "culture_nodes": ["raider_culture"]
+      },
+      "tags": ["infantry", "aggressive", "mobile"]
+    },
+    {
+      "id": "trader",
+      "name": "Trader",
+      "type": "specialist",
+      "stats": {
+        "hp": 55,
+        "attack": 4,
+        "defense": 10,
+        "movement": 4,
+        "cost": {
+          "scrap": 40,
+          "food": 20,
+          "fuel": 15
+        },
+        "morale": 60,
+        "vision_range": 3
+      },
+      "abilities": [
+        {
+          "id": "trade",
+          "name": "Establish Trade",
+          "description": "Create trade route with adjacent faction",
+          "cooldown": 5
+        },
+        {
+          "id": "barter",
+          "name": "Resource Barter",
+          "description": "Exchange resources with neutral factions",
+          "cooldown": 0
+        }
+      ],
+      "description": "Diplomatic merchants who establish trade networks. Essential for economic expansion.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["market"],
+        "culture_nodes": ["trade_networks"]
+      },
+      "tags": ["specialist", "economic", "diplomatic"]
+    },
+    {
+      "id": "specialist",
+      "name": "Tech Specialist",
+      "type": "specialist",
+      "stats": {
+        "hp": 50,
+        "attack": 10,
+        "defense": 10,
+        "movement": 3,
+        "cost": {
+          "scrap": 80,
+          "food": 15,
+          "medicine": 10
+        },
+        "morale": 70,
+        "vision_range": 3
+      },
+      "abilities": [
+        {
+          "id": "analyze",
+          "name": "Technology Analysis",
+          "description": "Gain bonus culture points from unique locations",
+          "cooldown": 0
+        },
+        {
+          "id": "emp_blast",
+          "name": "EMP Device",
+          "description": "Disable enemy electronics in small radius",
+          "cooldown": 4
+        }
+      ],
+      "description": "Pre-war technology experts who can unlock ancient secrets. Rare but powerful.",
+      "production_time": 3,
+      "prerequisites": {
+        "buildings": ["lab"],
+        "culture_nodes": ["old_world_knowledge"]
+      },
+      "tags": ["specialist", "tech", "elite"]
+    }
+  ]
+}

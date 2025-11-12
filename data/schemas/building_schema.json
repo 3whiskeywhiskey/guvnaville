@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Building Definition Schema",
+  "description": "Schema for defining building types in Ashes to Empire",
+  "type": "object",
+  "required": ["id", "name", "type", "cost", "description"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the building type",
+      "pattern": "^[a-z_]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the building"
+    },
+    "type": {
+      "type": "string",
+      "description": "Building category",
+      "enum": ["infrastructure", "production", "military", "research", "cultural", "defensive"]
+    },
+    "cost": {
+      "type": "object",
+      "description": "Resource costs to construct",
+      "required": ["scrap"],
+      "properties": {
+        "scrap": {"type": "integer", "minimum": 0},
+        "food": {"type": "integer", "minimum": 0},
+        "medicine": {"type": "integer", "minimum": 0},
+        "fuel": {"type": "integer", "minimum": 0}
+      }
+    },
+    "production": {
+      "type": "object",
+      "description": "Resources produced per turn",
+      "properties": {
+        "scrap": {"type": "number"},
+        "food": {"type": "number"},
+        "medicine": {"type": "number"},
+        "fuel": {"type": "number"},
+        "culture_points": {"type": "number"}
+      },
+      "default": {}
+    },
+    "effects": {
+      "type": "object",
+      "description": "Modifiers and bonuses provided",
+      "properties": {
+        "defense_bonus": {"type": "integer"},
+        "unit_production_bonus": {"type": "number"},
+        "resource_bonus": {"type": "object"},
+        "population_capacity": {"type": "integer"},
+        "happiness_bonus": {"type": "integer"},
+        "vision_range_bonus": {"type": "integer"}
+      },
+      "default": {}
+    },
+    "requirements": {
+      "type": "object",
+      "description": "Prerequisites to construct",
+      "properties": {
+        "culture_nodes": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "buildings": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "population": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "description": {
+      "type": "string",
+      "description": "Lore and gameplay description"
+    },
+    "construction_time": {
+      "type": "integer",
+      "description": "Turns required to construct",
+      "minimum": 1,
+      "default": 1
+    },
+    "maintenance_cost": {
+      "type": "object",
+      "description": "Resources consumed per turn",
+      "properties": {
+        "scrap": {"type": "number"},
+        "food": {"type": "number"},
+        "medicine": {"type": "number"},
+        "fuel": {"type": "number"}
+      },
+      "default": {}
+    },
+    "max_per_settlement": {
+      "type": "integer",
+      "description": "Maximum number allowed per settlement",
+      "minimum": 1,
+      "default": 1
+    },
+    "tags": {
+      "type": "array",
+      "description": "Gameplay tags for categorization",
+      "items": {"type": "string"},
+      "default": []
+    }
+  }
+}
