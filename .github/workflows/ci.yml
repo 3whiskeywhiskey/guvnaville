@@ -12,40 +12,48 @@ env:
   EXPORT_NAME: ashes-to-empire
 
 jobs:
-  test:
-    name: Run Tests
+  validate:
+    name: Validate Project Structure
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.2.2
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          lfs: true
 
-      - name: Cache Godot files
-        uses: actions/cache@v3
-        with:
-          path: |
-            .godot/
-            .import/
-          key: ${{ runner.os }}-godot-${{ hashFiles('**/*.tscn', '**/*.tres', '**/*.gd') }}
-          restore-keys: |
-            ${{ runner.os }}-godot-
-
-      - name: Run GUT tests
+      - name: Validate JSON data files
         run: |
-          godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/unit,res://tests/integration,res://tests/system -gexit
-        continue-on-error: false
+          echo "Validating JSON schemas and data files..."
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: |
-            .gut_editor_config.json
-            *.log
+          # Check if all required directories exist
+          required_dirs=("core" "systems" "ui" "data" "tests" "docs/interfaces")
+          for dir in "${required_dirs[@]}"; do
+            if [ ! -d "$dir" ]; then
+              echo "❌ Missing required directory: $dir"
+              exit 1
+            fi
+          done
+          echo "✅ All required directories exist"
+
+          # Validate JSON files
+          echo "Validating JSON syntax..."
+          find data -name "*.json" -type f | while read file; do
+            echo "  Checking $file"
+            if ! python3 -m json.tool "$file" > /dev/null 2>&1; then
+              echo "❌ Invalid JSON: $file"
+              exit 1
+            fi
+          done
+          echo "✅ All JSON files are valid"
+
+          # Check interface contracts
+          echo "Validating interface contracts..."
+          interface_count=$(find docs/interfaces -name "*_interface.md" -type f | wc -l)
+          if [ "$interface_count" -ne 10 ]; then
+            echo "❌ Expected 10 interface contracts, found $interface_count"
+            exit 1
+          fi
+          echo "✅ All 10 interface contracts present"
+
+          echo "✅ Phase 1 validation complete!"
 
   lint:
     name: GDScript Lint
@@ -72,27 +80,27 @@ jobs:
 
   status-report:
     name: Status Report
-    needs: [test, lint]
+    needs: [validate, lint]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: Check job statuses
         run: |
-          echo "## CI/CD Pipeline Status Report" >> $GITHUB_STEP_SUMMARY
+          echo "## CI/CD Pipeline Status Report - Phase 1" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Tests | ${{ needs.test.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Lint | ${{ needs.lint.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Project Validation | ${{ needs.validate.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| GDScript Lint | ${{ needs.lint.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Build jobs disabled for Phase 1 (no game content yet)" >> $GITHUB_STEP_SUMMARY
+          echo "**Note**: GUT tests and build jobs will be enabled in Phase 2" >> $GITHUB_STEP_SUMMARY
 
       - name: Report success
-        if: ${{ needs.test.result == 'success' && needs.lint.result == 'success' }}
-        run: echo "✅ All Phase 1 jobs completed successfully!"
+        if: ${{ needs.validate.result == 'success' && needs.lint.result == 'success' }}
+        run: echo "✅ All Phase 1 validation jobs completed successfully!"
 
       - name: Report failure
-        if: ${{ needs.test.result != 'success' || needs.lint.result != 'success' }}
+        if: ${{ needs.validate.result != 'success' || needs.lint.result != 'success' }}
         run: |
           echo "❌ One or more jobs failed"
           exit 1

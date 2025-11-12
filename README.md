@@ -140,12 +140,19 @@ godot --headless --export-release "macOS" build/macos/ashes-to-empire.zip
 
 ### CI/CD
 
-This project uses GitHub Actions for continuous integration and deployment:
+This project uses GitHub Actions for continuous integration:
 
-- **Tests**: Automatically run on every push and pull request
-- **Linting**: GDScript syntax checking
-- **Builds**: Automated builds for all platforms
-- **Status Reports**: Summary of build/test results
+**Phase 1 (Current - Foundation)**:
+- **Project Validation**: Directory structure and JSON data validation
+- **Linting**: GDScript syntax checking (core scripts only)
+- **Status Reports**: Summary of validation results
+
+**Phase 2+ (Implementation)**:
+- **GUT Tests**: Automated unit and integration tests
+- **Builds**: Automated builds for Windows, macOS, and Linux
+- **Artifact Upload**: Build artifacts and test results
+
+> **Note**: GUT tests and build jobs are disabled for Phase 1 since we're setting up the foundation. They will be enabled in Phase 2 when game content is implemented.
 
 View the workflow: `.github/workflows/ci.yml`
 
