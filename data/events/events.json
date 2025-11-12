@@ -1,0 +1,798 @@
+{
+  "events": [
+    {
+      "id": "raider_attack",
+      "name": "Raider Assault",
+      "description": "A band of raiders approaches your settlement, weapons drawn and hunger in their eyes. They demand tribute or threaten violence.",
+      "triggers": {
+        "turn_range": {"min": 5, "max": 100},
+        "resource_thresholds": {"food_min": 20}
+      },
+      "choices": [
+        {
+          "id": "fight",
+          "text": "Defend the settlement!",
+          "consequences": {
+            "spawn_units": [{"unit_type": "raider", "count": 3}],
+            "narrative_text": "Your people take up arms to defend their home. Battle is inevitable."
+          }
+        },
+        {
+          "id": "pay_tribute",
+          "text": "Pay them off to avoid bloodshed",
+          "consequences": {
+            "resource_changes": {"food": -15, "scrap": -10},
+            "morale_change": -5,
+            "narrative_text": "The raiders take your supplies and leave, laughing. Your people feel shame, but they live."
+          }
+        },
+        {
+          "id": "negotiate",
+          "text": "Attempt to recruit them",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "spawn_units": [{"unit_type": "raider", "count": 1}],
+            "resource_changes": {"food": -5},
+            "narrative_text": "Impressed by your strength, some raiders join your cause. Others leave, dissatisfied."
+          }
+        }
+      ],
+      "rarity": "common",
+      "tags": ["combat", "raider"]
+    },
+    {
+      "id": "medical_emergency",
+      "name": "Disease Outbreak",
+      "description": "A mysterious illness spreads through your settlement. Without proper treatment, many will die.",
+      "triggers": {
+        "turn_range": {"min": 10, "max": 80},
+        "resource_thresholds": {"population_min": 15}
+      },
+      "choices": [
+        {
+          "id": "use_medicine",
+          "text": "Use medicine to treat the sick",
+          "requirements": {"resources": {"medicine": 20}},
+          "consequences": {
+            "resource_changes": {"medicine": -20},
+            "morale_change": 10,
+            "narrative_text": "Your medics work tirelessly. The outbreak is contained with minimal casualties."
+          }
+        },
+        {
+          "id": "quarantine",
+          "text": "Quarantine the infected",
+          "consequences": {
+            "morale_change": -15,
+            "narrative_text": "You isolate the sick, letting nature take its course. Many die, but the outbreak doesn't spread."
+          }
+        },
+        {
+          "id": "research_cure",
+          "text": "Research a cure",
+          "requirements": {"culture_nodes": ["scientific_method"]},
+          "consequences": {
+            "resource_changes": {"medicine": -10, "culture_points": 15},
+            "morale_change": 5,
+            "narrative_text": "Your scientists develop a treatment, saving lives and advancing medical knowledge."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["social", "medical"]
+    },
+    {
+      "id": "salvage_find",
+      "name": "Rich Scavenging Site",
+      "description": "Scouts report an untouched warehouse full of pre-war supplies. It won't stay undiscovered for long.",
+      "triggers": {
+        "turn_range": {"min": 1, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "quick_grab",
+          "text": "Grab what you can quickly",
+          "consequences": {
+            "resource_changes": {"scrap": 30, "food": 15},
+            "narrative_text": "Your people haul away valuable supplies before anyone else arrives."
+          }
+        },
+        {
+          "id": "thorough_search",
+          "text": "Conduct a thorough search",
+          "consequences": {
+            "resource_changes": {"scrap": 50, "food": 25, "medicine": 10},
+            "trigger_event": "warehouse_trap",
+            "narrative_text": "Taking your time pays off—you find hidden compartments full of treasures. But did someone hear you?"
+          }
+        },
+        {
+          "id": "claim_site",
+          "text": "Establish permanent presence",
+          "requirements": {"units": ["engineer"]},
+          "consequences": {
+            "resource_changes": {"scrap": 20},
+            "narrative_text": "Your engineers fortify the site. You now have a permanent scavenging outpost."
+          }
+        }
+      ],
+      "rarity": "common",
+      "tags": ["economic", "scavenging"]
+    },
+    {
+      "id": "wanderer_arrival",
+      "name": "Mysterious Wanderer",
+      "description": "A lone traveler arrives at your gates, offering knowledge in exchange for shelter.",
+      "triggers": {
+        "turn_range": {"min": 8, "max": 60}
+      },
+      "choices": [
+        {
+          "id": "welcome",
+          "text": "Welcome them into the community",
+          "consequences": {
+            "resource_changes": {"culture_points": 10},
+            "morale_change": 5,
+            "narrative_text": "The wanderer shares stories and skills. Your people are enriched by their presence."
+          }
+        },
+        {
+          "id": "interrogate",
+          "text": "Question them thoroughly first",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "resource_changes": {"scrap": 15},
+            "morale_change": -3,
+            "narrative_text": "Under pressure, they reveal the location of hidden supplies. But trust is damaged."
+          }
+        },
+        {
+          "id": "turn_away",
+          "text": "Send them away",
+          "consequences": {
+            "narrative_text": "You cannot risk unknown outsiders. The wanderer leaves, disappointed."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["social", "story"]
+    },
+    {
+      "id": "power_struggle",
+      "name": "Leadership Challenge",
+      "description": "A charismatic figure within your faction questions your leadership, gathering supporters.",
+      "triggers": {
+        "turn_range": {"min": 20, "max": 80},
+        "faction_state": {"settlement_count_min": 2}
+      },
+      "choices": [
+        {
+          "id": "accommodate",
+          "text": "Share power with them",
+          "requirements": {"culture_nodes": ["democratic_council"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 20},
+            "morale_change": 15,
+            "narrative_text": "Embracing democracy strengthens your faction. Two heads are better than one."
+          }
+        },
+        {
+          "id": "crush",
+          "text": "Crush the dissent",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "morale_change": -10,
+            "spawn_units": [{"unit_type": "militia", "count": 2}],
+            "narrative_text": "Your iron fist maintains order. Dissenters are imprisoned, loyalty is enforced."
+          }
+        },
+        {
+          "id": "exile",
+          "text": "Exile the challenger",
+          "consequences": {
+            "reputation_change": -10,
+            "narrative_text": "The challenger leaves with a small group of followers, vowing revenge."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["social", "political"]
+    },
+    {
+      "id": "trade_opportunity",
+      "name": "Merchant Caravan",
+      "description": "A well-armed merchant caravan passes nearby, offering to trade rare goods.",
+      "triggers": {
+        "turn_range": {"min": 15, "max": 100},
+        "faction_state": {"has_trade_routes": false}
+      },
+      "choices": [
+        {
+          "id": "trade_food",
+          "text": "Trade food for fuel",
+          "requirements": {"resources": {"food": 30}},
+          "consequences": {
+            "resource_changes": {"food": -30, "fuel": 40},
+            "narrative_text": "A fair trade. Your vehicles and generators will run for weeks."
+          }
+        },
+        {
+          "id": "trade_scrap",
+          "text": "Trade scrap for medicine",
+          "requirements": {"resources": {"scrap": 50}},
+          "consequences": {
+            "resource_changes": {"scrap": -50, "medicine": 35},
+            "narrative_text": "Medical supplies are priceless. Your people will be healthier."
+          }
+        },
+        {
+          "id": "establish_route",
+          "text": "Establish permanent trade route",
+          "requirements": {"culture_nodes": ["trade_networks"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 15},
+            "narrative_text": "You secure a lasting partnership. Regular caravans will visit your settlement."
+          }
+        },
+        {
+          "id": "rob_caravan",
+          "text": "Ambush and rob them",
+          "consequences": {
+            "spawn_units": [{"unit_type": "trader", "count": 2}],
+            "resource_changes": {"scrap": 40, "food": 20},
+            "reputation_change": -25,
+            "narrative_text": "You take their goods by force. But word will spread of your treachery."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["economic", "diplomatic"]
+    },
+    {
+      "id": "mutant_threat",
+      "name": "Mutant Incursion",
+      "description": "Radiation-twisted creatures emerge from the wasteland, attacking anything they encounter.",
+      "triggers": {
+        "turn_range": {"min": 15, "max": 100},
+        "location_type": "radioactive_zone"
+      },
+      "choices": [
+        {
+          "id": "defend",
+          "text": "Stand and fight",
+          "consequences": {
+            "spawn_units": [{"unit_type": "soldier", "count": 4}],
+            "narrative_text": "The mutants are fierce, but your defenders hold the line. Casualties are inevitable."
+          }
+        },
+        {
+          "id": "evacuate",
+          "text": "Evacuate the area",
+          "consequences": {
+            "resource_changes": {"scrap": -20, "food": -10},
+            "morale_change": -10,
+            "narrative_text": "You abandon the settlement temporarily. The mutants ransack what remains."
+          }
+        },
+        {
+          "id": "capture_specimen",
+          "text": "Capture one for study",
+          "requirements": {"culture_nodes": ["scientific_method"], "units": ["specialist"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 25, "medicine": -10},
+            "narrative_text": "Your scientists study the mutations. The knowledge gained could prove valuable."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["combat", "environmental"]
+    },
+    {
+      "id": "ancient_bunker",
+      "name": "Sealed Bunker Discovery",
+      "description": "Your scouts find a locked pre-war bunker. The door mechanism still has power.",
+      "triggers": {
+        "turn_range": {"min": 10, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "force_open",
+          "text": "Blast the door open",
+          "requirements": {"resources": {"fuel": 15}},
+          "consequences": {
+            "resource_changes": {"fuel": -15, "scrap": 60, "medicine": 20},
+            "narrative_text": "The explosion damages some contents, but you secure valuable supplies."
+          }
+        },
+        {
+          "id": "hack_system",
+          "text": "Hack the electronic lock",
+          "requirements": {"culture_nodes": ["old_world_knowledge"], "units": ["specialist"]},
+          "consequences": {
+            "resource_changes": {"scrap": 80, "medicine": 30, "fuel": 40, "culture_points": 30},
+            "narrative_text": "Your tech specialist bypasses the security. The bunker's contents are pristine."
+          }
+        },
+        {
+          "id": "leave_it",
+          "text": "Mark it for later",
+          "consequences": {
+            "narrative_text": "You lack the means to open it now. The bunker will wait."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["exploration", "technological"]
+    },
+    {
+      "id": "harsh_winter",
+      "name": "Nuclear Winter Storm",
+      "description": "An unusually severe storm blankets the region in radioactive snow. Supplies run low.",
+      "triggers": {
+        "turn_range": {"min": 30, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "ration_food",
+          "text": "Ration food supplies",
+          "consequences": {
+            "resource_changes": {"food": -15},
+            "morale_change": -10,
+            "narrative_text": "Your people endure hunger, but survive the winter."
+          }
+        },
+        {
+          "id": "burn_fuel",
+          "text": "Burn extra fuel for warmth",
+          "requirements": {"resources": {"fuel": 25}},
+          "consequences": {
+            "resource_changes": {"fuel": -25},
+            "morale_change": 5,
+            "narrative_text": "Warmth lifts spirits. Your people weather the storm in relative comfort."
+          }
+        },
+        {
+          "id": "shelter_upgrade",
+          "text": "Improve shelter infrastructure",
+          "requirements": {"culture_nodes": ["engineering_corps"], "resources": {"scrap": 40}},
+          "consequences": {
+            "resource_changes": {"scrap": -40},
+            "morale_change": 10,
+            "narrative_text": "Your engineers insulate the shelters. This protection will last for future winters."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["environmental"]
+    },
+    {
+      "id": "spy_infiltration",
+      "name": "Enemy Spy Discovered",
+      "description": "You catch an infiltrator gathering intelligence on your faction. They claim to work for a rival.",
+      "triggers": {
+        "turn_range": {"min": 25, "max": 100},
+        "faction_state": {"at_war": true}
+      },
+      "choices": [
+        {
+          "id": "execute",
+          "text": "Execute as an example",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "reputation_change": -15,
+            "morale_change": -5,
+            "narrative_text": "The spy is executed publicly. Your enemies know you show no mercy."
+          }
+        },
+        {
+          "id": "turn_spy",
+          "text": "Turn them into a double agent",
+          "requirements": {"culture_nodes": ["trade_networks"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 20},
+            "narrative_text": "The spy agrees to feed false information to their masters. A valuable asset."
+          }
+        },
+        {
+          "id": "prisoner_exchange",
+          "text": "Use for prisoner exchange",
+          "consequences": {
+            "spawn_units": [{"unit_type": "soldier", "count": 1}],
+            "narrative_text": "You negotiate a prisoner swap. One of your captured soldiers comes home."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["diplomatic", "combat"]
+    },
+    {
+      "id": "old_world_data",
+      "name": "Ancient Data Cache",
+      "description": "You discover intact hard drives containing pre-war technical data. A treasure trove of knowledge.",
+      "triggers": {
+        "turn_range": {"min": 20, "max": 100},
+        "required_buildings": ["lab"]
+      },
+      "choices": [
+        {
+          "id": "study_weapons",
+          "text": "Focus on weapons technology",
+          "consequences": {
+            "resource_changes": {"culture_points": 30},
+            "unlock_building": "advanced_weapons",
+            "narrative_text": "You unlock advanced weapon designs. Your military power increases."
+          }
+        },
+        {
+          "id": "study_medicine",
+          "text": "Focus on medical knowledge",
+          "consequences": {
+            "resource_changes": {"culture_points": 30, "medicine": 20},
+            "narrative_text": "Pre-war medical procedures are recovered. Your healers become more effective."
+          }
+        },
+        {
+          "id": "study_agriculture",
+          "text": "Focus on agricultural science",
+          "consequences": {
+            "resource_changes": {"culture_points": 30},
+            "narrative_text": "Genetic crop data revolutionizes your food production."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["technological", "story"]
+    },
+    {
+      "id": "refugee_crisis",
+      "name": "Mass Refugee Arrival",
+      "description": "Hundreds of refugees flee a destroyed settlement, begging for sanctuary.",
+      "triggers": {
+        "turn_range": {"min": 15, "max": 100},
+        "resource_thresholds": {"food_min": 50}
+      },
+      "choices": [
+        {
+          "id": "accept_all",
+          "text": "Accept all refugees",
+          "requirements": {"culture_nodes": ["democratic_council"]},
+          "consequences": {
+            "resource_changes": {"food": -40},
+            "spawn_units": [{"unit_type": "militia", "count": 3}],
+            "morale_change": 15,
+            "narrative_text": "Your compassion is rewarded. Many refugees join your workforce and military."
+          }
+        },
+        {
+          "id": "select_useful",
+          "text": "Only accept skilled workers",
+          "consequences": {
+            "resource_changes": {"food": -15, "culture_points": 10},
+            "morale_change": -5,
+            "narrative_text": "You take only those who can contribute immediately. The rest must find another home."
+          }
+        },
+        {
+          "id": "turn_away",
+          "text": "Turn them all away",
+          "consequences": {
+            "reputation_change": -20,
+            "narrative_text": "You cannot afford to feed them. The refugees leave, cursing your name."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["social", "diplomatic"]
+    },
+    {
+      "id": "weapon_cache",
+      "name": "Hidden Armory",
+      "description": "Your scouts stumble upon a forgotten military weapons cache. But it's booby-trapped.",
+      "triggers": {
+        "turn_range": {"min": 10, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "disarm_carefully",
+          "text": "Carefully disarm the traps",
+          "requirements": {"units": ["engineer"]},
+          "consequences": {
+            "resource_changes": {"scrap": 50, "fuel": 30},
+            "spawn_units": [{"unit_type": "soldier", "count": 2}],
+            "narrative_text": "Your engineer's expertise pays off. You secure weapons and ammunition."
+          }
+        },
+        {
+          "id": "trigger_traps",
+          "text": "Trigger traps from distance",
+          "consequences": {
+            "resource_changes": {"scrap": 20, "fuel": 10},
+            "narrative_text": "Explosions destroy much of the cache, but you salvage some supplies."
+          }
+        },
+        {
+          "id": "leave_it",
+          "text": "Too dangerous, leave it",
+          "consequences": {
+            "narrative_text": "Discretion is the better part of valor. You mark the location for future consideration."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["military", "exploration"]
+    },
+    {
+      "id": "cultural_festival",
+      "name": "Harvest Festival",
+      "description": "Your people organize a celebration of the harvest. It could boost morale, but costs resources.",
+      "triggers": {
+        "turn_range": {"min": 20, "max": 100},
+        "resource_thresholds": {"food_min": 50}
+      },
+      "choices": [
+        {
+          "id": "grand_festival",
+          "text": "Throw a grand festival",
+          "requirements": {"resources": {"food": 30}},
+          "consequences": {
+            "resource_changes": {"food": -30, "culture_points": 25},
+            "morale_change": 20,
+            "narrative_text": "Music, food, and joy fill your settlement. Morale soars."
+          }
+        },
+        {
+          "id": "modest_celebration",
+          "text": "Allow modest celebrations",
+          "consequences": {
+            "resource_changes": {"food": -10, "culture_points": 10},
+            "morale_change": 10,
+            "narrative_text": "A small celebration lifts spirits without breaking the bank."
+          }
+        },
+        {
+          "id": "cancel_festival",
+          "text": "Cancel the festival",
+          "consequences": {
+            "morale_change": -8,
+            "narrative_text": "Resources are too precious. Your people understand, but are disappointed."
+          }
+        }
+      ],
+      "rarity": "common",
+      "tags": ["cultural", "social"]
+    },
+    {
+      "id": "territorial_dispute",
+      "name": "Border Clash",
+      "description": "Your scouts encounter another faction's forces in disputed territory. Tensions are high.",
+      "triggers": {
+        "turn_range": {"min": 20, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "aggressive_stance",
+          "text": "Assert your claim forcefully",
+          "consequences": {
+            "spawn_units": [{"unit_type": "soldier", "count": 3}],
+            "reputation_change": -10,
+            "narrative_text": "Your show of force intimidates the rival. The territory is yours, for now."
+          }
+        },
+        {
+          "id": "negotiate_border",
+          "text": "Negotiate a border agreement",
+          "requirements": {"culture_nodes": ["trade_networks"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 15},
+            "reputation_change": 10,
+            "narrative_text": "Diplomacy prevails. Both factions agree to respect the new border."
+          }
+        },
+        {
+          "id": "withdraw",
+          "text": "Withdraw to avoid conflict",
+          "consequences": {
+            "morale_change": -5,
+            "narrative_text": "You retreat to prevent bloodshed. Your people question your resolve."
+          }
+        }
+      ],
+      "rarity": "common",
+      "tags": ["diplomatic", "combat"]
+    },
+    {
+      "id": "solar_flare",
+      "name": "Solar Storm",
+      "description": "Massive solar flares disrupt all electronics. Your systems go offline temporarily.",
+      "triggers": {
+        "turn_range": {"min": 25, "max": 100},
+        "required_buildings": ["lab"]
+      },
+      "choices": [
+        {
+          "id": "emergency_repairs",
+          "text": "Emergency repair efforts",
+          "requirements": {"resources": {"scrap": 30}, "units": ["engineer"]},
+          "consequences": {
+            "resource_changes": {"scrap": -30},
+            "narrative_text": "Your engineers work around the clock. Systems are restored quickly."
+          }
+        },
+        {
+          "id": "wait_it_out",
+          "text": "Wait for the storm to pass",
+          "consequences": {
+            "resource_changes": {"fuel": -20},
+            "narrative_text": "You endure the blackout. Eventually, systems come back online."
+          }
+        },
+        {
+          "id": "research_shielding",
+          "text": "Research EMP shielding",
+          "requirements": {"culture_nodes": ["old_world_knowledge"]},
+          "consequences": {
+            "resource_changes": {"scrap": -20, "culture_points": 20},
+            "narrative_text": "While systems recover, your scientists develop protection against future events."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["environmental", "technological"]
+    },
+    {
+      "id": "prison_break",
+      "name": "Prisoner Escape",
+      "description": "Captured enemy soldiers attempt to escape from your detention facility.",
+      "triggers": {
+        "turn_range": {"min": 15, "max": 100},
+        "faction_state": {"at_war": true}
+      },
+      "choices": [
+        {
+          "id": "recapture",
+          "text": "Pursue and recapture",
+          "consequences": {
+            "resource_changes": {"fuel": -10},
+            "morale_change": 5,
+            "narrative_text": "Your forces hunt down the escapees. Order is maintained."
+          }
+        },
+        {
+          "id": "let_flee",
+          "text": "Let them go",
+          "consequences": {
+            "reputation_change": 5,
+            "morale_change": -3,
+            "narrative_text": "You choose mercy. Perhaps they will remember your kindness."
+          }
+        },
+        {
+          "id": "improve_security",
+          "text": "Improve prison security",
+          "requirements": {"resources": {"scrap": 25}},
+          "consequences": {
+            "resource_changes": {"scrap": -25},
+            "narrative_text": "You upgrade detention facilities. Future escapes will be much harder."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["military", "social"]
+    },
+    {
+      "id": "ancient_library",
+      "name": "Library of Congress Ruins",
+      "description": "You discover the ruins of a great library. Thousands of books survived in sealed chambers.",
+      "triggers": {
+        "turn_range": {"min": 30, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "preserve_knowledge",
+          "text": "Carefully preserve all texts",
+          "requirements": {"culture_nodes": ["education_system"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 50},
+            "narrative_text": "You establish a new library. Knowledge from the old world is preserved forever."
+          }
+        },
+        {
+          "id": "practical_books",
+          "text": "Take only practical manuals",
+          "consequences": {
+            "resource_changes": {"culture_points": 20, "scrap": 10},
+            "narrative_text": "Engineering and medical texts prove immediately useful."
+          }
+        },
+        {
+          "id": "burn_for_fuel",
+          "text": "Burn books for warmth",
+          "consequences": {
+            "resource_changes": {"fuel": 30, "culture_points": -10},
+            "narrative_text": "Survival trumps sentiment. The books keep your people warm through winter."
+          }
+        }
+      ],
+      "rarity": "epic",
+      "tags": ["story", "cultural", "exploration"]
+    },
+    {
+      "id": "plague_rats",
+      "name": "Mutant Rat Infestation",
+      "description": "Giant mutated rats infest your food stores, consuming supplies and spreading disease.",
+      "triggers": {
+        "turn_range": {"min": 10, "max": 100},
+        "resource_thresholds": {"food_min": 30}
+      },
+      "choices": [
+        {
+          "id": "hunt_rats",
+          "text": "Organize rat hunting parties",
+          "consequences": {
+            "resource_changes": {"food": -15},
+            "morale_change": -5,
+            "narrative_text": "Your people hunt the vermin. It's disgusting work, but necessary."
+          }
+        },
+        {
+          "id": "poison_them",
+          "text": "Use poison",
+          "requirements": {"resources": {"medicine": 10}},
+          "consequences": {
+            "resource_changes": {"medicine": -10, "food": -5},
+            "narrative_text": "Poison eradicates the rats quickly, though some food is contaminated."
+          }
+        },
+        {
+          "id": "tame_for_food",
+          "text": "Capture and farm them",
+          "consequences": {
+            "resource_changes": {"food": 10},
+            "morale_change": -10,
+            "narrative_text": "Desperate times call for desperate measures. Rat meat is... nutritious."
+          }
+        }
+      ],
+      "rarity": "common",
+      "tags": ["environmental", "economic"]
+    },
+    {
+      "id": "aurora_borealis",
+      "name": "Radiation Aurora",
+      "description": "Beautiful but deadly auroras dance across the sky. Radiation levels spike temporarily.",
+      "triggers": {
+        "turn_range": {"min": 1, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "shelter_indoors",
+          "text": "Order everyone indoors",
+          "consequences": {
+            "resource_changes": {"fuel": -5},
+            "morale_change": 5,
+            "narrative_text": "Protected from radiation, your people watch the haunting display through windows."
+          }
+        },
+        {
+          "id": "study_phenomenon",
+          "text": "Study the radiation patterns",
+          "requirements": {"culture_nodes": ["scientific_method"], "units": ["specialist"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 15, "medicine": -5},
+            "narrative_text": "Your scientists gather valuable data, though some suffer mild radiation exposure."
+          }
+        },
+        {
+          "id": "ignore_warning",
+          "text": "Ignore it, continue work",
+          "consequences": {
+            "morale_change": -10,
+            "narrative_text": "Work continues, but many fall ill from radiation sickness. Productivity drops."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["environmental"]
+    }
+  ]
+}

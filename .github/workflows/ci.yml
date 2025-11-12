@@ -1,0 +1,106 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: 4.2.2
+  EXPORT_NAME: ashes-to-empire
+
+jobs:
+  validate:
+    name: Validate Project Structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate JSON data files
+        run: |
+          echo "Validating JSON schemas and data files..."
+
+          # Check if all required directories exist
+          required_dirs=("core" "systems" "ui" "data" "tests" "docs/interfaces")
+          for dir in "${required_dirs[@]}"; do
+            if [ ! -d "$dir" ]; then
+              echo "❌ Missing required directory: $dir"
+              exit 1
+            fi
+          done
+          echo "✅ All required directories exist"
+
+          # Validate JSON files
+          echo "Validating JSON syntax..."
+          find data -name "*.json" -type f | while read file; do
+            echo "  Checking $file"
+            if ! python3 -m json.tool "$file" > /dev/null 2>&1; then
+              echo "❌ Invalid JSON: $file"
+              exit 1
+            fi
+          done
+          echo "✅ All JSON files are valid"
+
+          # Check interface contracts
+          echo "Validating interface contracts..."
+          interface_count=$(find docs/interfaces -name "*_interface.md" -type f | wc -l)
+          if [ "$interface_count" -ne 10 ]; then
+            echo "❌ Expected 10 interface contracts, found $interface_count"
+            exit 1
+          fi
+          echo "✅ All 10 interface contracts present"
+
+          echo "✅ Phase 1 validation complete!"
+
+  lint:
+    name: GDScript Lint
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.2.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint GDScript files
+        run: |
+          echo "GDScript linting..."
+          # Basic syntax check by parsing all .gd files
+          # Skip test files that extend GutTest (they need GUT loaded)
+          find . -name "*.gd" -not -path "./addons/*" -not -path "./tests/*" | while read file; do
+            echo "Checking $file"
+            godot --headless --check-only --script "$file" || exit 1
+          done
+          echo "✅ Linting complete (tests skipped - require GUT context)"
+
+  # Build jobs disabled for Phase 1 - no game content yet
+  # Will be enabled in Phase 2 when we have actual scenes to export
+
+  status-report:
+    name: Status Report
+    needs: [validate, lint]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check job statuses
+        run: |
+          echo "## CI/CD Pipeline Status Report - Phase 1" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Project Validation | ${{ needs.validate.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| GDScript Lint | ${{ needs.lint.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Note**: GUT tests and build jobs will be enabled in Phase 2" >> $GITHUB_STEP_SUMMARY
+
+      - name: Report success
+        if: ${{ needs.validate.result == 'success' && needs.lint.result == 'success' }}
+        run: echo "✅ All Phase 1 validation jobs completed successfully!"
+
+      - name: Report failure
+        if: ${{ needs.validate.result != 'success' || needs.lint.result != 'success' }}
+        run: |
+          echo "❌ One or more jobs failed"
+          exit 1

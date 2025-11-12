@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Event Definition Schema",
+  "description": "Schema for defining dynamic events in Ashes to Empire",
+  "type": "object",
+  "required": ["id", "name", "description", "choices", "rarity"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the event",
+      "pattern": "^[a-z_]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display title of the event"
+    },
+    "description": {
+      "type": "string",
+      "description": "Event narrative text"
+    },
+    "triggers": {
+      "type": "object",
+      "description": "Conditions that can trigger this event",
+      "properties": {
+        "turn_range": {
+          "type": "object",
+          "properties": {
+            "min": {"type": "integer"},
+            "max": {"type": "integer"}
+          }
+        },
+        "required_buildings": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "required_culture_nodes": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "resource_thresholds": {
+          "type": "object",
+          "properties": {
+            "scrap_min": {"type": "integer"},
+            "food_min": {"type": "integer"},
+            "population_min": {"type": "integer"}
+          }
+        },
+        "faction_state": {
+          "type": "object",
+          "properties": {
+            "at_war": {"type": "boolean"},
+            "has_trade_routes": {"type": "boolean"},
+            "settlement_count_min": {"type": "integer"}
+          }
+        },
+        "location_type": {
+          "type": "string",
+          "description": "Must be on specific location type"
+        }
+      },
+      "default": {}
+    },
+    "choices": {
+      "type": "array",
+      "description": "Player decision options",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["id", "text", "consequences"],
+        "properties": {
+          "id": {"type": "string"},
+          "text": {"type": "string"},
+          "requirements": {
+            "type": "object",
+            "description": "Requirements to enable this choice",
+            "properties": {
+              "culture_nodes": {"type": "array", "items": {"type": "string"}},
+              "resources": {"type": "object"},
+              "units": {"type": "array", "items": {"type": "string"}}
+            }
+          },
+          "consequences": {
+            "type": "object",
+            "description": "Outcomes of choosing this option",
+            "properties": {
+              "resource_changes": {
+                "type": "object",
+                "properties": {
+                  "scrap": {"type": "integer"},
+                  "food": {"type": "integer"},
+                  "medicine": {"type": "integer"},
+                  "fuel": {"type": "integer"},
+                  "culture_points": {"type": "integer"}
+                }
+              },
+              "spawn_units": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "unit_type": {"type": "string"},
+                    "count": {"type": "integer"}
+                  }
+                }
+              },
+              "unlock_building": {"type": "string"},
+              "trigger_event": {"type": "string"},
+              "morale_change": {"type": "integer"},
+              "reputation_change": {"type": "integer"},
+              "narrative_text": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "consequences": {
+      "type": "object",
+      "description": "Universal consequences regardless of choice",
+      "properties": {
+        "repeatable": {"type": "boolean", "default": true},
+        "cooldown_turns": {"type": "integer", "minimum": 0}
+      }
+    },
+    "rarity": {
+      "type": "string",
+      "description": "Event frequency tier",
+      "enum": ["common", "uncommon", "rare", "epic", "unique"]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Event categorization tags",
+      "items": {
+        "type": "string",
+        "enum": ["combat", "diplomatic", "economic", "cultural", "environmental", "story"]
+      },
+      "default": []
+    },
+    "chain_events": {
+      "type": "array",
+      "description": "Follow-up events that can be triggered",
+      "items": {"type": "string"},
+      "default": []
+    }
+  }
+}

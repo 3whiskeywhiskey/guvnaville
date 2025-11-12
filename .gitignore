@@ -1,0 +1,98 @@
+# Godot 4+ specific ignores
+.godot/
+.import/
+export.cfg
+# export_presets.cfg - We commit this for CI/CD
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# System/tool-specific ignores
+.directory
+*~
+
+# macOS-specific
+.DS_Store
+__MACOSX/
+
+# Windows-specific
+Thumbs.db
+Desktop.ini
+*.lnk
+
+# Linux-specific
+*~
+
+# IDE and editor-specific
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.vs/
+*.code-workspace
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+*.db
+
+# Build results
+dist/
+build/
+exports/
+*.exe
+*.zip
+*.dmg
+*.app
+*.apk
+*.aab
+*.pck
+*.x86_64
+*.x86
+
+# GUT test results
+.gut_editor_config.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+
+# User-specific files
+*.user
+project.godot.old
+
+# Addons that should be version controlled
+!addons/gut/
+
+# Documentation build artifacts
+docs/_build/
+
+# Python bytecode (if using Python tools)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+.env.local
+
+# Certificates and keys
+*.pem
+*.key
+*.crt
+*.p12
+
+# Save files (don't commit player saves)
+saves/
+*.sav
+*.save

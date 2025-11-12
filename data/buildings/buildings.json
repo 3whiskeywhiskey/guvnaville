@@ -1,0 +1,249 @@
+{
+  "buildings": [
+    {
+      "id": "shelter",
+      "name": "Shelter",
+      "type": "infrastructure",
+      "cost": {
+        "scrap": 30,
+        "food": 10
+      },
+      "production": {
+        "culture_points": 1
+      },
+      "effects": {
+        "population_capacity": 10,
+        "happiness_bonus": 5
+      },
+      "description": "Basic housing constructed from salvaged materials. Protects survivors from the elements and provides minimal comfort.",
+      "construction_time": 2,
+      "maintenance_cost": {},
+      "max_per_settlement": 10,
+      "tags": ["infrastructure", "housing"]
+    },
+    {
+      "id": "workshop",
+      "name": "Workshop",
+      "type": "production",
+      "cost": {
+        "scrap": 60,
+        "fuel": 10
+      },
+      "production": {
+        "scrap": 5
+      },
+      "effects": {
+        "unit_production_bonus": 0.1,
+        "resource_bonus": {
+          "scrap": 2
+        }
+      },
+      "description": "A functional workspace for crafting and repairs. Essential for maintaining equipment and producing scrap resources.",
+      "construction_time": 3,
+      "maintenance_cost": {
+        "fuel": 1
+      },
+      "max_per_settlement": 5,
+      "tags": ["production", "industry"]
+    },
+    {
+      "id": "farm",
+      "name": "Hydroponic Farm",
+      "type": "production",
+      "cost": {
+        "scrap": 50,
+        "medicine": 10
+      },
+      "production": {
+        "food": 8
+      },
+      "effects": {
+        "resource_bonus": {
+          "food": 3
+        }
+      },
+      "description": "Indoor agricultural system using salvaged technology. Provides reliable food production in the wasteland.",
+      "construction_time": 3,
+      "maintenance_cost": {
+        "medicine": 1
+      },
+      "requirements": {
+        "culture_nodes": ["agricultural_recovery"]
+      },
+      "max_per_settlement": 8,
+      "tags": ["production", "agriculture"]
+    },
+    {
+      "id": "clinic",
+      "name": "Medical Clinic",
+      "type": "infrastructure",
+      "cost": {
+        "scrap": 70,
+        "medicine": 30
+      },
+      "production": {
+        "medicine": 3
+      },
+      "effects": {
+        "population_capacity": 5,
+        "happiness_bonus": 10
+      },
+      "description": "Makeshift medical facility staffed by trained healers. Improves population health and enables medic recruitment.",
+      "construction_time": 3,
+      "maintenance_cost": {
+        "medicine": 2
+      },
+      "max_per_settlement": 3,
+      "tags": ["infrastructure", "medical"]
+    },
+    {
+      "id": "watchtower",
+      "name": "Watchtower",
+      "type": "defensive",
+      "cost": {
+        "scrap": 40,
+        "fuel": 5
+      },
+      "production": {},
+      "effects": {
+        "defense_bonus": 10,
+        "vision_range_bonus": 2
+      },
+      "description": "Elevated observation post providing early warning of threats. Extends vision and improves settlement defense.",
+      "construction_time": 2,
+      "maintenance_cost": {},
+      "max_per_settlement": 4,
+      "tags": ["defensive", "vision"]
+    },
+    {
+      "id": "market",
+      "name": "Trade Market",
+      "type": "cultural",
+      "cost": {
+        "scrap": 80,
+        "food": 20
+      },
+      "production": {
+        "culture_points": 3
+      },
+      "effects": {
+        "resource_bonus": {
+          "scrap": 3,
+          "food": 2
+        },
+        "happiness_bonus": 15
+      },
+      "description": "Central hub for commerce and trade. Attracts traders and generates culture through economic activity.",
+      "construction_time": 4,
+      "maintenance_cost": {
+        "food": 2
+      },
+      "requirements": {
+        "population": 20,
+        "culture_nodes": ["trade_networks"]
+      },
+      "max_per_settlement": 2,
+      "tags": ["cultural", "economic"]
+    },
+    {
+      "id": "barracks",
+      "name": "Barracks",
+      "type": "military",
+      "cost": {
+        "scrap": 90,
+        "food": 30,
+        "fuel": 15
+      },
+      "production": {},
+      "effects": {
+        "unit_production_bonus": 0.25,
+        "defense_bonus": 5
+      },
+      "description": "Military training facility for professional fighters. Required for advanced combat units.",
+      "construction_time": 4,
+      "maintenance_cost": {
+        "food": 3,
+        "fuel": 2
+      },
+      "requirements": {
+        "population": 15
+      },
+      "max_per_settlement": 2,
+      "tags": ["military", "training"]
+    },
+    {
+      "id": "lab",
+      "name": "Research Laboratory",
+      "type": "research",
+      "cost": {
+        "scrap": 120,
+        "medicine": 20,
+        "fuel": 30
+      },
+      "production": {
+        "culture_points": 5
+      },
+      "effects": {
+        "resource_bonus": {
+          "medicine": 2
+        }
+      },
+      "description": "Salvaged research equipment for studying old-world technology. Accelerates culture advancement.",
+      "construction_time": 5,
+      "maintenance_cost": {
+        "fuel": 3,
+        "medicine": 1
+      },
+      "requirements": {
+        "population": 25,
+        "culture_nodes": ["scientific_method"]
+      },
+      "max_per_settlement": 1,
+      "tags": ["research", "tech"]
+    },
+    {
+      "id": "storage",
+      "name": "Storage Depot",
+      "type": "infrastructure",
+      "cost": {
+        "scrap": 50
+      },
+      "production": {},
+      "effects": {
+        "resource_bonus": {
+          "scrap": 10,
+          "food": 10,
+          "medicine": 5,
+          "fuel": 5
+        }
+      },
+      "description": "Organized storage facility for stockpiling resources. Increases maximum resource capacity.",
+      "construction_time": 2,
+      "maintenance_cost": {},
+      "max_per_settlement": 5,
+      "tags": ["infrastructure", "storage"]
+    },
+    {
+      "id": "wall",
+      "name": "Defensive Wall",
+      "type": "defensive",
+      "cost": {
+        "scrap": 100,
+        "fuel": 10
+      },
+      "production": {},
+      "effects": {
+        "defense_bonus": 25
+      },
+      "description": "Fortified barrier protecting the settlement perimeter. Significantly increases defensive capabilities.",
+      "construction_time": 5,
+      "maintenance_cost": {},
+      "requirements": {
+        "population": 20,
+        "buildings": ["watchtower"]
+      },
+      "max_per_settlement": 4,
+      "tags": ["defensive", "fortification"]
+    }
+  ]
+}
