@@ -67,99 +67,12 @@ jobs:
           done
           echo "✅ Linting complete (tests skipped - require GUT context)"
 
-  build-linux:
-    name: Build Linux
-    needs: test
-    runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.2.2
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-
-      - name: Setup export templates
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-
-      - name: Create exports directory
-        run: mkdir -v -p build/linux
-
-      - name: Build Linux
-        run: |
-          godot --headless --verbose --export-release "Linux/X11" build/linux/$EXPORT_NAME.x86_64
-
-      - name: Upload Linux build
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-build
-          path: build/linux
-
-  build-windows:
-    name: Build Windows
-    needs: test
-    runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.2.2
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-
-      - name: Setup export templates
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-
-      - name: Create exports directory
-        run: mkdir -v -p build/windows
-
-      - name: Build Windows
-        run: |
-          godot --headless --verbose --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
-
-      - name: Upload Windows build
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-build
-          path: build/windows
-
-  build-macos:
-    name: Build macOS
-    needs: test
-    runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.2.2
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-
-      - name: Setup export templates
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-
-      - name: Create exports directory
-        run: mkdir -v -p build/macos
-
-      - name: Build macOS
-        run: |
-          godot --headless --verbose --export-release "macOS" build/macos/$EXPORT_NAME.zip
-
-      - name: Upload macOS build
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-build
-          path: build/macos
+  # Build jobs disabled for Phase 1 - no game content yet
+  # Will be enabled in Phase 2 when we have actual scenes to export
 
   status-report:
     name: Status Report
-    needs: [test, lint, build-linux, build-windows, build-macos]
+    needs: [test, lint]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -171,16 +84,15 @@ jobs:
           echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
           echo "| Tests | ${{ needs.test.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Lint | ${{ needs.lint.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Linux Build | ${{ needs.build-linux.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Windows Build | ${{ needs.build-windows.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| macOS Build | ${{ needs.build-macos.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Build jobs disabled for Phase 1 (no game content yet)" >> $GITHUB_STEP_SUMMARY
 
       - name: Report success
-        if: ${{ needs.test.result == 'success' && needs.lint.result == 'success' && needs.build-linux.result == 'success' && needs.build-windows.result == 'success' && needs.build-macos.result == 'success' }}
-        run: echo "✅ All jobs completed successfully!"
+        if: ${{ needs.test.result == 'success' && needs.lint.result == 'success' }}
+        run: echo "✅ All Phase 1 jobs completed successfully!"
 
       - name: Report failure
-        if: ${{ needs.test.result != 'success' || needs.lint.result != 'success' || needs.build-linux.result != 'success' || needs.build-windows.result != 'success' || needs.build-macos.result != 'success' }}
+        if: ${{ needs.test.result != 'success' || needs.lint.result != 'success' }}
         run: |
           echo "❌ One or more jobs failed"
           exit 1
