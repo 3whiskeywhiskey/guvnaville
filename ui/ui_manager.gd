@@ -1,4 +1,4 @@
-extends Node
+extends CanvasLayer
 ## UIManager - Main UI orchestration singleton
 ## Manages screen transitions, HUD updates, and dialog display
 ## Read-only access to game state via signals
