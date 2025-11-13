@@ -13,6 +13,9 @@ class_name MapData
 ## @version 1.0
 ## @author Agent 2 (Map System)
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const MapTile = preload("res://systems/map/tile.gd")
+
 # ============================================================================
 # CONSTANTS
 # ============================================================================
@@ -27,7 +30,7 @@ const TOTAL_TILES: int = MAP_WIDTH * MAP_HEIGHT * MAP_DEPTH  # 120,000 tiles
 # ============================================================================
 
 ## Flat 1D array storing all tiles (optimized for O(1) access)
-var _tiles: Array[MapMapTile] = []
+var _tiles: Array[MapTile] = []
 
 ## Cache for tiles by type (invalidated on tile type changes)
 var _tile_type_cache: Dictionary = {}

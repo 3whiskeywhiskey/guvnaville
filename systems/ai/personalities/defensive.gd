@@ -16,6 +16,10 @@
 class_name DefensivePersonality
 extends RefCounted
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const AIGoal = preload("res://systems/ai/ai_goal.gd")
+const AIAction = preload("res://systems/ai/ai_action.gd")
+
 ## Personality name
 const PERSONALITY_NAME: String = "defensive"
 

@@ -9,6 +9,9 @@
 class_name TacticalAI
 extends RefCounted
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const UtilityScorer = preload("res://systems/ai/utility_scorer.gd")
+
 ## Utility scorer for combat evaluation
 var _scorer: UtilityScorer
 

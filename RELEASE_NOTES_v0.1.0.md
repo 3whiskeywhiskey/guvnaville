@@ -470,7 +470,7 @@ Interested in contributing?
 
 ### Technology
 
-- **Engine**: Godot 4.2.2
+- **Engine**: Godot 4.5.1
 - **Language**: GDScript
 - **Testing**: GUT (Godot Unit Test)
 - **CI/CD**: GitHub Actions

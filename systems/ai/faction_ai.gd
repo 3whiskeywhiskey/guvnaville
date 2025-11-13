@@ -10,6 +10,16 @@
 class_name FactionAI
 extends RefCounted
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const GoalPlanner = preload("res://systems/ai/goal_planner.gd")
+const UtilityScorer = preload("res://systems/ai/utility_scorer.gd")
+const TacticalAI = preload("res://systems/ai/tactical_ai.gd")
+const AIAction = preload("res://systems/ai/ai_action.gd")
+const AIThreatAssessment = preload("res://systems/ai/ai_threat_assessment.gd")
+const AggressivePersonality = preload("res://systems/ai/personalities/aggressive.gd")
+const DefensivePersonality = preload("res://systems/ai/personalities/defensive.gd")
+const EconomicPersonality = preload("res://systems/ai/personalities/economic.gd")
+
 ## Maximum time allowed for turn planning (milliseconds)
 const MAX_PLANNING_TIME_MS: int = 10000
 

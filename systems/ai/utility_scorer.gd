@@ -10,6 +10,10 @@
 class_name UtilityScorer
 extends RefCounted
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const AIGoal = preload("res://systems/ai/ai_goal.gd")
+const AIThreatAssessment = preload("res://systems/ai/ai_threat_assessment.gd")
+
 ## Reference to game state for evaluation (mock-friendly)
 var _game_state: Variant = null
 

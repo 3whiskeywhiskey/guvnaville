@@ -1,6 +1,10 @@
 class_name CombatCalculator
 extends Node
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const CombatModifiers = preload("res://systems/combat/combat_modifiers.gd")
+const CombatResult = preload("res://systems/combat/combat_result.gd")
+
 ## Core calculation engine for damage, strength, and combat math
 ##
 ## This singleton provides all mathematical calculations for combat including

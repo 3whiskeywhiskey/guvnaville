@@ -1185,7 +1185,7 @@ func test_save_load_performance():
 **No external module dependencies** (Layer 0).
 
 **System Dependencies**:
-- Godot 4.2+ Engine
+- Godot 4.5.1 Engine
 - Filesystem access for save/load
 - JSON parsing capability
 

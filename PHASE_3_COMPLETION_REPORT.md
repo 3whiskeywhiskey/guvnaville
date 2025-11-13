@@ -293,7 +293,7 @@ The game is now playable with the following features:
 
 ### How to Run
 
-1. Open project in Godot 4.2+
+1. Open project in Godot 4.5.1+
 2. Press F5 or click "Run Project"
 3. Main menu appears
 4. Click "New Game" to start

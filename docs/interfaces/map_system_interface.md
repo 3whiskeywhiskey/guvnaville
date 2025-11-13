@@ -30,7 +30,7 @@ The Map System is responsible for managing the 200x200x3 tile grid (40,000 tiles
 - **Core Types** (`core/types/`): Tile data class
 
 ### External Dependencies
-- Godot 4.2+ (Vector3i, Rect2i)
+- Godot 4.5.1 (Vector3i, Rect2i)
 - GDScript standard library
 
 ---

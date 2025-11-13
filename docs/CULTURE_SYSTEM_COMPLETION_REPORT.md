@@ -286,7 +286,7 @@ Due to the CI/CD environment limitations (Godot not installed locally), tests ca
 **CI/CD Integration**: Tests will execute automatically via GitHub Actions when code is pushed:
 - Workflow: `.github/workflows/ci.yml`
 - GUT test framework configured
-- Godot 4.2.2 container used
+- Godot 4.5.1 container used
 
 ---
 

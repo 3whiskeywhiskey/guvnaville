@@ -10,6 +10,9 @@
 class_name GoalPlanner
 extends RefCounted
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const AIGoal = preload("res://systems/ai/ai_goal.gd")
+
 ## Maximum number of active goals per faction
 const MAX_ACTIVE_GOALS: int = 5
 

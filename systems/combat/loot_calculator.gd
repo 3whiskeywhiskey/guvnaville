@@ -1,6 +1,9 @@
 class_name LootCalculator
 extends Node
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const CombatResult = preload("res://systems/combat/combat_result.gd")
+
 ## Calculates and distributes loot after combat
 ##
 ## This singleton handles loot calculation from defeated units and
