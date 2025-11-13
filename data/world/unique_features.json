@@ -1,0 +1,444 @@
+{
+	"version": "1.0",
+	"description": "Unique features that can spawn on procedurally generated maps. Each feature provides unique resources and opportunities.",
+	"features": {
+		"airport": {
+			"name": "Airport",
+			"display_name": "International Airport",
+			"description": "A large civilian airport with runways and terminals. Provides access to air travel and trade.",
+			"size": 8,
+			"placement_requirements": {
+				"min_distance_from_center": 60,
+				"requires_clear_area": true,
+				"preferred_zones": ["industrial_generic", "park"]
+			},
+			"resources": {
+				"unique_resource": "aviation_fuel",
+				"produces": [
+					{"resource": "aviation_parts", "amount": 1},
+					{"resource": "electronics", "amount": 2}
+				],
+				"enables_technologies": [
+					"air_travel",
+					"cargo_planes",
+					"reconnaissance_flights"
+				]
+			},
+			"cultural_impact": {
+				"cosmopolitan": 2,
+				"trade_oriented": 3,
+				"technological": 1
+			},
+			"defense_value": 1,
+			"scavenge_value": 8
+		},
+		"seaport": {
+			"name": "Seaport",
+			"display_name": "Commercial Seaport",
+			"description": "A major seaport with docks and cargo facilities. Enables maritime trade and naval operations.",
+			"size": 6,
+			"placement_requirements": {
+				"requires_water_adjacent": true,
+				"preferred_zones": ["industrial_generic"]
+			},
+			"resources": {
+				"unique_resource": "shipping_containers",
+				"produces": [
+					{"resource": "bulk_goods", "amount": 3},
+					{"resource": "maritime_equipment", "amount": 1}
+				],
+				"enables_technologies": [
+					"naval_travel",
+					"cargo_ships",
+					"fishing_industry",
+					"offshore_operations"
+				]
+			},
+			"cultural_impact": {
+				"trade_oriented": 3,
+				"industrial": 2,
+				"maritime": 3
+			},
+			"defense_value": 2,
+			"scavenge_value": 7
+		},
+		"train_station": {
+			"name": "TrainStation",
+			"display_name": "Central Train Station",
+			"description": "A major railway terminal connecting the city to regional rail networks.",
+			"size": 4,
+			"placement_requirements": {
+				"min_distance_from_center": 20,
+				"max_distance_from_center": 50,
+				"preferred_zones": ["commercial", "downtown"]
+			},
+			"resources": {
+				"unique_resource": "rail_access",
+				"produces": [
+					{"resource": "locomotive_parts", "amount": 1},
+					{"resource": "steel_rails", "amount": 2}
+				],
+				"enables_technologies": [
+					"railway_network",
+					"freight_trains",
+					"passenger_service",
+					"armored_trains"
+				]
+			},
+			"cultural_impact": {
+				"connected": 2,
+				"industrial": 1,
+				"trade_oriented": 2
+			},
+			"defense_value": 2,
+			"scavenge_value": 6
+		},
+		"steelworks": {
+			"name": "Steelworks",
+			"display_name": "Steel Manufacturing Complex",
+			"description": "A massive steel production facility with blast furnaces and rolling mills.",
+			"size": 6,
+			"placement_requirements": {
+				"min_distance_from_center": 40,
+				"preferred_zones": ["industrial_generic"]
+			},
+			"resources": {
+				"unique_resource": "steel_production",
+				"produces": [
+					{"resource": "steel_ingots", "amount": 4},
+					{"resource": "industrial_slag", "amount": 2},
+					{"resource": "heavy_machinery", "amount": 1}
+				],
+				"enables_technologies": [
+					"advanced_metallurgy",
+					"reinforced_structures",
+					"heavy_weapons",
+					"armored_vehicles"
+				]
+			},
+			"cultural_impact": {
+				"industrial": 4,
+				"working_class": 3,
+				"technological": 2
+			},
+			"defense_value": 3,
+			"scavenge_value": 9
+		},
+		"automotive_plant": {
+			"name": "AutomotivePlant",
+			"display_name": "Automotive Assembly Plant",
+			"description": "A large vehicle manufacturing facility with assembly lines and parts warehouses.",
+			"size": 5,
+			"placement_requirements": {
+				"min_distance_from_center": 40,
+				"preferred_zones": ["industrial_generic"]
+			},
+			"resources": {
+				"unique_resource": "vehicle_production",
+				"produces": [
+					{"resource": "vehicle_chassis", "amount": 2},
+					{"resource": "engines", "amount": 2},
+					{"resource": "automotive_parts", "amount": 3}
+				],
+				"enables_technologies": [
+					"vehicle_manufacturing",
+					"technical_vehicles",
+					"armored_cars",
+					"mobile_workshops"
+				]
+			},
+			"cultural_impact": {
+				"industrial": 3,
+				"technological": 3,
+				"mobile": 2
+			},
+			"defense_value": 2,
+			"scavenge_value": 8
+		},
+		"chemical_plant": {
+			"name": "ChemicalPlant",
+			"display_name": "Chemical Processing Plant",
+			"description": "An industrial chemical plant for manufacturing various chemical products.",
+			"size": 5,
+			"placement_requirements": {
+				"min_distance_from_center": 40,
+				"preferred_zones": ["industrial_generic"]
+			},
+			"resources": {
+				"unique_resource": "chemical_production",
+				"produces": [
+					{"resource": "industrial_chemicals", "amount": 3},
+					{"resource": "pharmaceuticals", "amount": 2},
+					{"resource": "explosives", "amount": 1}
+				],
+				"enables_technologies": [
+					"chemical_weapons",
+					"advanced_medicine",
+					"fertilizer_production",
+					"plastic_manufacturing"
+				]
+			},
+			"cultural_impact": {
+				"industrial": 3,
+				"technological": 3,
+				"scientific": 2
+			},
+			"defense_value": 2,
+			"scavenge_value": 7,
+			"hazard": {
+				"type": "chemical_contamination",
+				"severity": 2
+			}
+		},
+		"power_plant": {
+			"name": "PowerPlant",
+			"display_name": "Thermal Power Station",
+			"description": "A large power generation facility. Control it to restore electricity to parts of the city.",
+			"size": 5,
+			"placement_requirements": {
+				"min_distance_from_center": 50,
+				"preferred_zones": ["industrial_generic"],
+				"requires_water_nearby": true
+			},
+			"resources": {
+				"unique_resource": "electricity_generation",
+				"produces": [
+					{"resource": "electrical_components", "amount": 3},
+					{"resource": "turbine_parts", "amount": 1},
+					{"resource": "transformers", "amount": 1}
+				],
+				"enables_technologies": [
+					"power_restoration",
+					"electric_lighting",
+					"electric_tools",
+					"communications_network"
+				]
+			},
+			"cultural_impact": {
+				"technological": 4,
+				"industrial": 2,
+				"modern": 3
+			},
+			"defense_value": 3,
+			"scavenge_value": 8
+		},
+		"museum": {
+			"name": "Museum",
+			"display_name": "City Museum",
+			"description": "A museum preserving pre-collapse history and culture. A source of knowledge and inspiration.",
+			"size": 3,
+			"placement_requirements": {
+				"max_distance_from_center": 50,
+				"preferred_zones": ["commercial", "downtown"]
+			},
+			"resources": {
+				"unique_resource": "historical_knowledge",
+				"produces": [
+					{"resource": "artifacts", "amount": 2},
+					{"resource": "books", "amount": 3},
+					{"resource": "art_pieces", "amount": 1}
+				],
+				"enables_technologies": [
+					"historical_research",
+					"cultural_preservation",
+					"education_system",
+					"morale_boost"
+				]
+			},
+			"cultural_impact": {
+				"educated": 3,
+				"traditional": 2,
+				"artistic": 2
+			},
+			"defense_value": 1,
+			"scavenge_value": 5
+		},
+		"tv_station": {
+			"name": "TVStation",
+			"display_name": "Television Broadcasting Station",
+			"description": "A TV broadcast facility with studios and transmission equipment.",
+			"size": 3,
+			"placement_requirements": {
+				"max_distance_from_center": 50,
+				"preferred_zones": ["commercial", "downtown"]
+			},
+			"resources": {
+				"unique_resource": "broadcasting_capability",
+				"produces": [
+					{"resource": "broadcast_equipment", "amount": 2},
+					{"resource": "recording_devices", "amount": 2},
+					{"resource": "transmission_tech", "amount": 1}
+				],
+				"enables_technologies": [
+					"propaganda_broadcasts",
+					"mass_communication",
+					"surveillance_network",
+					"entertainment_industry"
+				]
+			},
+			"cultural_impact": {
+				"media_savvy": 3,
+				"modern": 2,
+				"influential": 2
+			},
+			"defense_value": 1,
+			"scavenge_value": 6
+		},
+		"radio_station": {
+			"name": "RadioStation",
+			"display_name": "Radio Broadcasting Station",
+			"description": "A radio station for audio broadcasting across the region.",
+			"size": 2,
+			"placement_requirements": {
+				"max_distance_from_center": 50,
+				"preferred_zones": ["commercial", "downtown"]
+			},
+			"resources": {
+				"unique_resource": "radio_broadcasting",
+				"produces": [
+					{"resource": "radio_equipment", "amount": 3},
+					{"resource": "communications_gear", "amount": 2}
+				],
+				"enables_technologies": [
+					"radio_communications",
+					"propaganda_radio",
+					"emergency_broadcasts",
+					"music_preservation"
+				]
+			},
+			"cultural_impact": {
+				"connected": 2,
+				"media_savvy": 2,
+				"musical": 1
+			},
+			"defense_value": 1,
+			"scavenge_value": 5
+		},
+		"newspaper_printer": {
+			"name": "NewspaperPrinter",
+			"display_name": "Newspaper Printing Press",
+			"description": "An industrial printing facility capable of mass-producing newspapers and pamphlets.",
+			"size": 3,
+			"placement_requirements": {
+				"max_distance_from_center": 60,
+				"preferred_zones": ["commercial", "industrial_generic"]
+			},
+			"resources": {
+				"unique_resource": "printing_capability",
+				"produces": [
+					{"resource": "printing_equipment", "amount": 2},
+					{"resource": "paper_stock", "amount": 3},
+					{"resource": "ink", "amount": 1}
+				],
+				"enables_technologies": [
+					"printed_propaganda",
+					"literacy_programs",
+					"documentation",
+					"cultural_records"
+				]
+			},
+			"cultural_impact": {
+				"literate": 3,
+				"informed": 2,
+				"traditional": 1
+			},
+			"defense_value": 1,
+			"scavenge_value": 4
+		},
+		"university": {
+			"name": "University",
+			"display_name": "University Campus",
+			"description": "A large university campus with laboratories, libraries, and research facilities.",
+			"size": 6,
+			"placement_requirements": {
+				"min_distance_from_center": 20,
+				"max_distance_from_center": 70,
+				"preferred_zones": ["residential_medium", "park"]
+			},
+			"resources": {
+				"unique_resource": "higher_education",
+				"produces": [
+					{"resource": "research_materials", "amount": 3},
+					{"resource": "laboratory_equipment", "amount": 2},
+					{"resource": "technical_manuals", "amount": 2}
+				],
+				"enables_technologies": [
+					"advanced_research",
+					"specialized_training",
+					"scientific_method",
+					"innovation_culture"
+				]
+			},
+			"cultural_impact": {
+				"educated": 4,
+				"scientific": 3,
+				"progressive": 2
+			},
+			"defense_value": 2,
+			"scavenge_value": 7
+		},
+		"hospital": {
+			"name": "Hospital",
+			"display_name": "Major Hospital Complex",
+			"description": "A large medical facility with operating rooms, diagnostic equipment, and pharmacies.",
+			"size": 4,
+			"placement_requirements": {
+				"min_distance_from_center": 20,
+				"max_distance_from_center": 70,
+				"preferred_zones": ["commercial", "residential_medium"]
+			},
+			"resources": {
+				"unique_resource": "medical_facilities",
+				"produces": [
+					{"resource": "medical_supplies", "amount": 4},
+					{"resource": "pharmaceuticals", "amount": 3},
+					{"resource": "surgical_equipment", "amount": 1}
+				],
+				"enables_technologies": [
+					"advanced_medicine",
+					"surgery",
+					"disease_prevention",
+					"medical_training"
+				]
+			},
+			"cultural_impact": {
+				"compassionate": 3,
+				"scientific": 2,
+				"health_focused": 3
+			},
+			"defense_value": 1,
+			"scavenge_value": 8
+		},
+		"sports_stadium": {
+			"name": "SportsStadium",
+			"display_name": "Sports Stadium",
+			"description": "A large stadium for sporting events. Can be used for gatherings, training, or as a fortress.",
+			"size": 6,
+			"placement_requirements": {
+				"min_distance_from_center": 30,
+				"max_distance_from_center": 60,
+				"preferred_zones": ["park", "commercial"]
+			},
+			"resources": {
+				"unique_resource": "large_venue",
+				"produces": [
+					{"resource": "sports_equipment", "amount": 2},
+					{"resource": "stadium_materials", "amount": 2}
+				],
+				"enables_technologies": [
+					"mass_gatherings",
+					"athletic_training",
+					"entertainment_events",
+					"fortified_base"
+				]
+			},
+			"cultural_impact": {
+				"athletic": 3,
+				"communal": 2,
+				"entertainment_focused": 2
+			},
+			"defense_value": 4,
+			"scavenge_value": 5
+		}
+	}
+}

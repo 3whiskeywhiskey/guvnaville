@@ -11,6 +11,7 @@ extends Node
 
 # Preload all system classes to ensure class_name registration
 const _MapData = preload("res://systems/map/map_data.gd")
+const _MapGenerator = preload("res://systems/map/map_generator.gd")
 const _UnitManager = preload("res://systems/units/unit_manager.gd")
 const _CombatResolver = preload("res://systems/combat/combat_resolver.gd")
 const _ResourceManager = preload("res://systems/economy/resource_manager.gd")
@@ -115,13 +116,14 @@ func _initialize_map_system(game_state) -> void:
 	"""Initialize map and fog of war"""
 	print("[IntegrationCoordinator] Initializing map system...")
 
-	# Create map if not exists
-	if not map_data:
-		map_data = MapData.new()
-
-	# Initialize with game world state or generate new
+	# Get map settings
 	var map_size = game_state.game_settings.get("map_size", 200)
-	map_data.initialize(map_size, map_size, 3)
+	var map_seed = game_state.random_seed
+
+	# Generate procedural city map
+	print("[IntegrationCoordinator] Generating procedural city map (seed: %d)..." % map_seed)
+	var generator = MapGenerator.new()
+	map_data = generator.generate_city_map(map_size, map_size, map_seed)
 
 	# Initialize fog of war
 	fog_of_war = FogOfWar.new()
