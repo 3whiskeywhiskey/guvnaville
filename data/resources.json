@@ -1,0 +1,36 @@
+{
+  "resources": [
+    {
+      "id": "scrap",
+      "name": "Scrap Metal",
+      "description": "Salvaged metal from the ruins",
+      "icon": "res://assets/icons/resource_scrap.png",
+      "base_value": 1,
+      "stackable": true
+    },
+    {
+      "id": "food",
+      "name": "Food",
+      "description": "Essential sustenance for your population",
+      "icon": "res://assets/icons/resource_food.png",
+      "base_value": 2,
+      "stackable": true
+    },
+    {
+      "id": "components",
+      "name": "Components",
+      "description": "Electronic and mechanical components",
+      "icon": "res://assets/icons/resource_components.png",
+      "base_value": 5,
+      "stackable": true
+    },
+    {
+      "id": "ammo",
+      "name": "Ammunition",
+      "description": "Various calibers of ammunition",
+      "icon": "res://assets/icons/resource_ammo.png",
+      "base_value": 3,
+      "stackable": true
+    }
+  ]
+}

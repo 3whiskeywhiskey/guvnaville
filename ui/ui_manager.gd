@@ -218,7 +218,7 @@ func _on_game_started(p_game_state) -> void:
 	if p_game_state:
 		var player_faction = p_game_state.get_faction(0)
 		if player_faction:
-			update_resources(0, player_faction.resources.to_dict())
+			update_resources(0, player_faction.resources)
 		update_turn_indicator(p_game_state.turn_number, "Start", 0)
 
 func _on_game_loaded(p_game_state) -> void:

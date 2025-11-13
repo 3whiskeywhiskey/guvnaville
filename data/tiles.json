@@ -1,0 +1,36 @@
+{
+  "tile_types": [
+    {
+      "id": "residential",
+      "name": "Residential",
+      "description": "Former housing and apartment buildings",
+      "movement_cost": 1,
+      "defense_bonus": 1,
+      "scavenge_base": 50
+    },
+    {
+      "id": "commercial",
+      "name": "Commercial",
+      "description": "Shops, offices, and businesses",
+      "movement_cost": 1,
+      "defense_bonus": 0,
+      "scavenge_base": 40
+    },
+    {
+      "id": "industrial",
+      "name": "Industrial",
+      "description": "Factories and warehouses",
+      "movement_cost": 2,
+      "defense_bonus": 2,
+      "scavenge_base": 60
+    },
+    {
+      "id": "ruins",
+      "name": "Ruins",
+      "description": "Destroyed and collapsed structures",
+      "movement_cost": 3,
+      "defense_bonus": 1,
+      "scavenge_base": 30
+    }
+  ]
+}
