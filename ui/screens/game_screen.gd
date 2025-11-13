@@ -18,6 +18,7 @@ const MapView = preload("res://ui/map/map_view.gd")
 var input_handler = null  # InputHandler type removed for 4.5.1 compatibility
 var map_view = null  # MapView instance (Node2D)
 var sub_viewport: SubViewport = null  # Viewport to host Node2D content
+var viewport_container: SubViewportContainer = null  # Container for SubViewport
 var game_camera: Camera2D = null  # Camera at root level to control viewport
 
 func _ready() -> void:
@@ -58,6 +59,28 @@ func _ready() -> void:
 	if GameManager.is_game_active and GameManager.current_state:
 		print("[GameScreen] Game already active, rendering map now")
 		_on_game_started(GameManager.current_state)
+
+func _input(event: InputEvent) -> void:
+	"""Forward mouse input to SubViewport for map interaction"""
+	if not sub_viewport or not viewport_container:
+		return
+
+	# Only forward mouse events that are over the viewport container
+	if event is InputEventMouse:
+		var local_pos = viewport_container.get_local_mouse_position()
+		var rect = viewport_container.get_rect()
+
+		# Check if mouse is within viewport container bounds
+		if rect.has_point(local_pos):
+			# Clone the event and adjust position for SubViewport
+			var viewport_event = event.duplicate()
+			if viewport_event is InputEventMouse:
+				viewport_event.position = local_pos
+				viewport_event.global_position = local_pos
+
+			# Forward to SubViewport
+			sub_viewport.push_input(viewport_event, true)
+			print("[GameScreen] Forwarded input to SubViewport: %s at %s" % [event.as_text(), local_pos])
 
 func _setup_tooltips() -> void:
 	"""Add tooltips to HUD elements"""
@@ -117,11 +140,11 @@ func _initialize_map_view() -> void:
 		child.queue_free()
 
 	# Create SubViewportContainer to host Node2D content properly
-	var viewport_container = SubViewportContainer.new()
+	viewport_container = SubViewportContainer.new()
 	viewport_container.stretch = true
 	viewport_container.stretch_shrink = 1
 	viewport_container.set_anchors_preset(Control.PRESET_FULL_RECT)
-	viewport_container.mouse_filter = Control.MOUSE_FILTER_PASS  # Allow input through
+	viewport_container.mouse_filter = Control.MOUSE_FILTER_STOP  # Stop to handle input
 
 	# Create SubViewport
 	sub_viewport = SubViewport.new()
