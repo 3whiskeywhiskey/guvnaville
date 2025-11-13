@@ -218,21 +218,22 @@ func monitor_fps_continuous(duration_ms: int, sample_interval_ms: int = 100) -> 
 
 func sample_memory() -> void:
 	"""Samples current memory usage."""
+	var total_mb = _get_current_memory_mb()
 	var sample = {
 		"timestamp": Time.get_ticks_msec(),
 		"static_mb": Performance.get_monitor(Performance.MEMORY_STATIC) / 1024.0 / 1024.0,
-		"dynamic_mb": Performance.get_monitor(Performance.MEMORY_DYNAMIC) / 1024.0 / 1024.0,
-		"total_mb": _get_current_memory_mb(),
-		"meets_target": _get_current_memory_mb() < TARGET_MEMORY_MB
+		"dynamic_mb": 0.0,  # Dynamic memory tracking removed for Godot 4.2 compatibility
+		"total_mb": total_mb,
+		"meets_target": total_mb < TARGET_MEMORY_MB
 	}
 
 	memory_samples.append(sample)
 
 func _get_current_memory_mb() -> float:
 	"""Returns current total memory usage in MB."""
-	var static_mem = Performance.get_monitor(Performance.MEMORY_STATIC)
-	var dynamic_mem = Performance.get_monitor(Performance.MEMORY_DYNAMIC)
-	return (static_mem + dynamic_mem) / 1024.0 / 1024.0
+	# Use OS.get_static_memory_usage() for cross-version compatibility
+	# This works in both Godot 4.2 and 4.3+
+	return OS.get_static_memory_usage() / 1024.0 / 1024.0
 
 # ============================================================================
 # TURN PROCESSING
