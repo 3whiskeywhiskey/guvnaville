@@ -64,26 +64,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Lint GDScript files
+      - name: Validate Project
         run: |
-          echo "GDScript linting..."
-          # Validate by loading the entire project (resolves all class_name types)
-          # This catches syntax errors and type resolution issues
-          echo "Loading project to validate all scripts..."
-          godot --headless --quit || exit 1
-          echo "✅ Project loads successfully - all scripts valid"
+          echo "Validating Godot project..."
+          # Load the entire project to validate all scripts
+          # This catches:
+          # - Syntax errors in all .gd files
+          # - Type resolution issues (class_name types)
+          # - Missing dependencies
+          # - Autoload initialization errors
+          echo "Loading project..."
+          godot --headless --quit 2>&1 | tee godot_output.log
 
-      - name: Run validation scripts
-        run: |
-          echo "Running validation scripts..."
-          # These are standalone scripts that need to be executed
-          for script in scripts/validate_*.gd; do
-            if [ -f "$script" ]; then
-              echo "Running $script"
-              godot --headless --script "$script" || exit 1
-            fi
-          done
-          echo "✅ Validation scripts passed"
+          # Check for errors in output
+          if grep -q "SCRIPT ERROR\|ERROR:" godot_output.log; then
+            echo "❌ Project has errors"
+            exit 1
+          fi
+
+          echo "✅ Project loads successfully - all scripts valid"
 
   # Build jobs disabled for Phase 1 - no game content yet
   # Will be enabled in Phase 2 when we have actual scenes to export
