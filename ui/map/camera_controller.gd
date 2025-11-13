@@ -117,16 +117,15 @@ func _handle_mouse_input(event: InputEvent) -> void:
 	# Trackpad pinch zoom (macOS/gesture support)
 	if event is InputEventMagnifyGesture:
 		print("[CameraController] Pinch gesture factor: %s" % event.factor)
-		# NOTE: Inverted from expected - platform reports gesture inversely
-		# factor > 1.0 = pinch out gesture, but we zoom OUT
-		# factor < 1.0 = pinch in gesture, but we zoom IN
+		# Pinch out (spreading fingers) = zoom IN (closer view)
+		# Pinch in (bringing fingers together) = zoom OUT (see more)
 		if event.factor > 1.05:  # Add threshold to avoid jitter
-			print("[CameraController] Zooming OUT (pinch out)")
-			zoom_camera(-1)  # Inverted
+			print("[CameraController] Zooming IN (pinch out)")
+			zoom_camera(1)  # Zoom in - see things bigger
 			get_viewport().set_input_as_handled()
 		elif event.factor < 0.95:
-			print("[CameraController] Zooming IN (pinch in)")
-			zoom_camera(1)  # Inverted
+			print("[CameraController] Zooming OUT (pinch in)")
+			zoom_camera(-1)  # Zoom out - see more of map
 			get_viewport().set_input_as_handled()
 
 	# Middle mouse drag (future enhancement)
