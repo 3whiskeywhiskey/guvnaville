@@ -74,6 +74,12 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		print("[GameScreen] Received mouse button event: button=%d, pressed=%s" % [event.button_index, event.pressed])
 
+	# Forward magnify gestures (trackpad pinch zoom) directly
+	if event is InputEventMagnifyGesture:
+		print("[GameScreen] Received magnify gesture: factor=%s" % event.factor)
+		sub_viewport.push_input(event.duplicate(), true)
+		return
+
 	# Only forward mouse events that are over the viewport container
 	if event is InputEventMouse:
 		var local_pos = viewport_container.get_local_mouse_position()
@@ -90,9 +96,13 @@ func _input(event: InputEvent) -> void:
 			# Forward to SubViewport BEFORE InputHandler marks it as handled
 			sub_viewport.push_input(viewport_event, true)
 
-			# Log click forwarding
+			# Log important events
 			if event is InputEventMouseButton:
-				print("[GameScreen] Forwarded button=%d pressed=%s to SubViewport at %s" % [event.button_index, event.pressed, local_pos])
+				# Log mouse wheel events specifically
+				if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+					print("[GameScreen] Forwarded ZOOM button=%d to SubViewport" % event.button_index)
+				else:
+					print("[GameScreen] Forwarded button=%d pressed=%s to SubViewport at %s" % [event.button_index, event.pressed, local_pos])
 
 func _setup_tooltips() -> void:
 	"""Add tooltips to HUD elements"""

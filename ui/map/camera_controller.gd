@@ -104,21 +104,29 @@ func _handle_edge_scrolling(delta: float) -> void:
 ## Handle mouse input (zoom, middle mouse drag)
 func _handle_mouse_input(event: InputEvent) -> void:
 	# Mouse wheel zoom
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
-			print("[CameraController] Zoom in")
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			print("[CameraController] Mouse wheel UP - zoom in")
 			zoom_camera(1)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
-			print("[CameraController] Zoom out")
+			get_viewport().set_input_as_handled()
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			print("[CameraController] Mouse wheel DOWN - zoom out")
 			zoom_camera(-1)
+			get_viewport().set_input_as_handled()
 
 	# Trackpad pinch zoom (macOS/gesture support)
 	if event is InputEventMagnifyGesture:
-		print("[CameraController] Pinch gesture: %s" % event.factor)
-		if event.factor > 1.0:
-			zoom_camera(1)  # Pinch out = zoom in
-		elif event.factor < 1.0:
-			zoom_camera(-1)  # Pinch in = zoom out
+		print("[CameraController] Pinch gesture factor: %s" % event.factor)
+		# Magnify gestures report factor relative to 1.0
+		# > 1.0 = pinch out (zoom in), < 1.0 = pinch in (zoom out)
+		if event.factor > 1.05:  # Add threshold to avoid jitter
+			print("[CameraController] Zooming IN")
+			zoom_camera(1)
+			get_viewport().set_input_as_handled()
+		elif event.factor < 0.95:
+			print("[CameraController] Zooming OUT")
+			zoom_camera(-1)
+			get_viewport().set_input_as_handled()
 
 	# Middle mouse drag (future enhancement)
 	# TODO: Implement middle mouse drag panning
