@@ -178,6 +178,17 @@ func render_fog_of_war(faction_id: int, visible_tiles: Array) -> void:
 		if tile_pos is Vector3i:
 			visibility_map[tile_pos] = FogRenderer.VisibilityLevel.VISIBLE
 
+	# Set render bounds to current camera view + padding for better performance
+	var camera_bounds = camera_controller.get_camera_bounds()
+	var padding = 20
+	var fog_bounds = Rect2i(
+		max(0, camera_bounds.position.x - padding),
+		max(0, camera_bounds.position.y - padding),
+		min(map_size.x, camera_bounds.size.x + padding * 2),
+		min(map_size.y, camera_bounds.size.y + padding * 2)
+	)
+	fog_renderer.set_render_bounds(fog_bounds)
+
 	# Render fog
 	fog_renderer.render_fog(faction_id, visibility_map)
 
