@@ -39,13 +39,19 @@ signal camera_zoomed(zoom_level: int)
 signal camera_centered(tile_position: Vector3i)
 
 func _ready() -> void:
+	# Enable the camera
+	enabled = true
+
 	# Set initial zoom
 	zoom = _zoom_scales[current_zoom_level]
 
 	# Make this camera active
 	make_current()
 
-	print("[CameraController] Initialized - position: %s, zoom: %s, enabled: %s" % [position, zoom, enabled])
+	# Center at origin initially
+	position = Vector2(640, 360)  # Reasonable starting position
+
+	print("[CameraController] Initialized - position: %s, zoom: %s, enabled: %s, is_current: %s" % [position, zoom, enabled, is_current()])
 
 func _process(delta: float) -> void:
 	_handle_keyboard_movement(delta)

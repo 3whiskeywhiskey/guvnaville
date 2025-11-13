@@ -48,8 +48,8 @@ var unit_renderers: Dictionary = {}  # unit_id -> UnitRenderer
 var units_at_position: Dictionary = {}  # Vector3i -> Array[int (unit_ids)]
 
 # Highlights
-var active_highlights: Array[ColorRect] = []
-var highlight_pool: Array[ColorRect] = []  # Pool for reusing highlight rectangles
+var active_highlights: Array[Polygon2D] = []
+var highlight_pool: Array[Polygon2D] = []  # Pool for reusing highlight rectangles
 const HIGHLIGHT_POOL_SIZE: int = 200  # Pre-allocate highlight pool
 
 # State
@@ -269,21 +269,30 @@ func highlight_tiles(positions: Array, color: Color) -> void:
 		if not pos is Vector3i:
 			continue
 
-		var highlight: ColorRect
+		# Use Polygon2D for highlights in Node2D space
+		var highlight: Polygon2D
 		# Try to get from pool first (object pooling optimization)
 		if highlight_pool.size() > 0:
 			highlight = highlight_pool.pop_back()
 			highlight.visible = true
 		else:
 			# Pool exhausted, create new one
-			highlight = ColorRect.new()
-			highlight.size = Vector2(TILE_SIZE, TILE_SIZE)
+			highlight = Polygon2D.new()
+			# Create rectangle polygon
+			highlight.polygon = PackedVector2Array([
+				Vector2(0, 0),
+				Vector2(TILE_SIZE, 0),
+				Vector2(TILE_SIZE, TILE_SIZE),
+				Vector2(0, TILE_SIZE)
+			])
 			highlight.z_index = 5  # Above tiles, below units
 			add_child(highlight)
 
 		highlight.position = Vector2(pos.x * TILE_SIZE, pos.y * TILE_SIZE)
 		highlight.color = color
 		active_highlights.append(highlight)
+
+		print("[MapView] Created highlight at world pos: %s, color: %s" % [highlight.position, color])
 
 ## Remove all tile highlights
 ## OPTIMIZED: Returns highlights to pool instead of destroying them
@@ -519,8 +528,14 @@ func _on_camera_zoomed(zoom_level: int) -> void:
 func _initialize_highlight_pool() -> void:
 	highlight_pool.clear()
 	for i in range(HIGHLIGHT_POOL_SIZE):
-		var highlight = ColorRect.new()
-		highlight.size = Vector2(TILE_SIZE, TILE_SIZE)
+		var highlight = Polygon2D.new()
+		# Create rectangle polygon
+		highlight.polygon = PackedVector2Array([
+			Vector2(0, 0),
+			Vector2(TILE_SIZE, 0),
+			Vector2(TILE_SIZE, TILE_SIZE),
+			Vector2(0, TILE_SIZE)
+		])
 		highlight.z_index = 5
 		highlight.visible = false
 		add_child(highlight)

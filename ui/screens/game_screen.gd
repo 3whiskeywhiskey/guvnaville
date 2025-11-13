@@ -78,7 +78,7 @@ func _on_end_turn_requested() -> void:
 		print("[GameScreen] End turn requested")
 
 		# End turn through TurnManager
-		TurnManager.end_turn()
+		TurnManager.process_turn()
 
 		# Show notification
 		UIManager.show_notification("Turn ended", "info")
