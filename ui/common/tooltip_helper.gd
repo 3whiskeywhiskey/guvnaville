@@ -33,17 +33,17 @@ static func _on_tooltip_mouse_entered(control: Control) -> void:
 	pos.y += control.get_global_rect().size.y + 5
 
 	# Show through UIManager if available
-	if has_node("/root/UIManager"):
-		var ui_manager = get_node("/root/UIManager")
-		if ui_manager.has_method("show_tooltip"):
+	if Engine.has_singleton("UIManager"):
+		var ui_manager = Engine.get_singleton("UIManager")
+		if ui_manager and ui_manager.has_method("show_tooltip"):
 			ui_manager.show_tooltip(text, pos)
 
 static func _on_tooltip_mouse_exited(control: Control) -> void:
 	"""Hide tooltip when mouse exits control"""
 	# Hide through UIManager if available
-	if has_node("/root/UIManager"):
-		var ui_manager = get_node("/root/UIManager")
-		if ui_manager.has_method("hide_tooltip"):
+	if Engine.has_singleton("UIManager"):
+		var ui_manager = Engine.get_singleton("UIManager")
+		if ui_manager and ui_manager.has_method("hide_tooltip"):
 			ui_manager.hide_tooltip()
 
 static func format_tooltip_with_shortcut(title: String, description: String, shortcut: String = "") -> String:

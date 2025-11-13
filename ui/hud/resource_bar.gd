@@ -2,6 +2,9 @@ extends Control
 ## ResourceBar - Resource display controller
 ## Shows current resource stockpiles for the player faction
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const TooltipHelper = preload("res://ui/common/tooltip_helper.gd")
+
 @onready var scrap_label: Label = $HBoxContainer/ScrapLabel
 @onready var food_label: Label = $HBoxContainer/FoodLabel
 @onready var medicine_label: Label = $HBoxContainer/MedicineLabel

@@ -54,7 +54,7 @@ func _input(event: InputEvent) -> void:
 
 		# Tab - Cycle units (game mode only)
 		if event.keycode == KEY_TAB and current_mode == InputMode.GAME:
-			var forward := not event.shift_pressed
+			var forward: bool = not event.shift_pressed
 			cycle_unit_requested.emit(forward)
 			get_viewport().set_input_as_handled()
 			return

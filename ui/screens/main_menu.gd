@@ -2,6 +2,9 @@ extends Control
 ## MainMenu - Main menu screen controller
 ## Provides options for New Game, Load, Settings, and Quit
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const TooltipHelper = preload("res://ui/common/tooltip_helper.gd")
+
 @onready var new_game_button: Button = $VBoxContainer/NewGameButton
 @onready var load_game_button: Button = $VBoxContainer/LoadGameButton
 @onready var settings_button: Button = $VBoxContainer/SettingsButton

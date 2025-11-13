@@ -2,6 +2,10 @@ extends Control
 ## GameScreen - Main game screen controller
 ## Contains HUD, map view area, and handles game input
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const InputHandler = preload("res://ui/input_handler.gd")
+const TooltipHelper = preload("res://ui/common/tooltip_helper.gd")
+
 @onready var resource_bar: Control = $HUD/ResourceBar
 @onready var turn_indicator: Control = $HUD/TurnIndicator
 @onready var minimap: Control = $HUD/Minimap
@@ -9,7 +13,7 @@ extends Control
 @onready var map_view: Control = $MapView
 @onready var end_turn_button: Button = $HUD/EndTurnButton
 
-var input_handler: InputHandler = null
+var input_handler = null  # InputHandler type removed for 4.5.1 compatibility
 
 func _ready() -> void:
 	# Register HUD components with UIManager
