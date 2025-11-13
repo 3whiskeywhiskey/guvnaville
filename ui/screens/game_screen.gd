@@ -108,6 +108,10 @@ func _initialize_map_view() -> void:
 	"""Create and initialize the MapView"""
 	print("[GameScreen] Initializing MapView...")
 
+	# Hide/clear the placeholder container since we're adding MapView as direct child
+	if map_view_container:
+		map_view_container.visible = false
+
 	# Create MapView (Node2D with Camera2D)
 	map_view = MapView.new()
 
