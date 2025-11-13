@@ -156,7 +156,8 @@ func _initialize_map_view() -> void:
 	viewport_container.stretch = true
 	viewport_container.stretch_shrink = 1
 	viewport_container.set_anchors_preset(Control.PRESET_FULL_RECT)
-	viewport_container.mouse_filter = Control.MOUSE_FILTER_STOP  # Stop to handle input
+	viewport_container.mouse_filter = Control.MOUSE_FILTER_IGNORE  # Ignore so events reach _input()
+	viewport_container.z_index = -1  # Below HUD
 
 	# Create SubViewport
 	sub_viewport = SubViewport.new()

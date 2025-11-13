@@ -81,10 +81,13 @@ func _input(event: InputEvent) -> void:
 
 		# Mouse selection
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			print("[InputHandler] Received LEFT CLICK PRESS at %s" % event.position)
 			if is_action_enabled("select_tile"):
 				# Will emit tile_selected signal when tile position is determined
 				action_requested.emit("select", {"position": event.position})
-				get_viewport().set_input_as_handled()
+				# DON'T mark as handled - let it propagate to MapView for tile selection
+				# get_viewport().set_input_as_handled()
+				print("[InputHandler] Emitted 'select' action, NOT marking as handled")
 
 	# UI navigation (all modes except disabled)
 	if event.is_action_pressed("ui_cancel"):
