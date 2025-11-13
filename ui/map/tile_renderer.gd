@@ -45,7 +45,7 @@ func update_tile_at(local_position: Vector2i, tile_data) -> void:
 		_update_single_tile_sprite(local_position, tile_data)
 
 ## Show or hide entire chunk (for culling)
-func set_visible(is_visible: bool) -> void:
+func set_chunk_visible(is_visible: bool) -> void:
 	visible = is_visible
 
 ## Check if chunk is within camera view

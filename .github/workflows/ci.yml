@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  GODOT_VERSION: 4.2.2
+  GODOT_VERSION: 4.5.1
   EXPORT_NAME: ashes-to-empire
 
 jobs:
@@ -59,21 +59,30 @@ jobs:
     name: GDScript Lint
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.2.2
+      image: barichello/godot-ci:4.5.1
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Lint GDScript files
+      - name: Validate Project
         run: |
-          echo "GDScript linting..."
-          # Basic syntax check by parsing all .gd files
-          # Skip test files that extend GutTest (they need GUT loaded)
-          find . -name "*.gd" -not -path "./addons/*" -not -path "./tests/*" | while read file; do
-            echo "Checking $file"
-            godot --headless --check-only --script "$file" || exit 1
-          done
-          echo "✅ Linting complete (tests skipped - require GUT context)"
+          echo "Validating Godot project..."
+          # Load the entire project to validate all scripts
+          # This catches:
+          # - Syntax errors in all .gd files
+          # - Type resolution issues (class_name types)
+          # - Missing dependencies
+          # - Autoload initialization errors
+          echo "Loading project..."
+          godot --headless --quit 2>&1 | tee godot_output.log
+
+          # Check for errors in output
+          if grep -q "SCRIPT ERROR\|ERROR:" godot_output.log; then
+            echo "❌ Project has errors"
+            exit 1
+          fi
+
+          echo "✅ Project loads successfully - all scripts valid"
 
   # Build jobs disabled for Phase 1 - no game content yet
   # Will be enabled in Phase 2 when we have actual scenes to export

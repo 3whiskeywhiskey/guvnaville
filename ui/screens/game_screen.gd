@@ -5,15 +5,17 @@ extends Control
 # Preload dependencies for Godot 4.5.1 compatibility
 const InputHandler = preload("res://ui/input_handler.gd")
 const TooltipHelper = preload("res://ui/common/tooltip_helper.gd")
+const MapView = preload("res://ui/map/map_view.gd")
 
 @onready var resource_bar: Control = $HUD/ResourceBar
 @onready var turn_indicator: Control = $HUD/TurnIndicator
 @onready var minimap: Control = $HUD/Minimap
 @onready var notification_container: Control = $HUD/NotificationContainer
-@onready var map_view: Control = $MapView
+@onready var map_view_container: Control = $MapView
 @onready var end_turn_button: Button = $HUD/EndTurnButton
 
 var input_handler = null  # InputHandler type removed for 4.5.1 compatibility
+var map_view = null  # MapView instance (Node2D)
 
 func _ready() -> void:
 	# Register HUD components with UIManager
@@ -41,6 +43,18 @@ func _ready() -> void:
 
 	# Setup tooltips
 	_setup_tooltips()
+
+	# Initialize map view
+	_initialize_map_view()
+
+	# Connect to game state signals
+	EventBus.game_started.connect(_on_game_started)
+	EventBus.turn_started.connect(_on_turn_started)
+
+	# If game already started before we connected, render now
+	if GameManager.is_game_active and GameManager.current_state:
+		print("[GameScreen] Game already active, rendering map now")
+		_on_game_started(GameManager.current_state)
 
 func _setup_tooltips() -> void:
 	"""Add tooltips to HUD elements"""
@@ -86,3 +100,74 @@ func _show_pause_menu() -> void:
 	var ui_manager = get_node("/root/UIManager") if has_node("/root/UIManager") else get_parent()
 	if ui_manager and ui_manager.has_method("show_settings"):
 		ui_manager.show_settings("game")
+
+func _initialize_map_view() -> void:
+	"""Create and initialize the MapView"""
+	print("[GameScreen] Initializing MapView...")
+
+	# Create MapView instance
+	map_view = MapView.new()
+
+	# Add to container
+	if map_view_container:
+		# Clear placeholder content
+		for child in map_view_container.get_children():
+			child.queue_free()
+
+		# Add MapView as child
+		map_view_container.add_child(map_view)
+
+		print("[GameScreen] MapView created and added to container")
+	else:
+		push_error("[GameScreen] MapView container not found!")
+
+func _on_game_started(game_state) -> void:
+	"""Called when a new game starts - render the map"""
+	print("[GameScreen] Game started, rendering map...")
+
+	if not map_view:
+		push_error("[GameScreen] MapView not initialized!")
+		return
+
+	# Get world state from game manager
+	if not GameManager.current_state:
+		push_error("[GameScreen] No active game state!")
+		return
+
+	var world_state = GameManager.current_state.world_state
+	if not world_state:
+		push_error("[GameScreen] World state not found!")
+		return
+
+	# Render the map
+	print("[GameScreen] Rendering map with %d tiles" % world_state.tiles.size())
+	map_view.render_map(world_state)
+
+	# Render units (if any)
+	var units = []
+	for faction in GameManager.current_state.factions:
+		units.append_array(faction.units)
+
+	if units.size() > 0:
+		print("[GameScreen] Rendering %d units" % units.size())
+		map_view.render_units(units)
+
+	# Render fog of war for player faction
+	var player_faction = GameManager.current_state.get_player_faction()
+	if player_faction:
+		var visible_tiles = world_state.get_visible_tiles(player_faction.faction_id)
+		print("[GameScreen] Rendering fog of war with %d visible tiles" % visible_tiles.size())
+		map_view.render_fog_of_war(player_faction.faction_id, visible_tiles)
+
+	print("[GameScreen] Map rendering complete!")
+
+func _on_turn_started(turn_number: int, faction_id: int) -> void:
+	"""Called when a turn starts - update fog of war if it's player's turn"""
+	if not map_view or not GameManager.current_state:
+		return
+
+	var player_faction = GameManager.current_state.get_player_faction()
+	if player_faction and faction_id == player_faction.faction_id:
+		# Update fog of war for player
+		var visible_tiles = GameManager.current_state.world_state.get_visible_tiles(player_faction.faction_id)
+		map_view.render_fog_of_war(player_faction.faction_id, visible_tiles)
