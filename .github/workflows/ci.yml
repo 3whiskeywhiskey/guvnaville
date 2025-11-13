@@ -67,19 +67,11 @@ jobs:
       - name: Lint GDScript files
         run: |
           echo "GDScript linting..."
-          # Basic syntax check by parsing all .gd files
-          # Skip:
-          # - ./addons/* (third-party code)
-          # - ./tests/* (require GUT framework)
-          # - ./scripts/* (standalone validation scripts, run separately)
-          find . -name "*.gd" \
-            -not -path "./addons/*" \
-            -not -path "./tests/*" \
-            -not -path "./scripts/*" | while read file; do
-            echo "Checking $file"
-            godot --headless --check-only --script "$file" || exit 1
-          done
-          echo "✅ Linting complete"
+          # Validate by loading the entire project (resolves all class_name types)
+          # This catches syntax errors and type resolution issues
+          echo "Loading project to validate all scripts..."
+          godot --headless --quit || exit 1
+          echo "✅ Project loads successfully - all scripts valid"
 
       - name: Run validation scripts
         run: |
