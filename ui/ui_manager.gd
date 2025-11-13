@@ -257,4 +257,5 @@ func _on_resource_changed(faction_id: int, resource_type: String, amount: int, n
 	if faction_id == 0 and game_state:  # Player faction only
 		var player_faction = game_state.get_faction(0)
 		if player_faction:
-			update_resources(0, player_faction.resources.to_dict())
+			# resources is already a Dictionary
+			update_resources(0, player_faction.resources)

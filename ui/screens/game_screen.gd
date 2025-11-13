@@ -127,8 +127,9 @@ func _initialize_map_view() -> void:
 	sub_viewport = SubViewport.new()
 	sub_viewport.size = get_viewport().size
 	sub_viewport.transparent_bg = true
-	sub_viewport.handle_input_locally = false  # Let parent handle input
+	sub_viewport.handle_input_locally = true  # Process mouse input internally
 	sub_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	sub_viewport.gui_disable_input = false  # Enable GUI input
 
 	# Create MapView (Node2D with Camera2D)
 	map_view = MapView.new()
