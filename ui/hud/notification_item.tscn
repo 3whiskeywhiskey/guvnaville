@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7xh2k4n5wqpa"]
+
+[ext_resource type="Script" path="res://ui/hud/notification_item.gd" id="1_notification_item"]
+
+[node name="NotificationItem" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 50)
+script = ExtResource("1_notification_item")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TypeIcon" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "[i]"
+
+[node name="MessageLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Notification message"
+autowrap_mode = 3
