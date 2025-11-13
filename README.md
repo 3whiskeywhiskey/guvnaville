@@ -7,7 +7,7 @@ A post-apocalyptic turn-based strategy game where you lead a faction fighting fo
 **Guvnaville** is a turn-based strategy game set in the post-apocalyptic ruins of a city. Lead your faction to survive and thrive by scavenging resources, building units, developing your culture, and competing with rival AI factions for dominance.
 
 **Version**: 0.1.0 MVP (Released 2025-11-13)
-**Engine**: Godot 4.2.2
+**Engine**: Godot 4.5.1
 **Status**: ✅ **MVP Complete - Fully Playable**
 **Target Platforms**: Windows, macOS, Linux
 
@@ -126,7 +126,7 @@ ashes-to-empire/
 
 ### Prerequisites
 
-- **Godot 4.2.2**: Download from [godotengine.org](https://godotengine.org/download/)
+- **Godot 4.5.1**: Download from [godotengine.org](https://godotengine.org/download/)
 - **Git**: For version control
 - **Git LFS** (optional): For large binary assets
 

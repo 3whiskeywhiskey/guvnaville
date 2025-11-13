@@ -342,7 +342,7 @@ on:
     branches: [main, develop]
 
 env:
-  GODOT_VERSION: 4.2.2
+  GODOT_VERSION: 4.5.1
   EXPORT_NAME: AshesToEmpire
 
 jobs:

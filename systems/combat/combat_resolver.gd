@@ -1,6 +1,12 @@
 class_name CombatResolver
 extends Node
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const CombatResult = preload("res://systems/combat/combat_result.gd")
+const CombatCalculator = preload("res://systems/combat/combat_calculator.gd")
+const MoraleSystem = preload("res://systems/combat/morale_system.gd")
+const LootCalculator = preload("res://systems/combat/loot_calculator.gd")
+
 ## Main combat resolution interface for auto-resolve and tactical combat initiation
 ##
 ## This singleton orchestrates all combat resolution including auto-resolve calculations,

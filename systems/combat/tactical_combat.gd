@@ -1,6 +1,10 @@
 class_name TacticalCombat
 extends Node
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const CombatResolver = preload("res://systems/combat/combat_resolver.gd")
+const CombatResult = preload("res://systems/combat/combat_result.gd")
+
 ## Tactical battle engine (stub for MVP - full implementation post-MVP)
 ##
 ## This class provides the interface for tactical turn-based combat.

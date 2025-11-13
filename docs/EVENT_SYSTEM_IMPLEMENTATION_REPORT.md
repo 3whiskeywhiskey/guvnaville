@@ -475,7 +475,7 @@ JSON event format fully supported:
 
 ### Limitations
 
-1. **Godot Required**: Tests require Godot 4.2+ engine to execute
+1. **Godot Required**: Tests require Godot 4.5.1 engine to execute
 2. **Mock Dependencies**: Core systems (GameState, etc.) are mocked for testing
 3. **Probabilistic Testing**: Rarity tests use statistical validation over many trials
 4. **No Visual Editor**: Events created by editing JSON manually

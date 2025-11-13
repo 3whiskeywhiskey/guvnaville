@@ -3,6 +3,16 @@
 class_name MapView
 extends Node2D
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const CameraController = preload("res://ui/map/camera_controller.gd")
+const SpriteLoader = preload("res://rendering/sprite_loader.gd")
+const TileRenderer = preload("res://ui/map/tile_renderer.gd")
+const UnitRenderer = preload("res://ui/map/unit_renderer.gd")
+const SelectionEffect = preload("res://rendering/effects/selection_effect.gd")
+const MovementEffect = preload("res://rendering/effects/movement_effect.gd")
+const AttackEffect = preload("res://rendering/effects/attack_effect.gd")
+const FogRenderer = preload("res://rendering/effects/fog_renderer.gd")
+
 # Constants
 const CHUNK_SIZE: int = 20
 const TILE_SIZE: int = 64

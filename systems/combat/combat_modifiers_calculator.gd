@@ -1,6 +1,9 @@
 class_name CombatModifiersCalculator
 extends Node
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const CombatModifiers = preload("res://systems/combat/combat_modifiers.gd")
+
 ## Calculates and combines all combat modifiers
 ##
 ## This class handles the calculation of terrain, elevation, cover, cultural,

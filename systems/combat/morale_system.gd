@@ -1,6 +1,10 @@
 class_name MoraleSystem
 extends Node
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const MoraleCheckResult = preload("res://systems/combat/morale_check_result.gd")
+const CombatModifiersCalculator = preload("res://systems/combat/combat_modifiers_calculator.gd")
+
 ## Handles morale checks, morale damage, and retreat logic
 ##
 ## This singleton manages all morale-related calculations including

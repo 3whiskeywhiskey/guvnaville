@@ -279,11 +279,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup Godot
         run: |
-          wget https://github.com/godotengine/godot/releases/download/4.2-stable/Godot_v4.2-stable_linux.x86_64.zip
-          unzip Godot_v4.2-stable_linux.x86_64.zip
+          wget https://github.com/godotengine/godot/releases/download/4.5.1-stable/Godot_v4.5.1-stable_linux.x86_64.zip
+          unzip Godot_v4.5.1-stable_linux.x86_64.zip
       - name: Run tests
         run: |
-          ./Godot_v4.2-stable_linux.x86_64 --headless --path . -s addons/gut/gut_cmdln.gd
+          ./Godot_v4.5.1-stable_linux.x86_64 --headless --path . -s addons/gut/gut_cmdln.gd
 
   build-windows:
     runs-on: ubuntu-latest
@@ -293,7 +293,7 @@ jobs:
         run: # ... setup Godot
       - name: Export Windows Build
         run: |
-          ./Godot_v4.2-stable_linux.x86_64 --headless --export "Windows Desktop" builds/AshesToEmpire.exe
+          ./Godot_v4.5.1-stable_linux.x86_64 --headless --export "Windows Desktop" builds/AshesToEmpire.exe
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -333,7 +333,7 @@ jobs:
   - *Mitigation*: Most code will be GDScript; C# only for performance-critical modules
 
 ### Technical Implications
-- Use Godot 4.2 or later (stable release)
+- Use Godot 4.5.1 or later (stable release)
 - GDScript for 90% of code
 - C# for performance-critical systems (pathfinding, simulation)
 - JSON for all game data

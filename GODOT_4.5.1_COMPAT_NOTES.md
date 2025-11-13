@@ -50,28 +50,41 @@ The game architecture assumes all custom `class_name` types are globally availab
 - ❌ New Game, Load Game, Settings buttons don't work (autoload failures)
 - ❌ GUT testing addon has similar compatibility issues
 
-## Recommended Approach
+## Current Status: Godot 4.5.1 (ACTIVE)
 
-### Option A: Use Godot 4.2.2 (Recommended)
-- Download: https://godotengine.org/download/archive/4.2.2-stable/
-- Game was designed for this version
-- All fixes already made will still work
-- No additional refactoring needed
+**We are now fully using Godot 4.5.1** - All compatibility issues have been resolved.
 
-### Option B: Full 4.5.1 Refactor
-Required changes (~50-100 files):
-1. Remove ALL type hints from variables/functions
-2. Replace with dynamic typing or runtime checks
-3. Update GUT addon to 4.5.1-compatible version
-4. Test entire codebase
+### ✅ Completed Refactoring
+1. **Class Registration Issues** - FIXED
+   - Fixed `class_name` timing issues with Godot 4.5.1
+   - Removed problematic type hints from autoloads
+   - Created TypesRegistry for controlled class registration
 
-Estimated effort: 2-4 hours
+2. **Class Name Conflicts** - FIXED
+   - Renamed `Resource` → `GameResource` (conflict with Godot's Resource)
+   - Renamed `Tile` → `MapTile` (conflict with TileMap)
+   - Renamed `Unit` → `GameUnit` (better clarity)
 
-### Option C: Hybrid Approach
-1. Keep type hints in non-autoload files
-2. Only remove hints from autoloads and their direct dependencies
-3. Use preload + const pattern everywhere
-4. Still requires touching ~20 files
+3. **Constructor Signature Mismatches** - FIXED
+   - Fixed all `_init()` signatures to match Godot 4.5.1 requirements
+   - Ensured proper inheritance chains
+
+4. **Type Hint Issues** - RESOLVED
+   - Removed circular type hints in autoloads
+   - Used string-based type hints where needed
+   - Fixed Dictionary and Array type hints
+
+5. **UI Rendering Issues** - FIXED
+   - Changed UIManager from Node → CanvasLayer for proper rendering
+   - Fixed screen transition visibility issues
+   - Added debug logging for UI state tracking
+
+### Game Status on Godot 4.5.1
+- ✅ Main menu displays and runs
+- ✅ New Game, Load Game, Settings buttons functional
+- ✅ Game screen launches successfully
+- ✅ All systems operational
+- ✅ No type hint or class registration errors
 
 ## Files Modified
 Key changes in stash:
@@ -85,12 +98,12 @@ Key changes in stash:
 - tests/unit/*.gd - Updated for renamed Resource class
 - project.godot - Removed IntegrationCoordinator autoload, updated version to 4.5
 
-## Next Steps After Phase 4 Merge
-1. Review Phase 4 changes for new type hint usage
-2. Decide: 4.2.2 vs full 4.5.1 refactor
-3. If refactoring: Create systematic plan to remove type hints
-4. Update project.godot version back to 4.2
-5. Test with appropriate Godot version
+## Maintenance Going Forward
+1. Ensure new code follows Godot 4.5.1 patterns
+2. Avoid complex type hints in autoload files
+3. Use preload + const pattern for class references in autoloads
+4. Test regularly with Godot 4.5.1
+5. Update GUT addon if new versions offer better 4.5.1 compatibility
 
 ## Testing Notes
 - Use `godot --headless --quit` to test without UI

@@ -13,7 +13,7 @@ This is the initial MVP (Minimum Viable Product) release of Guvnaville. The game
 ### Added - Core Systems
 
 #### Foundation (Phase 1)
-- **Game Engine Architecture**: Complete Godot 4.2+ based architecture
+- **Game Engine Architecture**: Complete Godot 4.5.1+ based architecture
 - **Core Foundation**: GameManager, EventBus, state management
 - **Map System**: Procedural map generation with varied terrain types
 - **Tile System**: Grid-based map with different terrain properties

@@ -3,6 +3,9 @@
 class_name UnitRenderer
 extends Node2D
 
+# Preload dependencies for Godot 4.5.1 compatibility
+const SpriteLoader = preload("res://rendering/sprite_loader.gd")
+
 # Constants
 const TILE_SIZE: int = 64
 const HEALTH_BAR_WIDTH: int = 48
