@@ -18,6 +18,7 @@ const MapView = preload("res://ui/map/map_view.gd")
 var input_handler = null  # InputHandler type removed for 4.5.1 compatibility
 var map_view = null  # MapView instance (Node2D)
 var map_canvas_layer: CanvasLayer = null  # Separate layer for map to keep below UI
+var game_camera: Camera2D = null  # Camera at root level to control viewport
 
 func _ready() -> void:
 	# Register HUD components with UIManager
@@ -112,7 +113,7 @@ func _initialize_map_view() -> void:
 	map_canvas_layer.layer = -1  # Below default layer (UI is on layer 0)
 	add_child(map_canvas_layer)
 
-	# Create MapView instance
+	# Create MapView instance WITHOUT camera (camera will be at root level)
 	map_view = MapView.new()
 
 	# Add to canvas layer instead of container
@@ -123,6 +124,17 @@ func _initialize_map_view() -> void:
 
 		# Add MapView to the canvas layer
 		map_canvas_layer.add_child(map_view)
+
+		# Extract camera from MapView and add it to root level for proper viewport control
+		if map_view.camera_controller:
+			game_camera = map_view.camera_controller
+			# Remove from MapView
+			map_view.remove_child(game_camera)
+			# Add to GameScreen root for proper viewport control
+			add_child(game_camera)
+			game_camera.enabled = true
+			game_camera.make_current()
+			print("[GameScreen] Camera extracted to root level - enabled: %s, current: %s" % [game_camera.enabled, game_camera.is_current()])
 
 		print("[GameScreen] MapView created and added to canvas layer")
 	else:

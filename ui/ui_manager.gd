@@ -253,7 +253,7 @@ func _on_turn_started(turn_number: int, faction_id: int) -> void:
 	print("[UIManager] Turn started: %d, Faction: %d" % [turn_number, faction_id])
 	update_turn_indicator(turn_number, "Active", faction_id)
 
-func _on_resource_changed(faction_id: int, resource_type: String, amount: int) -> void:
+func _on_resource_changed(faction_id: int, resource_type: String, amount: int, new_total: int) -> void:
 	if faction_id == 0 and game_state:  # Player faction only
 		var player_faction = game_state.get_faction(0)
 		if player_faction:

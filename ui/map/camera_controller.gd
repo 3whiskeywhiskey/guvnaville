@@ -74,8 +74,10 @@ func _handle_keyboard_movement(delta: float) -> void:
 		movement.y -= 1
 
 	if movement.length() > 0:
+		var old_pos = position
 		move_camera(movement.normalized() * camera_speed * delta)
-		print("[CameraController] Moving camera: %s, new position: %s" % [movement, position])
+		if position != old_pos:
+			print("[CameraController] Moved from %s to %s (delta: %s)" % [old_pos, position, position - old_pos])
 
 ## Handle edge scrolling (mouse near screen edges)
 func _handle_edge_scrolling(delta: float) -> void:
@@ -104,9 +106,19 @@ func _handle_mouse_input(event: InputEvent) -> void:
 	# Mouse wheel zoom
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
+			print("[CameraController] Zoom in")
 			zoom_camera(1)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+			print("[CameraController] Zoom out")
 			zoom_camera(-1)
+
+	# Trackpad pinch zoom (macOS/gesture support)
+	if event is InputEventMagnifyGesture:
+		print("[CameraController] Pinch gesture: %s" % event.factor)
+		if event.factor > 1.0:
+			zoom_camera(1)  # Pinch out = zoom in
+		elif event.factor < 1.0:
+			zoom_camera(-1)  # Pinch in = zoom out
 
 	# Middle mouse drag (future enhancement)
 	# TODO: Implement middle mouse drag panning

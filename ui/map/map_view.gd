@@ -112,14 +112,20 @@ func _process(_delta: float) -> void:
 	_update_performance_stats()
 
 func _input(event: InputEvent) -> void:
+	# Debug: log all mouse button events
+	if event is InputEventMouseButton:
+		print("[MapView] Mouse event: button=%d, pressed=%s, position=%s" % [event.button_index, event.pressed, event.position])
+
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			var tile_pos = get_tile_at_screen_position(event.position)
+			print("[MapView] Click converted to tile pos: %s" % tile_pos)
 			if tile_pos.x >= 0:
 				print("[MapView] Tile clicked at: %s" % tile_pos)
 				tile_clicked.emit(tile_pos, MOUSE_BUTTON_LEFT)
 				# Highlight the clicked tile
 				highlight_tiles([tile_pos], Color(1, 1, 0, 0.3))  # Yellow highlight
+				get_viewport().set_input_as_handled()
 
 ## Initialize map view with complete map data
 func render_map(map_data_instance) -> void:
