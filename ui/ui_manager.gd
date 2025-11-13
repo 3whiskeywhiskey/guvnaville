@@ -31,6 +31,12 @@ func _ready() -> void:
 	game_screen_scene = load("res://ui/screens/game_screen.tscn")
 	settings_scene = load("res://ui/screens/settings.tscn")
 
+	print("[UIManager] Scenes loaded - MainMenu: %s, GameScreen: %s, Settings: %s" % [
+		main_menu_scene != null,
+		game_screen_scene != null,
+		settings_scene != null
+	])
+
 	# Connect to game events
 	EventBus.game_started.connect(_on_game_started)
 	EventBus.game_loaded.connect(_on_game_loaded)
@@ -190,17 +196,24 @@ func hide_tooltip() -> void:
 
 ## Internal: Transition to a new screen
 func _transition_to_screen(screen_name: String, scene: PackedScene) -> void:
+	print("[UIManager] Transitioning to screen: %s" % screen_name)
+
 	# Remove current screen
 	if current_screen:
+		print("[UIManager] Removing current screen: %s" % current_screen_name)
 		current_screen.queue_free()
 		current_screen = null
 
 	# Load new screen
 	if scene:
+		print("[UIManager] Instantiating scene for: %s" % screen_name)
 		current_screen = scene.instantiate()
 		add_child(current_screen)
 		current_screen_name = screen_name
 		screen_changed.emit(screen_name)
+		print("[UIManager] Screen transition complete: %s" % screen_name)
+	else:
+		push_error("[UIManager] Scene is null for screen: %s" % screen_name)
 
 # ============================================================================
 # SIGNAL HANDLERS (Connected to EventBus)
