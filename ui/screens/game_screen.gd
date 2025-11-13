@@ -39,11 +39,17 @@ func _on_end_turn_pressed() -> void:
 	_on_end_turn_requested()
 
 func _on_end_turn_requested() -> void:
-	# Emit signal to game systems via EventBus (if available)
-	# For now, just show a notification
-	var ui_manager = get_node("/root/UIManager") if has_node("/root/UIManager") else get_parent()
-	if ui_manager and ui_manager.has_method("show_notification"):
-		ui_manager.show_notification("Turn ended", "info")
+	# Process end of turn through TurnManager
+	if GameManager.is_game_active and not GameManager.is_paused:
+		print("[GameScreen] End turn requested")
+
+		# End turn through TurnManager
+		TurnManager.end_turn()
+
+		# Show notification
+		UIManager.show_notification("Turn ended", "info")
+	else:
+		print("[GameScreen] Cannot end turn - game not active or paused")
 
 func _on_action_requested(action_type: String, params: Dictionary) -> void:
 	# Handle various action requests

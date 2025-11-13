@@ -31,6 +31,17 @@ func _ready() -> void:
 	game_screen_scene = load("res://ui/screens/game_screen.tscn")
 	settings_scene = load("res://ui/screens/settings.tscn")
 
+	# Connect to game events
+	EventBus.game_started.connect(_on_game_started)
+	EventBus.game_loaded.connect(_on_game_loaded)
+	EventBus.turn_started.connect(_on_turn_started)
+	EventBus.resource_changed.connect(_on_resource_changed)
+
+	# Show main menu on startup
+	show_main_menu()
+
+	print("[UIManager] Initialized")
+
 ## Initialize UI system with game state reference
 func initialize(p_game_state: RefCounted) -> void:
 	if is_initialized:
@@ -82,22 +93,44 @@ func transition_to_screen(screen_name: String, transition_type: String = "fade")
 
 ## Initialize UI for new game session
 func start_new_game(settings: Dictionary) -> void:
-	if not settings.has("difficulty") or not settings.has("map_size") or \
-	   not settings.has("ai_opponents") or not settings.has("starting_faction"):
-		push_error("Invalid game settings: missing required keys")
-		return
+	print("[UIManager] Starting new game with settings: ", settings)
 
-	show_game_screen()
-	screen_changed.emit("game")
+	# Convert UI settings to GameManager settings
+	var game_settings = {
+		"num_factions": settings.get("ai_opponents", 3) + 1,  # +1 for player
+		"player_faction_id": 0,
+		"difficulty": settings.get("difficulty", "normal"),
+		"map_seed": randi()
+	}
+
+	# Start game through GameManager
+	var game_state = GameManager.start_new_game(game_settings)
+
+	if game_state:
+		# Game started successfully, UI will be updated via signals
+		print("[UIManager] Game started successfully")
+	else:
+		push_error("[UIManager] Failed to start game")
+		show_notification("Failed to start game", "error")
 
 ## Initialize UI for loaded game
 func load_game(save_name: String) -> bool:
+	print("[UIManager] Loading game: ", save_name)
+
 	if save_name.is_empty():
+		push_error("[UIManager] Empty save name")
 		return false
 
-	show_game_screen()
-	show_notification("Game loaded: " + save_name, "success")
-	return true
+	# Load game through GameManager
+	var game_state = GameManager.load_game(save_name)
+
+	if game_state:
+		# Game loaded successfully, UI will be updated via signals
+		show_notification("Game loaded: " + save_name, "success")
+		return true
+	else:
+		show_notification("Failed to load game: " + save_name, "error")
+		return false
 
 ## Update all HUD elements with current game state
 func update_hud(p_game_state: RefCounted) -> void:
@@ -168,3 +201,47 @@ func _transition_to_screen(screen_name: String, scene: PackedScene) -> void:
 		add_child(current_screen)
 		current_screen_name = screen_name
 		screen_changed.emit(screen_name)
+
+# ============================================================================
+# SIGNAL HANDLERS (Connected to EventBus)
+# ============================================================================
+
+func _on_game_started(p_game_state) -> void:
+	print("[UIManager] Game started signal received")
+	game_state = p_game_state
+	is_initialized = true
+
+	# Transition to game screen
+	show_game_screen()
+
+	# Update HUD
+	if p_game_state:
+		var player_faction = p_game_state.get_faction(0)
+		if player_faction:
+			update_resources(0, player_faction.resources.to_dict())
+		update_turn_indicator(p_game_state.turn_number, "Start", 0)
+
+func _on_game_loaded(p_game_state) -> void:
+	print("[UIManager] Game loaded signal received")
+	game_state = p_game_state
+	is_initialized = true
+
+	# Transition to game screen
+	show_game_screen()
+
+	# Update HUD
+	if p_game_state:
+		var player_faction = p_game_state.get_faction(0)
+		if player_faction:
+			update_resources(0, player_faction.resources.to_dict())
+		update_turn_indicator(p_game_state.turn_number, "Loaded", 0)
+
+func _on_turn_started(turn_number: int, faction_id: int) -> void:
+	print("[UIManager] Turn started: %d, Faction: %d" % [turn_number, faction_id])
+	update_turn_indicator(turn_number, "Active", faction_id)
+
+func _on_resource_changed(faction_id: int, resource_type: String, amount: int) -> void:
+	if faction_id == 0 and game_state:  # Player faction only
+		var player_faction = game_state.get_faction(0)
+		if player_faction:
+			update_resources(0, player_faction.resources.to_dict())

@@ -13,7 +13,7 @@ config_version=5
 config/name="Ashes to Empire"
 config/description="A grand strategy game set in a post-apocalyptic world where players rebuild civilization from the ruins."
 config/version="0.1.0"
-run/main_scene=""
+run/main_scene="res://ui/screens/main_menu.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -24,6 +24,8 @@ DataLoader="*res://core/autoload/data_loader.gd"
 SaveManager="*res://core/autoload/save_manager.gd"
 TurnManager="*res://core/autoload/turn_manager.gd"
 GameManager="*res://core/autoload/game_manager.gd"
+UIManager="*res://ui/ui_manager.gd"
+IntegrationCoordinator="*res://core/integration_coordinator.gd"
 
 [debug]
 
