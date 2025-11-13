@@ -221,11 +221,16 @@ func _initialize_world(game_state) -> void:
 
 	var world = game_state.world_state
 
-	# Create a small test map
+	# Create a small test map (10x10 at ground level z=0) with varied tile types
+	var tile_types = ["residential", "commercial", "industrial", "ruins", "rubble", "street", "park"]
+
 	for x in range(10):
 		for y in range(10):
-			var pos = Vector3i(x, y, 1)
-			var tile = _Tile.new(pos).setup("residential", "rubble")
+			var pos = Vector3i(x, y, 0)  # Ground level = 0
+
+			# Vary tile types for visual interest (creates a pattern)
+			var tile_type = tile_types[(x + y) % tile_types.size()]
+			var tile = _Tile.new(pos).setup(tile_type, "rubble")
 			tile.scavenge_value = randi() % 100
 			world.set_tile(pos, tile)
 
@@ -235,8 +240,8 @@ func _initialize_world(game_state) -> void:
 	for faction in game_state.factions:
 		world.fog_of_war[faction.faction_id] = []
 
-		# Give each faction visibility around their starting position
-		var start_pos = Vector3i(faction.faction_id * 2, faction.faction_id * 2, 1)
+		# Give each faction visibility around their starting position (z=0 now)
+		var start_pos = Vector3i(faction.faction_id * 2, faction.faction_id * 2, 0)
 		for dx in range(-2, 3):
 			for dy in range(-2, 3):
 				var visible_pos = start_pos + Vector3i(dx, dy, 0)
