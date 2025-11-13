@@ -7,6 +7,12 @@ class_name WorldState
 ## and fog of war information.
 
 # ============================================================================
+# PRELOADED CLASSES (for Godot 4.5.1 compatibility)
+# ============================================================================
+
+const _Tile = preload("res://core/types/tile.gd")
+
+# ============================================================================
 # PROPERTIES
 # ============================================================================
 
@@ -79,7 +85,7 @@ func from_dict(data: Dictionary) -> void:
 	tiles.clear()
 	var tiles_data = data.get("tiles", [])
 	for tile_data in tiles_data:
-		var tile = Tile.new()
+		var tile = _Tile.new()
 		tile.from_dict(tile_data)
 		tiles[tile.position] = tile
 
@@ -102,11 +108,11 @@ func from_dict(data: Dictionary) -> void:
 # ============================================================================
 
 ## Get a tile at the specified position
-func get_tile(position: Vector3i) -> Tile:
+func get_tile(position: Vector3i):
 	return tiles.get(position, null)
 
 ## Set a tile at the specified position
-func set_tile(position: Vector3i, tile: Tile) -> void:
+func set_tile(position: Vector3i, tile) -> void:
 	tiles[position] = tile
 
 ## Check if a position is valid (within map bounds)
