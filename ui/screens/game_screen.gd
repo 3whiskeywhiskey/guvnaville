@@ -22,6 +22,9 @@ var viewport_container: SubViewportContainer = null  # Container for SubViewport
 var game_camera: Camera2D = null  # Camera at root level to control viewport
 
 func _ready() -> void:
+	# Set GameScreen to process input first (lower priority = earlier)
+	process_priority = 0
+
 	# Register HUD components with UIManager
 	var ui_manager = get_node("/root/UIManager") if has_node("/root/UIManager") else get_parent()
 	if ui_manager:
@@ -35,6 +38,8 @@ func _ready() -> void:
 	input_handler = InputHandler.new()
 	add_child(input_handler)
 	input_handler.set_input_mode(InputHandler.InputMode.GAME)
+	# Set InputHandler to process input after GameScreen
+	input_handler.process_priority = 1
 
 	# Connect end turn button
 	if end_turn_button:
@@ -65,6 +70,10 @@ func _input(event: InputEvent) -> void:
 	if not sub_viewport or not viewport_container:
 		return
 
+	# Debug all mouse button events
+	if event is InputEventMouseButton:
+		print("[GameScreen] Received mouse button event: button=%d, pressed=%s" % [event.button_index, event.pressed])
+
 	# Only forward mouse events that are over the viewport container
 	if event is InputEventMouse:
 		var local_pos = viewport_container.get_local_mouse_position()
@@ -82,8 +91,8 @@ func _input(event: InputEvent) -> void:
 			sub_viewport.push_input(viewport_event, true)
 
 			# Log click forwarding
-			if event is InputEventMouseButton and event.pressed:
-				print("[GameScreen] Forwarded CLICK to SubViewport: button=%d at %s" % [event.button_index, local_pos])
+			if event is InputEventMouseButton:
+				print("[GameScreen] Forwarded button=%d pressed=%s to SubViewport at %s" % [event.button_index, event.pressed, local_pos])
 
 func _setup_tooltips() -> void:
 	"""Add tooltips to HUD elements"""
