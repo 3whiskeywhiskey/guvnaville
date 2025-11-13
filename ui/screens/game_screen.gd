@@ -108,37 +108,33 @@ func _initialize_map_view() -> void:
 	"""Create and initialize the MapView"""
 	print("[GameScreen] Initializing MapView...")
 
-	# Create a CanvasLayer for the map to keep it below UI
-	map_canvas_layer = CanvasLayer.new()
-	map_canvas_layer.layer = -1  # Below default layer (UI is on layer 0)
-	add_child(map_canvas_layer)
-
-	# Create MapView instance WITHOUT camera (camera will be at root level)
+	# Create MapView (Node2D with Camera2D)
 	map_view = MapView.new()
 
-	# Add to canvas layer instead of container
-	if map_view_container:
-		# Clear placeholder content
-		for child in map_view_container.get_children():
-			child.queue_free()
+	# Set z-index to render behind UI, and use absolute positioning
+	map_view.z_index = -1000
+	map_view.z_as_relative = false  # Use absolute z-index, not relative to parent
 
-		# Add MapView to the canvas layer
-		map_canvas_layer.add_child(map_view)
+	# Add MapView as direct child of GameScreen
+	# Node2D can be child of Control, it will render in world space
+	add_child(map_view)
 
-		# Extract camera from MapView and add it to root level for proper viewport control
-		if map_view.camera_controller:
-			game_camera = map_view.camera_controller
-			# Remove from MapView
-			map_view.remove_child(game_camera)
-			# Add to GameScreen root for proper viewport control
-			add_child(game_camera)
-			game_camera.enabled = true
-			game_camera.make_current()
-			print("[GameScreen] Camera extracted to root level - enabled: %s, current: %s" % [game_camera.enabled, game_camera.is_current()])
+	# Move MapView to be first child (rendered first, behind everything)
+	move_child(map_view, 0)
 
-		print("[GameScreen] MapView created and added to canvas layer")
-	else:
-		push_error("[GameScreen] MapView container not found!")
+	# Get camera reference and ensure it's active
+	if map_view.camera_controller:
+		game_camera = map_view.camera_controller
+		game_camera.enabled = true
+		game_camera.make_current()
+
+		print("[GameScreen] MapView initialized - camera enabled: %s, current: %s, z_index: %s" % [
+			game_camera.enabled,
+			game_camera.is_current(),
+			map_view.z_index
+		])
+
+	print("[GameScreen] MapView created as direct child")
 
 func _on_game_started(game_state) -> void:
 	"""Called when a new game starts - render the map"""
