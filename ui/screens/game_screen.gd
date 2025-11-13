@@ -17,7 +17,7 @@ const MapView = preload("res://ui/map/map_view.gd")
 
 var input_handler = null  # InputHandler type removed for 4.5.1 compatibility
 var map_view = null  # MapView instance (Node2D)
-var map_canvas_layer: CanvasLayer = null  # Separate layer for map to keep below UI
+var sub_viewport: SubViewport = null  # Viewport to host Node2D content
 var game_camera: Camera2D = null  # Camera at root level to control viewport
 
 func _ready() -> void:
@@ -108,37 +108,58 @@ func _initialize_map_view() -> void:
 	"""Create and initialize the MapView"""
 	print("[GameScreen] Initializing MapView...")
 
-	# Hide/clear the placeholder container since we're adding MapView as direct child
-	if map_view_container:
-		map_view_container.visible = false
+	if not map_view_container:
+		push_error("[GameScreen] MapView container not found!")
+		return
+
+	# Clear placeholder
+	for child in map_view_container.get_children():
+		child.queue_free()
+
+	# Create SubViewportContainer to host Node2D content properly
+	var viewport_container = SubViewportContainer.new()
+	viewport_container.stretch = true
+	viewport_container.stretch_shrink = 1
+	viewport_container.set_anchors_preset(Control.PRESET_FULL_RECT)
+	viewport_container.mouse_filter = Control.MOUSE_FILTER_PASS  # Allow input through
+
+	# Create SubViewport
+	sub_viewport = SubViewport.new()
+	sub_viewport.size = get_viewport().size
+	sub_viewport.transparent_bg = true
+	sub_viewport.handle_input_locally = false  # Let parent handle input
+	sub_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 
 	# Create MapView (Node2D with Camera2D)
 	map_view = MapView.new()
 
-	# Set z-index to render behind UI, and use absolute positioning
-	map_view.z_index = -1000
-	map_view.z_as_relative = false  # Use absolute z-index, not relative to parent
+	# Build hierarchy: Container -> SubViewport -> MapView
+	sub_viewport.add_child(map_view)
+	viewport_container.add_child(sub_viewport)
+	map_view_container.add_child(viewport_container)
 
-	# Add MapView as direct child of GameScreen
-	# Node2D can be child of Control, it will render in world space
-	add_child(map_view)
-
-	# Move MapView to be first child (rendered first, behind everything)
-	move_child(map_view, 0)
-
-	# Get camera reference and ensure it's active
+	# Get camera reference
 	if map_view.camera_controller:
 		game_camera = map_view.camera_controller
 		game_camera.enabled = true
 		game_camera.make_current()
 
-		print("[GameScreen] MapView initialized - camera enabled: %s, current: %s, z_index: %s" % [
+		print("[GameScreen] MapView in SubViewport - camera enabled: %s, current: %s, viewport size: %s" % [
 			game_camera.enabled,
 			game_camera.is_current(),
-			map_view.z_index
+			sub_viewport.size
 		])
 
-	print("[GameScreen] MapView created as direct child")
+	# Connect viewport size changes
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
+
+	print("[GameScreen] MapView created in SubViewport")
+
+func _on_viewport_size_changed() -> void:
+	"""Update SubViewport size when main viewport changes"""
+	if sub_viewport:
+		sub_viewport.size = get_viewport().size
+		print("[GameScreen] SubViewport resized to: %s" % sub_viewport.size)
 
 func _on_game_started(game_state) -> void:
 	"""Called when a new game starts - render the map"""
