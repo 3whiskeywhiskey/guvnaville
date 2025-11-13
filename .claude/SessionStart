@@ -1,0 +1,74 @@
+#!/bin/bash
+# SessionStart hook for Guvnaville - Ashes to Empire
+# Installs Godot 4.5.1 and sets up testing environment
+
+set -e
+
+echo "🎮 Setting up Guvnaville development environment..."
+
+# Check if Godot is already installed
+if command -v godot &> /dev/null; then
+    GODOT_VERSION=$(godot --version 2>&1 | head -1 || echo "unknown")
+    echo "✅ Godot already installed: $GODOT_VERSION"
+else
+    echo "📦 Installing Godot 4.5.1..."
+
+    # Download Godot 4.5.1 headless (for CI/testing)
+    GODOT_VERSION="4.5.1"
+    GODOT_DIR="/tmp/godot"
+
+    mkdir -p "$GODOT_DIR"
+    cd "$GODOT_DIR"
+
+    # Download Godot 4.5.1 headless Linux binary
+    echo "⬇️  Downloading Godot ${GODOT_VERSION} headless..."
+    wget -q https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip -O godot.zip
+
+    echo "📂 Extracting..."
+    unzip -o -q godot.zip
+
+    # Make it executable and create symlink
+    chmod +x Godot_v${GODOT_VERSION}-stable_linux.x86_64
+
+    # Create local bin directory and symlink (no sudo needed)
+    echo "🔗 Creating symlink..."
+    mkdir -p "$HOME/.local/bin"
+    ln -sf "$GODOT_DIR/Godot_v${GODOT_VERSION}-stable_linux.x86_64" "$HOME/.local/bin/godot"
+
+    # Add to PATH if not already there
+    if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+        export PATH="$HOME/.local/bin:$PATH"
+        echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> "$HOME/.bashrc"
+    fi
+
+    echo "✅ Godot ${GODOT_VERSION} installed successfully!"
+    "$HOME/.local/bin/godot" --version
+fi
+
+# Install Python dependencies for validation scripts
+echo "🐍 Checking Python dependencies..."
+python3 -m pip install --quiet --upgrade pip 2>/dev/null || true
+
+# Set up test results directory
+echo "📁 Setting up test directories..."
+mkdir -p test_results
+mkdir -p build
+
+# Make test script executable (if it exists)
+if [ -f run_tests.sh ]; then
+    chmod +x run_tests.sh
+fi
+
+echo ""
+echo "✅ Environment setup complete!"
+echo ""
+echo "🎮 Guvnaville (Ashes to Empire) - Development Environment Ready"
+echo "   Version: 0.1.0"
+echo "   Engine: Godot $(godot --version 2>&1 | head -1)"
+echo ""
+echo "📋 Available commands:"
+echo "   ./run_tests.sh              - Run all tests"
+echo "   godot --headless --quit     - Validate project loads"
+echo "   godot --editor .            - Open in Godot editor (if GUI available)"
+echo ""
+echo "🚀 Ready to validate MVP!"
