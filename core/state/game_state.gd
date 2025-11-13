@@ -114,7 +114,7 @@ func from_dict(data: Dictionary) -> void:
 
 ## Deep clone the game state for simulation
 func clone():
-	var new_state = GameState.new()
+	var new_state = get_script().new()
 	new_state.from_dict(to_dict())
 	return new_state
 

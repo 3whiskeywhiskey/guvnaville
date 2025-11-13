@@ -5,7 +5,7 @@ class_name MapData
 ##
 ## Manages the entire game map including:
 ## - 200x200x3 grid storage with O(1) access
-## - Tile ownership tracking
+## - MapTile ownership tracking
 ## - Map loading from JSON
 ## - Spatial query operations
 ## - Event emission for map changes
@@ -27,7 +27,7 @@ const TOTAL_TILES: int = MAP_WIDTH * MAP_HEIGHT * MAP_DEPTH  # 120,000 tiles
 # ============================================================================
 
 ## Flat 1D array storing all tiles (optimized for O(1) access)
-var _tiles: Array[Tile] = []
+var _tiles: Array[MapMapTile] = []
 
 ## Cache for tiles by type (invalidated on tile type changes)
 var _tile_type_cache: Dictionary = {}
@@ -58,7 +58,7 @@ func _initialize_grid() -> void:
 		for y in range(MAP_HEIGHT):
 			for x in range(MAP_WIDTH):
 				var pos = Vector3i(x, y, z)
-				var tile = Tile.new(pos)
+				var tile = MapTile.new(pos)
 				var index = _pos_to_index(pos)
 				_tiles[index] = tile
 
@@ -120,7 +120,7 @@ func is_position_valid(position: Vector3i) -> bool:
 # TILE ACCESS
 # ============================================================================
 
-func get_tile(position: Vector3i) -> Tile:
+func get_tile(position: Vector3i) -> MapTile:
 	"""
 	Returns the tile at the specified position.
 
@@ -130,7 +130,7 @@ func get_tile(position: Vector3i) -> Tile:
 		position: Grid coordinates (x: 0-199, y: 0-199, z: 0-2)
 
 	Returns:
-		Tile object at position, or null if out of bounds
+		MapTile object at position, or null if out of bounds
 	"""
 	if not is_position_valid(position):
 		push_warning("MapData: Invalid position %s" % position)
@@ -152,7 +152,7 @@ func get_map_size() -> Vector3i:
 # SPATIAL QUERIES
 # ============================================================================
 
-func get_tiles_in_radius(center: Vector3i, radius: int, same_level_only: bool = true) -> Array[Tile]:
+func get_tiles_in_radius(center: Vector3i, radius: int, same_level_only: bool = true) -> Array[MapTile]:
 	"""
 	Returns all tiles within a given radius (Manhattan distance).
 
@@ -170,7 +170,7 @@ func get_tiles_in_radius(center: Vector3i, radius: int, same_level_only: bool = 
 		push_warning("MapData: Invalid center position %s" % center)
 		return []
 
-	var result: Array[Tile] = []
+	var result: Array[MapTile] = []
 
 	# Calculate bounding box
 	var min_x = max(0, center.x - radius)
@@ -198,7 +198,7 @@ func get_tiles_in_radius(center: Vector3i, radius: int, same_level_only: bool = 
 
 	return result
 
-func get_tiles_in_rect(rect: Rect2i, level: int) -> Array[Tile]:
+func get_tiles_in_rect(rect: Rect2i, level: int) -> Array[MapTile]:
 	"""
 	Returns all tiles within a rectangular area at a specific Z level.
 
@@ -215,7 +215,7 @@ func get_tiles_in_rect(rect: Rect2i, level: int) -> Array[Tile]:
 		push_warning("MapData: Invalid level %d" % level)
 		return []
 
-	var result: Array[Tile] = []
+	var result: Array[MapTile] = []
 
 	# Calculate clamped bounds
 	var min_x = clamp(rect.position.x, 0, MAP_WIDTH - 1)
@@ -232,7 +232,7 @@ func get_tiles_in_rect(rect: Rect2i, level: int) -> Array[Tile]:
 
 	return result
 
-func get_neighbors(position: Vector3i, include_diagonal: bool = false) -> Array[Tile]:
+func get_neighbors(position: Vector3i, include_diagonal: bool = false) -> Array[MapTile]:
 	"""
 	Returns adjacent tiles (4-way or 8-way connectivity).
 
@@ -248,7 +248,7 @@ func get_neighbors(position: Vector3i, include_diagonal: bool = false) -> Array[
 	if not is_position_valid(position):
 		return []
 
-	var result: Array[Tile] = []
+	var result: Array[MapTile] = []
 
 	# Cardinal directions (4-way)
 	var directions = [
@@ -388,7 +388,7 @@ func load_map(map_file_path: String) -> bool:
 	# Load tiles from data
 	if data.has("tiles") and data["tiles"] is Array:
 		for tile_data in data["tiles"]:
-			var tile = Tile.from_dict(tile_data)
+			var tile = MapTile.from_dict(tile_data)
 			if tile and is_position_valid(tile.position):
 				var index = _pos_to_index(tile.position)
 				_tiles[index] = tile
@@ -475,7 +475,7 @@ func _rebuild_owner_cache() -> void:
 	_owner_cache_dirty = false
 
 ## OPTIMIZATION: Incrementally update owner cache without full rebuild
-func _update_owner_cache_incremental(tile: Tile, old_owner: int, new_owner: int) -> void:
+func _update_owner_cache_incremental(tile: MapTile, old_owner: int, new_owner: int) -> void:
 	"""
 	Updates owner cache incrementally for a single tile change.
 
@@ -544,7 +544,7 @@ func get_statistics() -> Dictionary:
 
 	for tile in _tiles:
 		# Count by type
-		var type_name = Tile.TileType.keys()[tile.tile_type]
+		var type_name = MapTile.MapTileType.keys()[tile.tile_type]
 		if not stats["tiles_by_type"].has(type_name):
 			stats["tiles_by_type"][type_name] = 0
 		stats["tiles_by_type"][type_name] += 1

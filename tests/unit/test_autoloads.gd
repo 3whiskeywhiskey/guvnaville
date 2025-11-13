@@ -103,7 +103,7 @@ func test_save_game_state_preservation():
 	game_state.add_faction(faction)
 
 	# Add a tile to world
-	var tile = Tile.new(Vector3i(5, 5, 1), "residential", "rubble")
+	var tile = Tile.new(Vector3i(5, 5, 1)).setup("residential", "rubble")
 	tile.owner = 0
 	tile.scavenge_value = 75
 	game_state.world_state.set_tile(tile.position, tile)

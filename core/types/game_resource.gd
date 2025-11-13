@@ -1,7 +1,7 @@
 extends RefCounted
-class_name Resource
+class_name GameResource
 
-## Resource - Data class for resource definitions
+## GameResource - Data class for resource definitions
 ##
 ## Represents a type of resource in the game (not an instance).
 ## Used to define resource properties like scrap, components, ammo, etc.

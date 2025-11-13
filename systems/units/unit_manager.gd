@@ -2,19 +2,19 @@ class_name UnitManager
 extends Node
 
 ## Unit Manager - Manages unit lifecycle and registry
-## Part of Workstream 2.3: Unit System
+## Part of Workstream 2.3: GameUnit System
 
-# Unit registry (id -> Unit)
+# Unit registry (id -> GameUnit)
 var _units: Dictionary = {}
 
-# Spatial index (position -> Array[Unit])
+# Spatial index (position -> Array[GameUnit])
 var _spatial_index: Dictionary = {}
 
-# Faction index (faction_id -> Array[Unit])
+# Faction index (faction_id -> Array[GameUnit])
 var _faction_index: Dictionary = {}
 
 # Reference to UnitFactory
-var _factory: UnitFactory = null
+var _factory: GameUnitFactory = null
 
 # Mock EventBus for testing (will be replaced with real EventBus)
 var _event_bus = null
@@ -27,7 +27,7 @@ func _ready():
 		add_child(_factory)
 
 ## Set factory (for dependency injection in tests)
-func set_factory(factory: UnitFactory) -> void:
+func set_factory(factory: GameUnitFactory) -> void:
 	_factory = factory
 
 ## Set event bus (for dependency injection)
@@ -40,7 +40,7 @@ func create_unit(
 	faction_id: int,
 	position: Vector3i,
 	customization: Dictionary = {}
-) -> Unit:
+) -> GameUnit:
 	# Validate inputs
 	if not _factory or not _factory.has_unit_type(unit_type):
 		push_warning("UnitManager: Unknown unit type '%s'" % unit_type)
@@ -75,7 +75,7 @@ func create_unit(
 ## Destroy a unit
 func destroy_unit(unit_id: int, cause: String = "") -> void:
 	if not _units.has(unit_id):
-		push_warning("UnitManager: Unit %d not found for destruction" % unit_id)
+		push_warning("UnitManager: GameUnit %d not found for destruction" % unit_id)
 		return
 
 	var unit = _units[unit_id]
@@ -90,18 +90,18 @@ func destroy_unit(unit_id: int, cause: String = "") -> void:
 	_emit_event("unit_destroyed", [unit_id])
 
 ## Get unit by ID
-func get_unit(unit_id: int) -> Unit:
+func get_unit(unit_id: int) -> GameUnit:
 	return _units.get(unit_id, null)
 
 ## Get all units at a position
-func get_units_at_position(position: Vector3i) -> Array[Unit]:
+func get_units_at_position(position: Vector3i) -> Array[GameUnit]:
 	var pos_key = _position_to_key(position)
 	if _spatial_index.has(pos_key):
 		return _spatial_index[pos_key].duplicate()
 	return []
 
 ## Get all units belonging to a faction
-func get_units_by_faction(faction_id: int) -> Array[Unit]:
+func get_units_by_faction(faction_id: int) -> Array[GameUnit]:
 	if _faction_index.has(faction_id):
 		return _faction_index[faction_id].duplicate()
 	return []
@@ -111,8 +111,8 @@ func get_units_in_radius(
 	center: Vector3i,
 	radius: int,
 	faction_id: int = -1
-) -> Array[Unit]:
-	var result: Array[Unit] = []
+) -> Array[GameUnit]:
+	var result: Array[GameUnit] = []
 
 	for unit in _units.values():
 		var distance = _calculate_distance(center, unit.position)
@@ -123,8 +123,8 @@ func get_units_in_radius(
 	return result
 
 ## Get all active units
-func get_all_units() -> Array[Unit]:
-	var result: Array[Unit] = []
+func get_all_units() -> Array[GameUnit]:
+	var result: Array[GameUnit] = []
 	result.assign(_units.values())
 	return result
 
@@ -135,7 +135,7 @@ func unit_exists(unit_id: int) -> bool:
 ## Apply damage to a unit
 func damage_unit(unit_id: int, damage: int, source: String = "") -> void:
 	if not _units.has(unit_id):
-		push_warning("UnitManager: Unit %d not found for damage" % unit_id)
+		push_warning("UnitManager: GameUnit %d not found for damage" % unit_id)
 		return
 
 	var unit = _units[unit_id]
@@ -150,7 +150,7 @@ func damage_unit(unit_id: int, damage: int, source: String = "") -> void:
 ## Heal a unit
 func heal_unit(unit_id: int, amount: int, source: String = "") -> void:
 	if not _units.has(unit_id):
-		push_warning("UnitManager: Unit %d not found for healing" % unit_id)
+		push_warning("UnitManager: GameUnit %d not found for healing" % unit_id)
 		return
 
 	var unit = _units[unit_id]
@@ -161,7 +161,7 @@ func heal_unit(unit_id: int, amount: int, source: String = "") -> void:
 ## Modify unit morale
 func modify_morale(unit_id: int, delta: int, reason: String = "") -> void:
 	if not _units.has(unit_id):
-		push_warning("UnitManager: Unit %d not found for morale modification" % unit_id)
+		push_warning("UnitManager: GameUnit %d not found for morale modification" % unit_id)
 		return
 
 	var unit = _units[unit_id]
@@ -177,7 +177,7 @@ func modify_morale(unit_id: int, delta: int, reason: String = "") -> void:
 ## Add experience to unit
 func add_experience(unit_id: int, xp: int, source: String = "") -> void:
 	if not _units.has(unit_id):
-		push_warning("UnitManager: Unit %d not found for XP" % unit_id)
+		push_warning("UnitManager: GameUnit %d not found for XP" % unit_id)
 		return
 
 	var unit = _units[unit_id]
@@ -209,7 +209,7 @@ func set_position(unit_id: int, new_position: Vector3i) -> bool:
 ## Add status effect to unit
 func add_status_effect(unit_id: int, effect: Dictionary) -> void:
 	if not _units.has(unit_id):
-		push_warning("UnitManager: Unit %d not found for status effect" % unit_id)
+		push_warning("UnitManager: GameUnit %d not found for status effect" % unit_id)
 		return
 
 	var unit = _units[unit_id]
@@ -272,7 +272,7 @@ func get_faction_unit_count(faction_id: int) -> int:
 
 ## Private helper methods
 
-func _register_unit(unit: Unit) -> void:
+func _register_unit(unit: GameUnit) -> void:
 	# Add to main registry
 	_units[unit.id] = unit
 
@@ -282,7 +282,7 @@ func _register_unit(unit: Unit) -> void:
 	# Add to faction index
 	_add_to_faction_index(unit)
 
-func _unregister_unit(unit: Unit) -> void:
+func _unregister_unit(unit: GameUnit) -> void:
 	# Remove from main registry
 	_units.erase(unit.id)
 
@@ -292,13 +292,13 @@ func _unregister_unit(unit: Unit) -> void:
 	# Remove from faction index
 	_remove_from_faction_index(unit)
 
-func _add_to_spatial_index(unit: Unit) -> void:
+func _add_to_spatial_index(unit: GameUnit) -> void:
 	var pos_key = _position_to_key(unit.position)
 	if not _spatial_index.has(pos_key):
 		_spatial_index[pos_key] = []
 	_spatial_index[pos_key].append(unit)
 
-func _remove_from_spatial_index(unit: Unit) -> void:
+func _remove_from_spatial_index(unit: GameUnit) -> void:
 	var pos_key = _position_to_key(unit.position)
 	if _spatial_index.has(pos_key):
 		var units_at_pos = _spatial_index[pos_key]
@@ -308,12 +308,12 @@ func _remove_from_spatial_index(unit: Unit) -> void:
 		if units_at_pos.is_empty():
 			_spatial_index.erase(pos_key)
 
-func _add_to_faction_index(unit: Unit) -> void:
+func _add_to_faction_index(unit: GameUnit) -> void:
 	if not _faction_index.has(unit.faction_id):
 		_faction_index[unit.faction_id] = []
 	_faction_index[unit.faction_id].append(unit)
 
-func _remove_from_faction_index(unit: Unit) -> void:
+func _remove_from_faction_index(unit: GameUnit) -> void:
 	if _faction_index.has(unit.faction_id):
 		var faction_units = _faction_index[unit.faction_id]
 		var idx = faction_units.find(unit)

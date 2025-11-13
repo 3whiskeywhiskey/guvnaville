@@ -1,7 +1,7 @@
-class_name Unit
+class_name GameUnit
 extends Resource
 
-## Unit System - Core Unit Class
+## Unit System - Core GameUnit Class
 ## Represents a single military or civilian unit in the game
 ## Part of Workstream 2.3: Unit System
 

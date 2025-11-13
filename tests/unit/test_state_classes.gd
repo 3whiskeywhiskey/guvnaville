@@ -196,8 +196,8 @@ func test_world_state_creation():
 func test_world_state_serialization():
 	var world = WorldState.new()
 
-	var tile1 = Tile.new(Vector3i(5, 5, 1), "residential", "rubble")
-	var tile2 = Tile.new(Vector3i(6, 5, 1), "commercial", "building")
+	var tile1 = Tile.new(Vector3i(5, 5, 1)).setup("residential", "rubble")
+	var tile2 = Tile.new(Vector3i(6, 5, 1)).setup("commercial", "building")
 
 	world.set_tile(tile1.position, tile1)
 	world.set_tile(tile2.position, tile2)
@@ -242,7 +242,7 @@ func test_world_state_deserialization():
 func test_world_state_tile_management():
 	var world = WorldState.new()
 	var pos = Vector3i(10, 10, 1)
-	var tile = Tile.new(pos, "residential", "rubble")
+	var tile = Tile.new(pos).setup("residential", "rubble")
 
 	world.set_tile(pos, tile)
 	assert_true(world.has_tile(pos), "World should have tile")

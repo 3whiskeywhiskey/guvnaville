@@ -1,7 +1,7 @@
 extends RefCounted
-class_name Tile
+class_name MapTile
 
-## Tile data class representing a single tile in the 200x200x3 grid
+## MapTile data class representing a single tile in the 200x200x3 grid
 ##
 ## The Tile class stores all properties of a map tile including:
 ## - Position and type

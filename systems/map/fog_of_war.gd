@@ -43,7 +43,7 @@ var _fog_data: Dictionary = {}
 # INITIALIZATION
 # ============================================================================
 
-func _init(map_size: Vector3i, num_factions: int) -> void:
+func _init(map_size: Vector3i = Vector3i.ZERO, num_factions: int = 0) -> void:
 	"""
 	Initializes fog of war for all factions.
 
@@ -51,6 +51,11 @@ func _init(map_size: Vector3i, num_factions: int) -> void:
 		map_size: Size of the map grid (200, 200, 3)
 		num_factions: Number of factions (typically 9: player + 8 AI)
 	"""
+	if map_size != Vector3i.ZERO and num_factions > 0:
+		_initialize(map_size, num_factions)
+
+func _initialize(map_size: Vector3i, num_factions: int) -> void:
+	"""Internal initialization logic."""
 	_map_size = map_size
 	_num_factions = num_factions
 	_total_tiles = map_size.x * map_size.y * map_size.z
@@ -64,6 +69,11 @@ func _init(map_size: Vector3i, num_factions: int) -> void:
 		fog_array.resize(bytes_needed)
 		fog_array.fill(0)  # All tiles start unexplored and invisible
 		_fog_data[faction_id] = fog_array
+
+func initialize(map_data, num_factions: int) -> void:
+	"""Public initialization method that accepts map_data object."""
+	var map_size = Vector3i(map_data.width, map_data.height, map_data.depth)
+	_initialize(map_size, num_factions)
 
 # ============================================================================
 # POSITION CONVERSION

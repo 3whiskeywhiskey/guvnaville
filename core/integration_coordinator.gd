@@ -9,6 +9,23 @@ extends Node
 ## - AI System
 ## - UI/Rendering Systems
 
+# Preload all system classes to ensure class_name registration
+const _MapData = preload("res://systems/map/map_data.gd")
+const _UnitManager = preload("res://systems/units/unit_manager.gd")
+const _CombatResolver = preload("res://systems/combat/combat_resolver.gd")
+const _ResourceManager = preload("res://systems/economy/resource_manager.gd")
+const _ProductionSystem = preload("res://systems/economy/production_system.gd")
+const _TradeSystem = preload("res://systems/economy/trade_system.gd")
+const _ScavengingSystem = preload("res://systems/economy/scavenging_system.gd")
+const _PopulationSystem = preload("res://systems/economy/population_system.gd")
+const _CultureTree = preload("res://systems/culture/culture_tree.gd")
+const _CultureEffects = preload("res://systems/culture/culture_effects.gd")
+const _EventManager = preload("res://systems/events/event_manager.gd")
+const _FogOfWar = preload("res://systems/map/fog_of_war.gd")
+const _MovementSystem = preload("res://systems/map/movement_system.gd")
+const _FactionAI = preload("res://systems/ai/faction_ai.gd")
+const _AIAction = preload("res://systems/ai/ai_action.gd")
+
 # ============================================================================
 # SYSTEM REFERENCES
 # ============================================================================

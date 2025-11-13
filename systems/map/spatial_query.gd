@@ -24,13 +24,13 @@ class_name SpatialQuery
 ## Reference to the MapData instance
 var _map_data: MapData = null
 
-## Cache for tiles by type (Dictionary: TileType -> Array[Tile])
+## Cache for tiles by type (Dictionary: MapTileType -> Array[MapTile])
 var _tile_type_cache: Dictionary = {}
 
-## Cache for tiles by owner (Dictionary: owner_id -> Array[Tile])
+## Cache for tiles by owner (Dictionary: owner_id -> Array[MapTile])
 var _owner_cache: Dictionary = {}
 
-## Cache for border tiles (Dictionary: owner_id -> Array[Tile])
+## Cache for border tiles (Dictionary: owner_id -> Array[MapTile])
 var _border_cache: Dictionary = {}
 
 ## Whether caches are dirty and need rebuilding
@@ -83,7 +83,7 @@ func find_path(start: Vector3i, goal: Vector3i, movement_type: int = 0) -> Array
 # TILE TYPE QUERIES
 # ============================================================================
 
-func get_tiles_by_type(tile_type: int, level: int = -1) -> Array[Tile]:
+func get_tiles_by_type(tile_type: int, level: int = -1) -> Array[MapTile]:
 	"""
 	Returns all tiles of a specific type, optionally filtered by level.
 
@@ -92,7 +92,7 @@ func get_tiles_by_type(tile_type: int, level: int = -1) -> Array[Tile]:
 	Performance: O(n) where n = total tiles on first call, O(1) with cache
 
 	Args:
-		tile_type: Tile type enum value (see Tile.TileType)
+		tile_type: MapTile type enum value (see MapTile.MapTileType)
 		level: Z level filter (-1 = all levels, 0-2 = specific level)
 
 	Returns:
@@ -108,7 +108,7 @@ func get_tiles_by_type(tile_type: int, level: int = -1) -> Array[Tile]:
 
 	# Get tiles from cache
 	var cache_key = tile_type
-	var tiles: Array[Tile] = []
+	var tiles: Array[MapTile] = []
 
 	if _tile_type_cache.has(cache_key):
 		tiles = _tile_type_cache[cache_key].duplicate()
@@ -143,7 +143,7 @@ func _rebuild_type_cache() -> void:
 # OWNERSHIP QUERIES
 # ============================================================================
 
-func get_tiles_by_owner(owner_id: int, level: int = -1) -> Array[Tile]:
+func get_tiles_by_owner(owner_id: int, level: int = -1) -> Array[MapTile]:
 	"""
 	Returns all tiles owned by a faction.
 
@@ -167,7 +167,7 @@ func get_tiles_by_owner(owner_id: int, level: int = -1) -> Array[Tile]:
 		_rebuild_owner_cache()
 
 	# Get tiles from cache
-	var tiles: Array[Tile] = []
+	var tiles: Array[MapTile] = []
 
 	if _owner_cache.has(owner_id):
 		tiles = _owner_cache[owner_id].duplicate()
@@ -198,7 +198,7 @@ func _rebuild_owner_cache() -> void:
 				_owner_cache[tile.owner_id] = []
 			_owner_cache[tile.owner_id].append(tile)
 
-func get_border_tiles(owner_id: int) -> Array[Tile]:
+func get_border_tiles(owner_id: int) -> Array[MapTile]:
 	"""
 	Returns all tiles owned by a faction that are adjacent to non-owned tiles (border tiles).
 
@@ -234,7 +234,7 @@ func _rebuild_border_cache() -> void:
 
 	# For each faction's tiles, check if they're on the border
 	for owner_id in _owner_cache:
-		var border_tiles: Array[Tile] = []
+		var border_tiles: Array[MapTile] = []
 		var owned_tiles = _owner_cache[owner_id]
 
 		# OPTIMIZATION: Pre-allocate array with estimated size
@@ -254,12 +254,12 @@ func _rebuild_border_cache() -> void:
 		border_tiles.resize(border_count)
 		_border_cache[owner_id] = border_tiles
 
-func _is_border_tile(tile: Tile, owner_id: int) -> bool:
+func _is_border_tile(tile: MapTile, owner_id: int) -> bool:
 	"""
 	Checks if a tile is a border tile (adjacent to non-owned tiles).
 
 	Args:
-		tile: Tile to check
+		tile: MapTile to check
 		owner_id: Expected owner ID
 
 	Returns:
@@ -309,7 +309,7 @@ func rebuild_caches() -> void:
 # ADVANCED QUERIES
 # ============================================================================
 
-func get_tiles_in_area(center: Vector3i, radius: int, filter_func: Callable = Callable()) -> Array[Tile]:
+func get_tiles_in_area(center: Vector3i, radius: int, filter_func: Callable = Callable()) -> Array[MapTile]:
 	"""
 	Returns tiles in an area that match an optional filter function.
 
@@ -331,7 +331,7 @@ func get_tiles_in_area(center: Vector3i, radius: int, filter_func: Callable = Ca
 
 	return tiles
 
-func get_passable_tiles_in_area(center: Vector3i, radius: int) -> Array[Tile]:
+func get_passable_tiles_in_area(center: Vector3i, radius: int) -> Array[MapTile]:
 	"""
 	Returns all passable tiles in an area.
 
@@ -344,7 +344,7 @@ func get_passable_tiles_in_area(center: Vector3i, radius: int) -> Array[Tile]:
 	"""
 	return get_tiles_in_area(center, radius, func(tile): return tile.is_passable)
 
-func get_scavenge_tiles_in_area(center: Vector3i, radius: int, min_value: float = 0.0) -> Array[Tile]:
+func get_scavenge_tiles_in_area(center: Vector3i, radius: int, min_value: float = 0.0) -> Array[MapTile]:
 	"""
 	Returns all tiles with scavenge value in an area.
 
@@ -358,7 +358,7 @@ func get_scavenge_tiles_in_area(center: Vector3i, radius: int, min_value: float 
 	"""
 	return get_tiles_in_area(center, radius, func(tile): return tile.scavenge_value >= min_value)
 
-func get_controlled_tiles_in_area(center: Vector3i, radius: int, owner_id: int) -> Array[Tile]:
+func get_controlled_tiles_in_area(center: Vector3i, radius: int, owner_id: int) -> Array[MapTile]:
 	"""
 	Returns all tiles controlled by a specific faction in an area.
 
@@ -381,7 +381,7 @@ func count_tiles_by_type(tile_type: int, level: int = -1) -> int:
 	Returns count of tiles of a specific type.
 
 	Args:
-		tile_type: Tile type enum value
+		tile_type: MapTile type enum value
 		level: Z level filter (-1 = all levels)
 
 	Returns:
@@ -435,7 +435,7 @@ func get_territory_stats(owner_id: int) -> Dictionary:
 		stats["total_scavenge_value"] += tile.scavenge_value
 		stats["tiles_by_level"][tile.position.z] += 1
 
-		var type_name = Tile.TileType.keys()[tile.tile_type]
+		var type_name = MapTile.MapTileType.keys()[tile.tile_type]
 		if not stats["tiles_by_type"].has(type_name):
 			stats["tiles_by_type"][type_name] = 0
 		stats["tiles_by_type"][type_name] += 1

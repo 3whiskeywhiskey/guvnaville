@@ -50,14 +50,13 @@ var elevation: int = 1
 # INITIALIZATION
 # ============================================================================
 
-func _init(
-	p_position: Vector3i = Vector3i.ZERO,
-	p_tile_type: String = "",
-	p_terrain_type: String = ""
-) -> void:
+func _init(p_position: Vector3i = Vector3i.ZERO) -> void:
 	position = p_position
+
+func setup(p_tile_type: String, p_terrain_type: String) -> Tile:
 	tile_type = p_tile_type
 	terrain_type = p_terrain_type
+	return self
 
 # ============================================================================
 # SERIALIZATION

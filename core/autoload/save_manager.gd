@@ -10,6 +10,9 @@ extends Node
 # ============================================================================
 
 const _GameState = preload("res://core/state/game_state.gd")
+const _WorldState = preload("res://core/state/world_state.gd")
+const _FactionState = preload("res://core/state/faction_state.gd")
+const _TurnState = preload("res://core/state/turn_state.gd")
 
 # ============================================================================
 # PROPERTIES

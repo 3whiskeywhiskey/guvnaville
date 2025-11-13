@@ -119,14 +119,14 @@ func test_unit_is_alive():
 # ============================================================================
 
 func test_tile_creation():
-	var tile = Tile.new(Vector3i(10, 10, 1), "residential", "rubble")
+	var tile = Tile.new(Vector3i(10, 10, 1)).setup("residential", "rubble")
 
 	assert_eq(tile.position, Vector3i(10, 10, 1), "Tile position")
 	assert_eq(tile.tile_type, "residential", "Tile type")
 	assert_eq(tile.terrain_type, "rubble", "Terrain type")
 
 func test_tile_serialization():
-	var tile = Tile.new(Vector3i(5, 5, 1), "commercial", "building")
+	var tile = Tile.new(Vector3i(5, 5, 1)).setup("commercial", "building")
 	tile.owner = 2
 	tile.building = "workshop_1"
 	tile.units.append("unit_1")
@@ -164,7 +164,7 @@ func test_tile_deserialization():
 	assert_eq(tile.units.size(), 2, "Deserialized units")
 
 func test_tile_add_remove_unit():
-	var tile = Tile.new(Vector3i.ZERO, "residential", "rubble")
+	var tile = Tile.new(Vector3i.ZERO).setup("residential", "rubble")
 
 	tile.add_unit("unit_1")
 	assert_eq(tile.units.size(), 1, "Unit should be added")
@@ -177,7 +177,7 @@ func test_tile_add_remove_unit():
 	assert_eq(tile.units.size(), 0, "Unit should be removed")
 
 func test_tile_scavenge():
-	var tile = Tile.new(Vector3i.ZERO, "residential", "rubble")
+	var tile = Tile.new(Vector3i.ZERO).setup("residential", "rubble")
 	tile.scavenge_value = 50
 
 	var depleted = tile.deplete_scavenge(30)
@@ -189,7 +189,7 @@ func test_tile_scavenge():
 	assert_eq(tile.scavenge_value, 0, "Scavenge should be 0")
 
 func test_tile_visibility():
-	var tile = Tile.new(Vector3i.ZERO, "residential", "rubble")
+	var tile = Tile.new(Vector3i.ZERO).setup("residential", "rubble")
 
 	tile.set_visibility(0, 2)
 	assert_true(tile.is_visible_to(0), "Tile should be visible to faction 0")
@@ -270,14 +270,14 @@ func test_building_garrison():
 # ============================================================================
 
 func test_resource_creation():
-	var resource = Resource.new("scrap", "Scrap Metal", "Salvaged metal pieces")
+	var resource = GameResource.new("scrap", "Scrap Metal", "Salvaged metal pieces")
 
 	assert_eq(resource.resource_type, "scrap", "Resource type")
 	assert_eq(resource.display_name, "Scrap Metal", "Display name")
 	assert_eq(resource.description, "Salvaged metal pieces", "Description")
 
 func test_resource_serialization():
-	var resource = Resource.new("components", "Components", "Pre-war electronic components")
+	var resource = GameResource.new("components", "Components", "Pre-war electronic components")
 	resource.is_strategic = true
 	resource.base_value = 10
 
@@ -299,7 +299,7 @@ func test_resource_deserialization():
 		"base_value": 5
 	}
 
-	var resource = Resource.new()
+	var resource = GameResource.new()
 	resource.from_dict(data)
 
 	assert_eq(resource.resource_type, "ammo", "Deserialized type")

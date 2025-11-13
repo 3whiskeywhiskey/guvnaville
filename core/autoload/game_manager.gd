@@ -9,9 +9,11 @@ extends Node
 # PRELOADED CLASSES (for Godot 4.5.1 compatibility)
 # ============================================================================
 
-const _GameState = preload("res://core/state/game_state.gd")
-const _FactionState = preload("res://core/state/faction_state.gd")
 const _Tile = preload("res://core/types/tile.gd")
+const _GameState = preload("res://core/state/game_state.gd")
+const _WorldState = preload("res://core/state/world_state.gd")
+const _FactionState = preload("res://core/state/faction_state.gd")
+const _TurnState = preload("res://core/state/turn_state.gd")
 
 # ============================================================================
 # PROPERTIES
@@ -223,7 +225,7 @@ func _initialize_world(game_state) -> void:
 	for x in range(10):
 		for y in range(10):
 			var pos = Vector3i(x, y, 1)
-			var tile = _Tile.new(pos, "residential", "rubble")
+			var tile = _Tile.new(pos).setup("residential", "rubble")
 			tile.scavenge_value = randi() % 100
 			world.set_tile(pos, tile)
 
