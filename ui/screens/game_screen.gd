@@ -60,7 +60,7 @@ func _ready() -> void:
 		print("[GameScreen] Game already active, rendering map now")
 		_on_game_started(GameManager.current_state)
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	"""Forward mouse input to SubViewport for map interaction"""
 	if not sub_viewport or not viewport_container:
 		return
@@ -80,7 +80,11 @@ func _input(event: InputEvent) -> void:
 
 			# Forward to SubViewport
 			sub_viewport.push_input(viewport_event, true)
-			print("[GameScreen] Forwarded input to SubViewport: %s at %s" % [event.as_text(), local_pos])
+
+			# Mark as handled if it's a click to prevent further propagation
+			if event is InputEventMouseButton and event.pressed:
+				get_viewport().set_input_as_handled()
+				print("[GameScreen] Forwarded CLICK to SubViewport: button=%d at %s" % [event.button_index, local_pos])
 
 func _setup_tooltips() -> void:
 	"""Add tooltips to HUD elements"""

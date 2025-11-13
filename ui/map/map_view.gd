@@ -336,12 +336,17 @@ func play_attack_animation(attacker_pos: Vector3i, defender_pos: Vector3i, attac
 
 ## Convert screen coordinates to tile position (for mouse clicks)
 func get_tile_at_screen_position(screen_pos: Vector2) -> Vector3i:
-	# Account for camera position and zoom
-	var world_pos = screen_pos + camera_controller.position - get_viewport_rect().size / 2
-	world_pos = world_pos / camera_controller.zoom
+	# screen_pos is in SubViewport local coordinates
+	# Need to convert to world coordinates using camera transform
+	var viewport_center = get_viewport_rect().size / 2
+	var world_pos = camera_controller.position + (screen_pos - viewport_center) / camera_controller.zoom
 
 	var tile_x = int(world_pos.x / TILE_SIZE)
 	var tile_y = int(world_pos.y / TILE_SIZE)
+
+	print("[MapView] screen_pos=%s, viewport_center=%s, camera_pos=%s, zoom=%s -> world_pos=%s -> tile=(%d,%d)" % [
+		screen_pos, viewport_center, camera_controller.position, camera_controller.zoom, world_pos, tile_x, tile_y
+	])
 
 	# Check bounds
 	if tile_x < 0 or tile_x >= map_size.x or tile_y < 0 or tile_y >= map_size.y:
