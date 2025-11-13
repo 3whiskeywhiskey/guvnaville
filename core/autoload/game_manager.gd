@@ -6,11 +6,19 @@ extends Node
 ## for starting, loading, saving, and ending games.
 
 # ============================================================================
+# PRELOADED CLASSES (for Godot 4.5.1 compatibility)
+# ============================================================================
+
+const _GameState = preload("res://core/state/game_state.gd")
+const _FactionState = preload("res://core/state/faction_state.gd")
+const _Tile = preload("res://core/types/tile.gd")
+
+# ============================================================================
 # PROPERTIES
 # ============================================================================
 
 ## Current game state (null if no game active)
-var current_state: GameState = null
+var current_state = null
 
 ## True if a game is currently in progress
 var is_game_active: bool = false
@@ -30,7 +38,7 @@ func _ready() -> void:
 # ============================================================================
 
 ## Start a new game with the provided settings
-func start_new_game(settings: Dictionary) -> GameState:
+func start_new_game(settings: Dictionary):
 	print("[GameManager] Starting new game...")
 
 	# Validate settings
@@ -46,7 +54,7 @@ func start_new_game(settings: Dictionary) -> GameState:
 			return null
 
 	# Create new game state
-	current_state = GameState.new()
+	current_state = _GameState.new()
 
 	# Apply settings
 	current_state.game_settings = settings.duplicate(true)
@@ -65,7 +73,7 @@ func start_new_game(settings: Dictionary) -> GameState:
 	var player_faction_id = settings.get("player_faction_id", 0)
 
 	for i in range(num_factions):
-		var faction = FactionState.new(
+		var faction = _FactionState.new(
 			i,
 			"Faction %d" % i,
 			i == player_faction_id
@@ -93,7 +101,7 @@ func start_new_game(settings: Dictionary) -> GameState:
 	return current_state
 
 ## Load a saved game
-func load_game(save_name: String) -> GameState:
+func load_game(save_name: String):
 	print("[GameManager] Loading game: %s" % save_name)
 
 	# Load from SaveManager
@@ -170,7 +178,7 @@ func resume_game() -> void:
 	print("[GameManager] Game resumed")
 
 ## Get a specific faction
-func get_faction(faction_id: int) -> FactionState:
+func get_faction(faction_id: int):
 	if current_state == null:
 		return null
 	return current_state.get_faction(faction_id)
@@ -205,7 +213,7 @@ func _validate_settings(settings: Dictionary) -> bool:
 
 	return true
 
-func _initialize_world(game_state: GameState) -> void:
+func _initialize_world(game_state) -> void:
 	# Basic world initialization
 	# Full map generation will be implemented in the Map System module
 
@@ -215,7 +223,7 @@ func _initialize_world(game_state: GameState) -> void:
 	for x in range(10):
 		for y in range(10):
 			var pos = Vector3i(x, y, 1)
-			var tile = Tile.new(pos, "residential", "rubble")
+			var tile = _Tile.new(pos, "residential", "rubble")
 			tile.scavenge_value = randi() % 100
 			world.set_tile(pos, tile)
 

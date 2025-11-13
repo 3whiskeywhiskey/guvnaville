@@ -7,6 +7,14 @@ class_name GameState
 ## world state, factions, turn information, and game settings.
 
 # ============================================================================
+# PRELOADED CLASSES (for Godot 4.5.1 compatibility)
+# ============================================================================
+
+const _WorldState = preload("res://core/state/world_state.gd")
+const _FactionState = preload("res://core/state/faction_state.gd")
+const _TurnState = preload("res://core/state/turn_state.gd")
+
+# ============================================================================
 # PROPERTIES
 # ============================================================================
 
@@ -14,13 +22,13 @@ class_name GameState
 var turn_number: int = 1
 
 ## World and map state
-var world_state: WorldState = null
+var world_state = null
 
 ## All faction states
-var factions: Array[FactionState] = []
+var factions: Array = []
 
 ## Current turn state
-var turn_state: TurnState = null
+var turn_state = null
 
 ## Pending events queue
 var event_queue: Array = []
@@ -45,8 +53,8 @@ var random_seed: int = 0
 # ============================================================================
 
 func _init() -> void:
-	world_state = WorldState.new()
-	turn_state = TurnState.new()
+	world_state = _WorldState.new()
+	turn_state = _TurnState.new()
 
 # ============================================================================
 # SERIALIZATION
@@ -80,23 +88,23 @@ func from_dict(data: Dictionary) -> void:
 
 	# Deserialize world state
 	if data.has("world_state"):
-		world_state = WorldState.new()
+		world_state = _WorldState.new()
 		world_state.from_dict(data["world_state"])
 	else:
-		world_state = WorldState.new()
+		world_state = _WorldState.new()
 
 	# Deserialize turn state
 	if data.has("turn_state"):
-		turn_state = TurnState.new()
+		turn_state = _TurnState.new()
 		turn_state.from_dict(data["turn_state"])
 	else:
-		turn_state = TurnState.new()
+		turn_state = _TurnState.new()
 
 	# Deserialize factions
 	factions.clear()
 	var factions_data = data.get("factions", [])
 	for faction_data in factions_data:
-		var faction = FactionState.new()
+		var faction = _FactionState.new()
 		faction.from_dict(faction_data)
 		factions.append(faction)
 
@@ -105,7 +113,7 @@ func from_dict(data: Dictionary) -> void:
 # ============================================================================
 
 ## Deep clone the game state for simulation
-func clone() -> GameState:
+func clone():
 	var new_state = GameState.new()
 	new_state.from_dict(to_dict())
 	return new_state
@@ -141,14 +149,14 @@ func validate() -> bool:
 	return true
 
 ## Get faction by ID
-func get_faction(faction_id: int) -> FactionState:
+func get_faction(faction_id: int):
 	for faction in factions:
 		if faction.faction_id == faction_id:
 			return faction
 	return null
 
 ## Add a faction
-func add_faction(faction: FactionState) -> void:
+func add_faction(faction) -> void:
 	if get_faction(faction.faction_id) == null:
 		factions.append(faction)
 
@@ -160,23 +168,23 @@ func remove_faction(faction_id: int) -> void:
 			return
 
 ## Get player faction
-func get_player_faction() -> FactionState:
+func get_player_faction():
 	for faction in factions:
 		if faction.is_player:
 			return faction
 	return null
 
 ## Get all AI factions
-func get_ai_factions() -> Array[FactionState]:
-	var ai_factions: Array[FactionState] = []
+func get_ai_factions() -> Array:
+	var ai_factions: Array = []
 	for faction in factions:
 		if not faction.is_player:
 			ai_factions.append(faction)
 	return ai_factions
 
 ## Get alive factions
-func get_alive_factions() -> Array[FactionState]:
-	var alive: Array[FactionState] = []
+func get_alive_factions() -> Array:
+	var alive: Array = []
 	for faction in factions:
 		if faction.is_alive:
 			alive.append(faction)
@@ -188,7 +196,7 @@ func is_game_over() -> bool:
 	return alive_factions.size() <= 1
 
 ## Get game winner
-func get_winner() -> FactionState:
+func get_winner():
 	var alive_factions = get_alive_factions()
 	if alive_factions.size() == 1:
 		return alive_factions[0]

@@ -211,7 +211,7 @@ func _on_turn_started(turn_number: int, faction_id: int) -> void:
 	if not faction.is_player and faction_ais.has(faction_id):
 		_process_ai_turn(faction_id, game_state)
 
-func _process_turn_start(faction: FactionState, game_state) -> void:
+func _process_turn_start(faction, game_state) -> void:
 	"""Process beginning of turn for a faction"""
 
 	# Economy: Add resource income

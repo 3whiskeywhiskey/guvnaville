@@ -6,6 +6,12 @@ extends Node
 ## verification to ensure save file integrity.
 
 # ============================================================================
+# PRELOADED CLASSES (for Godot 4.5.1 compatibility)
+# ============================================================================
+
+const _GameState = preload("res://core/state/game_state.gd")
+
+# ============================================================================
 # PROPERTIES
 # ============================================================================
 
@@ -41,7 +47,7 @@ func _ready() -> void:
 # ============================================================================
 
 ## Save a game state to disk
-func save_game(save_name: String, game_state: GameState) -> bool:
+func save_game(save_name: String, game_state) -> bool:
 	if save_name.is_empty():
 		push_error("[SaveManager] Save name cannot be empty")
 		return false
@@ -85,7 +91,7 @@ func save_game(save_name: String, game_state: GameState) -> bool:
 	return true
 
 ## Load a game state from disk
-func load_game(save_name: String) -> GameState:
+func load_game(save_name: String):
 	if save_name.is_empty():
 		push_error("[SaveManager] Save name cannot be empty")
 		return null
@@ -138,7 +144,7 @@ func load_game(save_name: String) -> GameState:
 		return null
 
 	# Deserialize game state
-	var game_state = GameState.new()
+	var game_state = _GameState.new()
 	game_state.from_dict(game_data)
 
 	print("[SaveManager] Game loaded successfully")
@@ -229,7 +235,7 @@ func verify_save_integrity(save_name: String) -> bool:
 	return stored_checksums.get("game_state", "") == calculated_checksums.get("game_state", "")
 
 ## Create an autosave (overwrites previous autosave)
-func create_autosave(game_state: GameState) -> bool:
+func create_autosave(game_state) -> bool:
 	return save_game("autosave", game_state)
 
 # ============================================================================
