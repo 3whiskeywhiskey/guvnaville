@@ -13,9 +13,11 @@ const MapView = preload("res://ui/map/map_view.gd")
 @onready var notification_container: Control = $HUD/NotificationContainer
 @onready var map_view_container: Control = $MapView
 @onready var end_turn_button: Button = $HUD/EndTurnButton
+@onready var hud: Control = $HUD
 
 var input_handler = null  # InputHandler type removed for 4.5.1 compatibility
 var map_view = null  # MapView instance (Node2D)
+var map_canvas_layer: CanvasLayer = null  # Separate layer for map to keep below UI
 
 func _ready() -> void:
 	# Register HUD components with UIManager
@@ -105,19 +107,24 @@ func _initialize_map_view() -> void:
 	"""Create and initialize the MapView"""
 	print("[GameScreen] Initializing MapView...")
 
+	# Create a CanvasLayer for the map to keep it below UI
+	map_canvas_layer = CanvasLayer.new()
+	map_canvas_layer.layer = -1  # Below default layer (UI is on layer 0)
+	add_child(map_canvas_layer)
+
 	# Create MapView instance
 	map_view = MapView.new()
 
-	# Add to container
+	# Add to canvas layer instead of container
 	if map_view_container:
 		# Clear placeholder content
 		for child in map_view_container.get_children():
 			child.queue_free()
 
-		# Add MapView as child
-		map_view_container.add_child(map_view)
+		# Add MapView to the canvas layer
+		map_canvas_layer.add_child(map_view)
 
-		print("[GameScreen] MapView created and added to container")
+		print("[GameScreen] MapView created and added to canvas layer")
 	else:
 		push_error("[GameScreen] MapView container not found!")
 
