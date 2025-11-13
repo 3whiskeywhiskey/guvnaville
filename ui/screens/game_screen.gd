@@ -51,6 +51,11 @@ func _ready() -> void:
 	EventBus.game_started.connect(_on_game_started)
 	EventBus.turn_started.connect(_on_turn_started)
 
+	# If game already started before we connected, render now
+	if GameManager.is_game_active and GameManager.current_state:
+		print("[GameScreen] Game already active, rendering map now")
+		_on_game_started(GameManager.current_state)
+
 func _setup_tooltips() -> void:
 	"""Add tooltips to HUD elements"""
 	if end_turn_button:

@@ -424,7 +424,7 @@ func _update_visible_chunks() -> void:
 
 			# Show chunk if not visible
 			if not chunk.is_visible:
-				chunk.renderer.set_visible(true)
+				chunk.renderer.set_chunk_visible(true)
 				chunk.is_visible = true
 				chunk_loaded.emit(chunk_pos)
 
@@ -432,7 +432,7 @@ func _update_visible_chunks() -> void:
 	for chunk_pos in visible_chunks:
 		if not chunk_pos in new_visible_chunks:
 			var chunk = chunks[chunk_pos]
-			chunk.renderer.set_visible(false)
+			chunk.renderer.set_chunk_visible(false)
 			chunk.is_visible = false
 			chunk_unloaded.emit(chunk_pos)
 
