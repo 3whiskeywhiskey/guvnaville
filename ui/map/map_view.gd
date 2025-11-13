@@ -99,7 +99,13 @@ class ChunkData:
 		renderer = rend
 
 func _ready() -> void:
+	# Enable input processing
+	set_process_input(true)
+	set_process(true)
+
 	_initialize_components()
+
+	print("[MapView] Initialized and ready for input")
 
 func _process(_delta: float) -> void:
 	_update_visible_chunks()
@@ -110,7 +116,10 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			var tile_pos = get_tile_at_screen_position(event.position)
 			if tile_pos.x >= 0:
+				print("[MapView] Tile clicked at: %s" % tile_pos)
 				tile_clicked.emit(tile_pos, MOUSE_BUTTON_LEFT)
+				# Highlight the clicked tile
+				highlight_tiles([tile_pos], Color(1, 1, 0, 0.3))  # Yellow highlight
 
 ## Initialize map view with complete map data
 func render_map(map_data_instance) -> void:

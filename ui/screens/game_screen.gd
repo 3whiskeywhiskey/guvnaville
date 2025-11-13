@@ -166,7 +166,14 @@ func _on_game_started(game_state) -> void:
 		print("[GameScreen] Rendering fog of war with %d visible tiles" % visible_tiles.size())
 		map_view.render_fog_of_war(player_faction.faction_id, visible_tiles)
 
+		# Center camera on player's visible area
+		if visible_tiles.size() > 0 and visible_tiles[0] is Vector3i:
+			var center_tile = visible_tiles[visible_tiles.size() / 2]
+			print("[GameScreen] Centering camera on tile: %s" % center_tile)
+			map_view.center_camera_on(center_tile)
+
 	print("[GameScreen] Map rendering complete!")
+	print("[GameScreen] Try using WASD/Arrow keys to move camera, mouse wheel to zoom, click tiles to select")
 
 func _on_turn_started(turn_number: int, faction_id: int) -> void:
 	"""Called when a turn starts - update fog of war if it's player's turn"""

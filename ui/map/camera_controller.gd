@@ -42,6 +42,11 @@ func _ready() -> void:
 	# Set initial zoom
 	zoom = _zoom_scales[current_zoom_level]
 
+	# Make this camera active
+	make_current()
+
+	print("[CameraController] Initialized - position: %s, zoom: %s, enabled: %s" % [position, zoom, enabled])
+
 func _process(delta: float) -> void:
 	_handle_keyboard_movement(delta)
 	_handle_edge_scrolling(delta)
@@ -64,6 +69,7 @@ func _handle_keyboard_movement(delta: float) -> void:
 
 	if movement.length() > 0:
 		move_camera(movement.normalized() * camera_speed * delta)
+		print("[CameraController] Moving camera: %s, new position: %s" % [movement, position])
 
 ## Handle edge scrolling (mouse near screen edges)
 func _handle_edge_scrolling(delta: float) -> void:
