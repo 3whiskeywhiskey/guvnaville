@@ -344,6 +344,421 @@
         "culture_nodes": ["old_world_knowledge"]
       },
       "tags": ["specialist", "tech", "elite"]
+    },
+    {
+      "id": "commando",
+      "name": "Elite Commando",
+      "type": "specialist",
+      "stats": {
+        "hp": 95,
+        "attack": 28,
+        "defense": 16,
+        "movement": 4,
+        "cost": {
+          "scrap": 110,
+          "food": 25,
+          "fuel": 20,
+          "medicine": 15
+        },
+        "morale": 85,
+        "vision_range": 4
+      },
+      "abilities": [
+        {
+          "id": "stealth",
+          "name": "Stealth Mode",
+          "description": "Become invisible to enemies for 2 turns",
+          "cooldown": 4
+        },
+        {
+          "id": "sabotage",
+          "name": "Sabotage",
+          "description": "Destroy enemy resource buildings",
+          "cooldown": 5
+        }
+      ],
+      "description": "Special forces trained in covert operations. Master infiltrators and saboteurs.",
+      "production_time": 4,
+      "prerequisites": {
+        "buildings": ["barracks", "training_grounds"],
+        "culture_nodes": ["elite_training", "guerrilla_tactics"]
+      },
+      "tags": ["specialist", "elite", "stealth"]
+    },
+    {
+      "id": "mortar_team",
+      "name": "Mortar Squad",
+      "type": "ranged",
+      "stats": {
+        "hp": 55,
+        "attack": 30,
+        "defense": 8,
+        "movement": 2,
+        "cost": {
+          "scrap": 90,
+          "food": 20,
+          "fuel": 30
+        },
+        "morale": 60,
+        "vision_range": 2
+      },
+      "abilities": [
+        {
+          "id": "artillery_strike",
+          "name": "Indirect Fire",
+          "description": "Attack targets beyond line of sight, area damage",
+          "cooldown": 2
+        }
+      ],
+      "description": "Portable artillery crew. Devastating ranged support but vulnerable in melee.",
+      "production_time": 3,
+      "prerequisites": {
+        "buildings": ["workshop", "barracks"],
+        "culture_nodes": ["heavy_arms"]
+      },
+      "tags": ["ranged", "artillery", "support"]
+    },
+    {
+      "id": "mechanized_infantry",
+      "name": "APC Squad",
+      "type": "heavy",
+      "stats": {
+        "hp": 160,
+        "attack": 22,
+        "defense": 25,
+        "movement": 5,
+        "cost": {
+          "scrap": 140,
+          "food": 30,
+          "fuel": 70
+        },
+        "morale": 65,
+        "vision_range": 3
+      },
+      "abilities": [
+        {
+          "id": "transport",
+          "name": "Troop Transport",
+          "description": "Carry infantry units for rapid deployment",
+          "cooldown": 0
+        },
+        {
+          "id": "mobile_cover",
+          "name": "Mobile Cover",
+          "description": "Provide defense bonus to adjacent infantry",
+          "cooldown": 0
+        }
+      ],
+      "description": "Armored personnel carrier with mounted weapons. Combines mobility and firepower.",
+      "production_time": 4,
+      "prerequisites": {
+        "buildings": ["garage", "barracks"],
+        "culture_nodes": ["vehicle_warfare"]
+      },
+      "tags": ["heavy", "mobile", "transport"]
+    },
+    {
+      "id": "flamethrower",
+      "name": "Incinerator Unit",
+      "type": "heavy",
+      "stats": {
+        "hp": 130,
+        "attack": 35,
+        "defense": 20,
+        "movement": 2,
+        "cost": {
+          "scrap": 85,
+          "food": 25,
+          "fuel": 60
+        },
+        "morale": 50,
+        "vision_range": 2
+      },
+      "abilities": [
+        {
+          "id": "flame_burst",
+          "name": "Flame Burst",
+          "description": "Area attack damaging multiple adjacent enemies",
+          "cooldown": 2
+        },
+        {
+          "id": "panic",
+          "name": "Terror Weapon",
+          "description": "Massively reduce enemy morale",
+          "cooldown": 3
+        }
+      ],
+      "description": "Wielders of devastating flamethrowers. Feared for their brutal effectiveness.",
+      "production_time": 3,
+      "prerequisites": {
+        "buildings": ["workshop"],
+        "culture_nodes": ["heavy_arms"]
+      },
+      "tags": ["heavy", "area_damage", "terror"]
+    },
+    {
+      "id": "drone_operator",
+      "name": "Drone Controller",
+      "type": "specialist",
+      "stats": {
+        "hp": 45,
+        "attack": 15,
+        "defense": 8,
+        "movement": 3,
+        "cost": {
+          "scrap": 95,
+          "food": 15,
+          "fuel": 40
+        },
+        "morale": 65,
+        "vision_range": 6
+      },
+      "abilities": [
+        {
+          "id": "aerial_recon",
+          "name": "Aerial Reconnaissance",
+          "description": "Reveal large area of map, detect hidden units",
+          "cooldown": 3
+        },
+        {
+          "id": "drone_strike",
+          "name": "Precision Strike",
+          "description": "Remote attack ignoring terrain",
+          "cooldown": 4
+        }
+      ],
+      "description": "Operates salvaged military drones. Provides unmatched reconnaissance capability.",
+      "production_time": 3,
+      "prerequisites": {
+        "buildings": ["lab", "workshop"],
+        "culture_nodes": ["old_world_knowledge"]
+      },
+      "tags": ["specialist", "tech", "reconnaissance"]
+    },
+    {
+      "id": "bike_rider",
+      "name": "Motorcycle Outrider",
+      "type": "infantry",
+      "stats": {
+        "hp": 60,
+        "attack": 16,
+        "defense": 7,
+        "movement": 6,
+        "cost": {
+          "scrap": 55,
+          "food": 18,
+          "fuel": 35
+        },
+        "morale": 55,
+        "vision_range": 4
+      },
+      "abilities": [
+        {
+          "id": "hit_and_run",
+          "name": "Hit and Run",
+          "description": "Attack and retreat in same turn",
+          "cooldown": 1
+        }
+      ],
+      "description": "Fast motorcycle scouts. Excellent for harassment and rapid response.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["garage"],
+        "culture_nodes": ["vehicle_warfare"]
+      },
+      "tags": ["infantry", "mobile", "scout"]
+    },
+    {
+      "id": "guard_dog",
+      "name": "K9 Handler",
+      "type": "specialist",
+      "stats": {
+        "hp": 70,
+        "attack": 22,
+        "defense": 12,
+        "movement": 4,
+        "cost": {
+          "scrap": 50,
+          "food": 40
+        },
+        "morale": 75,
+        "vision_range": 4
+      },
+      "abilities": [
+        {
+          "id": "track",
+          "name": "Track",
+          "description": "Reveal hidden enemies and trails",
+          "cooldown": 2
+        },
+        {
+          "id": "alert",
+          "name": "Guard",
+          "description": "Cannot be ambushed, provides security bonus",
+          "cooldown": 0
+        }
+      ],
+      "description": "Handler with trained war dog. Excellent for security and detection.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["kennel"]
+      },
+      "tags": ["specialist", "detection", "support"]
+    },
+    {
+      "id": "tank",
+      "name": "Battle Tank",
+      "type": "heavy",
+      "stats": {
+        "hp": 300,
+        "attack": 50,
+        "defense": 80,
+        "movement": 3,
+        "cost": {
+          "scrap": 200,
+          "food": 40,
+          "fuel": 120
+        },
+        "morale": 70,
+        "vision_range": 3
+      },
+      "abilities": [
+        {
+          "id": "main_cannon",
+          "name": "Main Cannon",
+          "description": "Devastating attack that penetrates all armor",
+          "cooldown": 2
+        },
+        {
+          "id": "crush",
+          "name": "Crush",
+          "description": "Instantly destroy light vehicles and structures",
+          "cooldown": 3
+        }
+      ],
+      "description": "Restored pre-war main battle tank. Ultimate symbol of military might.",
+      "production_time": 6,
+      "prerequisites": {
+        "buildings": ["garage", "factory"],
+        "culture_nodes": ["vehicle_warfare", "heavy_arms", "old_world_knowledge"]
+      },
+      "tags": ["heavy", "elite", "vehicle", "devastating"]
+    },
+    {
+      "id": "machinegunner",
+      "name": "Heavy Machinegunner",
+      "type": "ranged",
+      "stats": {
+        "hp": 85,
+        "attack": 24,
+        "defense": 15,
+        "movement": 2,
+        "cost": {
+          "scrap": 75,
+          "food": 22,
+          "fuel": 25
+        },
+        "morale": 65,
+        "vision_range": 3
+      },
+      "abilities": [
+        {
+          "id": "suppressive_fire",
+          "name": "Sustained Fire",
+          "description": "Attack multiple times per turn at reduced damage",
+          "cooldown": 2
+        },
+        {
+          "id": "setup",
+          "name": "Deploy Weapon",
+          "description": "Cannot move but gains massive attack bonus",
+          "cooldown": 0
+        }
+      ],
+      "description": "Heavy weapons specialist with machinegun. Provides sustained fire support.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["barracks"],
+        "culture_nodes": ["heavy_arms"]
+      },
+      "tags": ["ranged", "support", "suppression"]
+    },
+    {
+      "id": "propagandist",
+      "name": "Morale Officer",
+      "type": "support",
+      "stats": {
+        "hp": 50,
+        "attack": 5,
+        "defense": 10,
+        "movement": 3,
+        "cost": {
+          "scrap": 40,
+          "food": 25
+        },
+        "morale": 90,
+        "vision_range": 2
+      },
+      "abilities": [
+        {
+          "id": "inspire",
+          "name": "Rally Troops",
+          "description": "Restore morale to all adjacent friendly units",
+          "cooldown": 2
+        },
+        {
+          "id": "propaganda",
+          "name": "Broadcast",
+          "description": "Convert enemy units or damage enemy morale",
+          "cooldown": 5
+        }
+      ],
+      "description": "Charismatic leader who maintains troop morale. Can turn the tide of battle.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["headquarters"],
+        "culture_nodes": ["propaganda_machine"]
+      },
+      "tags": ["support", "morale", "psychological"]
+    },
+    {
+      "id": "ranger",
+      "name": "Wasteland Ranger",
+      "type": "infantry",
+      "stats": {
+        "hp": 90,
+        "attack": 20,
+        "defense": 14,
+        "movement": 4,
+        "cost": {
+          "scrap": 65,
+          "food": 25,
+          "fuel": 15
+        },
+        "morale": 70,
+        "vision_range": 4
+      },
+      "abilities": [
+        {
+          "id": "survival",
+          "name": "Wasteland Survival",
+          "description": "Immune to environmental damage, no terrain penalties",
+          "cooldown": 0
+        },
+        {
+          "id": "ambush",
+          "name": "Ambush",
+          "description": "Double damage when attacking from cover",
+          "cooldown": 3
+        }
+      ],
+      "description": "Experienced survivors who thrive in the wasteland. Versatile and tough.",
+      "production_time": 2,
+      "prerequisites": {
+        "buildings": ["barracks"],
+        "culture_nodes": ["wasteland_adaptation"]
+      },
+      "tags": ["infantry", "versatile", "survivor"]
     }
   ]
 }

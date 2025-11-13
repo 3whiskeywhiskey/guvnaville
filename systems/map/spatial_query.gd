@@ -120,19 +120,24 @@ func get_tiles_by_type(tile_type: int, level: int = -1) -> Array[Tile]:
 	return tiles
 
 func _rebuild_type_cache() -> void:
-	"""Rebuilds the tile type cache by scanning all tiles."""
+	"""
+	Rebuilds the tile type cache by scanning all tiles.
+	OPTIMIZED: Uses direct array access instead of get_tile() calls.
+	"""
 	_tile_type_cache.clear()
 
-	var map_size = _map_data.get_map_size()
-	for z in range(map_size.z):
-		for y in range(map_size.y):
-			for x in range(map_size.x):
-				var pos = Vector3i(x, y, z)
-				var tile = _map_data.get_tile(pos)
-				if tile:
-					if not _tile_type_cache.has(tile.tile_type):
-						_tile_type_cache[tile.tile_type] = []
-					_tile_type_cache[tile.tile_type].append(tile)
+	# OPTIMIZATION: Access internal tiles array directly to avoid function call overhead
+	if not _map_data:
+		return
+
+	# Direct iteration is faster than nested get_tile() calls
+	var all_tiles = _map_data._tiles if "_tiles" in _map_data else []
+
+	for tile in all_tiles:
+		if tile:
+			if not _tile_type_cache.has(tile.tile_type):
+				_tile_type_cache[tile.tile_type] = []
+			_tile_type_cache[tile.tile_type].append(tile)
 
 # ============================================================================
 # OWNERSHIP QUERIES
@@ -174,19 +179,24 @@ func get_tiles_by_owner(owner_id: int, level: int = -1) -> Array[Tile]:
 	return tiles
 
 func _rebuild_owner_cache() -> void:
-	"""Rebuilds the owner cache by scanning all tiles."""
+	"""
+	Rebuilds the owner cache by scanning all tiles.
+	OPTIMIZED: Uses direct array access instead of get_tile() calls.
+	"""
 	_owner_cache.clear()
 
-	var map_size = _map_data.get_map_size()
-	for z in range(map_size.z):
-		for y in range(map_size.y):
-			for x in range(map_size.x):
-				var pos = Vector3i(x, y, z)
-				var tile = _map_data.get_tile(pos)
-				if tile:
-					if not _owner_cache.has(tile.owner_id):
-						_owner_cache[tile.owner_id] = []
-					_owner_cache[tile.owner_id].append(tile)
+	# OPTIMIZATION: Access internal tiles array directly to avoid function call overhead
+	if not _map_data:
+		return
+
+	# Direct iteration is faster than nested get_tile() calls
+	var all_tiles = _map_data._tiles if "_tiles" in _map_data else []
+
+	for tile in all_tiles:
+		if tile:
+			if not _owner_cache.has(tile.owner_id):
+				_owner_cache[tile.owner_id] = []
+			_owner_cache[tile.owner_id].append(tile)
 
 func get_border_tiles(owner_id: int) -> Array[Tile]:
 	"""
@@ -216,7 +226,10 @@ func get_border_tiles(owner_id: int) -> Array[Tile]:
 	return []
 
 func _rebuild_border_cache() -> void:
-	"""Rebuilds the border tile cache."""
+	"""
+	Rebuilds the border tile cache.
+	OPTIMIZED: Uses efficient neighbor checking.
+	"""
 	_border_cache.clear()
 
 	# For each faction's tiles, check if they're on the border
@@ -224,11 +237,21 @@ func _rebuild_border_cache() -> void:
 		var border_tiles: Array[Tile] = []
 		var owned_tiles = _owner_cache[owner_id]
 
+		# OPTIMIZATION: Pre-allocate array with estimated size
+		border_tiles.resize(owned_tiles.size() / 4)  # Estimate ~25% are border tiles
+		var border_count = 0
+
 		for tile in owned_tiles:
 			# Check if this tile is adjacent to a non-owned tile
 			if _is_border_tile(tile, owner_id):
-				border_tiles.append(tile)
+				if border_count < border_tiles.size():
+					border_tiles[border_count] = tile
+				else:
+					border_tiles.append(tile)
+				border_count += 1
 
+		# Trim to actual size
+		border_tiles.resize(border_count)
 		_border_cache[owner_id] = border_tiles
 
 func _is_border_tile(tile: Tile, owner_id: int) -> bool:

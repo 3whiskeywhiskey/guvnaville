@@ -22,6 +22,24 @@ var current_resources: Dictionary = {
 
 func _ready() -> void:
 	update_display()
+	_setup_tooltips()
+
+func _setup_tooltips() -> void:
+	"""Add tooltips to resource labels"""
+	if scrap_label:
+		TooltipHelper.add_resource_tooltip(scrap_label, "Scrap Metal", TooltipHelper.TooltipTexts.SCRAP)
+	if food_label:
+		TooltipHelper.add_resource_tooltip(food_label, "Food", TooltipHelper.TooltipTexts.FOOD)
+	if medicine_label:
+		TooltipHelper.add_resource_tooltip(medicine_label, "Medicine", TooltipHelper.TooltipTexts.MEDICINE)
+	if ammunition_label:
+		TooltipHelper.add_resource_tooltip(ammunition_label, "Ammunition", TooltipHelper.TooltipTexts.AMMUNITION)
+	if fuel_label:
+		TooltipHelper.add_resource_tooltip(fuel_label, "Fuel", TooltipHelper.TooltipTexts.FUEL)
+	if components_label:
+		TooltipHelper.add_resource_tooltip(components_label, "Components", TooltipHelper.TooltipTexts.COMPONENTS)
+	if water_label:
+		TooltipHelper.add_resource_tooltip(water_label, "Water", TooltipHelper.TooltipTexts.WATER)
 
 ## Update resource display with new values
 func update_resources(resources: Dictionary) -> void:

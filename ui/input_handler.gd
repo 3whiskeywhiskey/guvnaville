@@ -8,6 +8,10 @@ signal tile_selected(position: Vector3i)
 signal unit_move_requested(unit_id: String, destination: Vector3i)
 signal unit_attack_requested(attacker_id: String, target_id: String)
 signal end_turn_requested()
+signal help_requested()
+signal quick_save_requested()
+signal quick_load_requested()
+signal cycle_unit_requested(forward: bool)
 
 enum InputMode {
 	MENU,      # Menu navigation
@@ -28,6 +32,39 @@ func _input(event: InputEvent) -> void:
 	if current_mode == InputMode.DISABLED:
 		return
 
+	# Handle keyboard shortcuts
+	if event is InputEventKey and event.pressed and not event.echo:
+		# F1 - Help (all modes)
+		if event.keycode == KEY_F1:
+			help_requested.emit()
+			get_viewport().set_input_as_handled()
+			return
+
+		# F5 - Quick Save (game mode only)
+		if event.keycode == KEY_F5 and current_mode == InputMode.GAME:
+			quick_save_requested.emit()
+			get_viewport().set_input_as_handled()
+			return
+
+		# F9 - Quick Load (game mode only)
+		if event.keycode == KEY_F9 and current_mode == InputMode.GAME:
+			quick_load_requested.emit()
+			get_viewport().set_input_as_handled()
+			return
+
+		# Tab - Cycle units (game mode only)
+		if event.keycode == KEY_TAB and current_mode == InputMode.GAME:
+			var forward := not event.shift_pressed
+			cycle_unit_requested.emit(forward)
+			get_viewport().set_input_as_handled()
+			return
+
+		# Space or Enter - End turn (game mode only)
+		if (event.keycode == KEY_SPACE or event.keycode == KEY_ENTER) and current_mode == InputMode.GAME:
+			end_turn_requested.emit()
+			get_viewport().set_input_as_handled()
+			return
+
 	# Camera controls (only in game mode)
 	if current_mode == InputMode.GAME:
 		if event.is_action_pressed("camera_zoom_in"):
@@ -37,7 +74,7 @@ func _input(event: InputEvent) -> void:
 			action_requested.emit("camera_zoom_out", {})
 			get_viewport().set_input_as_handled()
 
-		# End turn
+		# End turn (also handled by action)
 		if event.is_action_pressed("end_turn"):
 			end_turn_requested.emit()
 			get_viewport().set_input_as_handled()

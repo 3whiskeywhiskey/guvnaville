@@ -38,13 +38,13 @@ var is_data_loaded: bool = false
 # ============================================================================
 
 const DATA_DIR = "res://data/"
-const UNITS_FILE = "units.json"
-const BUILDINGS_FILE = "buildings.json"
-const CULTURE_FILE = "culture_tree.json"
-const EVENTS_FILE = "events.json"
-const LOCATIONS_FILE = "unique_locations.json"
-const TILES_FILE = "tiles.json"
-const RESOURCES_FILE = "resources.json"
+const UNITS_FILE = "units/units.json"
+const BUILDINGS_FILE = "buildings/buildings.json"
+const CULTURE_FILE = "culture/culture_tree.json"
+const EVENTS_FILE = "events/events.json"
+const LOCATIONS_FILE = "world/locations.json"
+const TILES_FILE = "tiles.json"  # Optional - creates defaults if missing
+const RESOURCES_FILE = "resources.json"  # Optional - will be made optional
 
 # ============================================================================
 # INITIALIZATION
@@ -225,7 +225,8 @@ func _load_resources() -> bool:
 	var data = _load_json_file(path)
 	if data.is_empty():
 		push_warning("[DataLoader] No resources data found at %s" % path)
-		return false
+		# Resources are optional - ResourceManager has hardcoded types
+		return true
 
 	# Handle both array and object format
 	if data is Array:
