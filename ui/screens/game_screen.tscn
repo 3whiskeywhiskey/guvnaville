@@ -1,0 +1,97 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5jqw8xn3yhpa"]
+
+[ext_resource type="Script" path="res://ui/screens/game_screen.gd" id="1_game_screen"]
+[ext_resource type="PackedScene" uid="uid://d3yg8k2l4xhqa" path="res://ui/hud/resource_bar.tscn" id="2_resource_bar"]
+[ext_resource type="PackedScene" uid="uid://bkn7x5q2w8mha" path="res://ui/hud/turn_indicator.tscn" id="3_turn_indicator"]
+[ext_resource type="PackedScene" uid="uid://c8vh4j9p2xnla" path="res://ui/hud/minimap.tscn" id="4_minimap"]
+[ext_resource type="Script" path="res://ui/hud/notification_manager.gd" id="5_notification"]
+
+[node name="GameScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_game_screen")
+
+[node name="MapView" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MapViewPlaceholder" type="ColorRect" parent="MapView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Label" type="Label" parent="MapView/MapViewPlaceholder"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -15.0
+offset_right = 100.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Map View (Rendering System)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ResourceBar" parent="HUD" instance=ExtResource("2_resource_bar")]
+layout_mode = 1
+
+[node name="TurnIndicator" parent="HUD" instance=ExtResource("3_turn_indicator")]
+layout_mode = 1
+
+[node name="Minimap" parent="HUD" instance=ExtResource("4_minimap")]
+layout_mode = 1
+
+[node name="EndTurnButton" type="Button" parent="HUD"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -80.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "End Turn"
+
+[node name="NotificationContainer" type="VBoxContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+script = ExtResource("5_notification")

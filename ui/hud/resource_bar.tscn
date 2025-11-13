@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3yg8k2l4xhqa"]
+
+[ext_resource type="Script" path="res://ui/hud/resource_bar.gd" id="1_resource_bar"]
+
+[node name="ResourceBar" type="PanelContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 40.0
+grow_horizontal = 2
+script = ExtResource("1_resource_bar")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ScrapLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Scrap: 0"
+
+[node name="FoodLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Food: 0"
+
+[node name="MedicineLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Medicine: 0"
+
+[node name="AmmunitionLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Ammo: 0"
+
+[node name="FuelLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Fuel: 0"
+
+[node name="ComponentsLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Parts: 0"
+
+[node name="WaterLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Water: 0"

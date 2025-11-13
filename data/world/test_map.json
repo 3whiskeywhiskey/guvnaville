@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "size": {
+    "x": 200,
+    "y": 200,
+    "z": 3
+  },
+  "tiles": [
+    {
+      "position": {"x": 0, "y": 0, "z": 0},
+      "tile_type": "RESIDENTIAL",
+      "terrain": "BUILDING",
+      "scavenge_value": 50.0,
+      "movement_cost": 2,
+      "cover_value": 2,
+      "elevation": 0,
+      "is_passable": true,
+      "unique_location_id": ""
+    },
+    {
+      "position": {"x": 1, "y": 0, "z": 0},
+      "tile_type": "COMMERCIAL",
+      "terrain": "BUILDING",
+      "scavenge_value": 75.0,
+      "movement_cost": 2,
+      "cover_value": 2,
+      "elevation": 0,
+      "is_passable": true,
+      "unique_location_id": ""
+    },
+    {
+      "position": {"x": 100, "y": 100, "z": 1},
+      "tile_type": "CULTURAL",
+      "terrain": "BUILDING",
+      "scavenge_value": 100.0,
+      "movement_cost": 2,
+      "cover_value": 3,
+      "elevation": 0,
+      "is_passable": true,
+      "unique_location_id": "city_hall"
+    }
+  ],
+  "unique_locations": [
+    {
+      "id": "city_hall",
+      "name": "Old City Hall",
+      "position": {"x": 100, "y": 100, "z": 1},
+      "tier": 4
+    }
+  ]
+}
