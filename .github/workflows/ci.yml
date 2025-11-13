@@ -68,12 +68,30 @@ jobs:
         run: |
           echo "GDScript linting..."
           # Basic syntax check by parsing all .gd files
-          # Skip test files that extend GutTest (they need GUT loaded)
-          find . -name "*.gd" -not -path "./addons/*" -not -path "./tests/*" | while read file; do
+          # Skip:
+          # - ./addons/* (third-party code)
+          # - ./tests/* (require GUT framework)
+          # - ./scripts/* (standalone validation scripts, run separately)
+          find . -name "*.gd" \
+            -not -path "./addons/*" \
+            -not -path "./tests/*" \
+            -not -path "./scripts/*" | while read file; do
             echo "Checking $file"
             godot --headless --check-only --script "$file" || exit 1
           done
-          echo "✅ Linting complete (tests skipped - require GUT context)"
+          echo "✅ Linting complete"
+
+      - name: Run validation scripts
+        run: |
+          echo "Running validation scripts..."
+          # These are standalone scripts that need to be executed
+          for script in scripts/validate_*.gd; do
+            if [ -f "$script" ]; then
+              echo "Running $script"
+              godot --headless --script "$script" || exit 1
+            fi
+          done
+          echo "✅ Validation scripts passed"
 
   # Build jobs disabled for Phase 1 - no game content yet
   # Will be enabled in Phase 2 when we have actual scenes to export
