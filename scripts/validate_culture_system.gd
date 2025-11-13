@@ -149,7 +149,7 @@ func test_effects() -> bool:
 	node2.effects = {"unit_attack_bonus": 0.15}
 
 	var effects_calc = CultureEffects.new()
-	var nodes: Array[CultureNode] = [node1, node2]
+	var nodes = [node1, node2]
 
 	var total = effects_calc.calculate_total_effects(nodes)
 	if not total.has("unit_attack_bonus"):
