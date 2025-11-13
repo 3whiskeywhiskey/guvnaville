@@ -38,6 +38,10 @@ var _owner_cache: Dictionary = {}
 ## Whether caches need rebuilding
 var _cache_dirty: bool = true
 
+## OPTIMIZATION: Track which specific caches are dirty for incremental updates
+var _type_cache_dirty: bool = true
+var _owner_cache_dirty: bool = true
+
 # ============================================================================
 # INITIALIZATION
 # ============================================================================
@@ -280,7 +284,7 @@ func update_tile_owner(position: Vector3i, new_owner_id: int) -> void:
 	"""
 	Changes the owner of a tile and emits tile_captured event.
 
-	Performance: < 1ms
+	Performance: < 1ms (OPTIMIZED: Incremental cache update instead of full rebuild)
 
 	Args:
 		position: Position of tile to update
@@ -302,10 +306,10 @@ func update_tile_owner(position: Vector3i, new_owner_id: int) -> void:
 	if old_owner == new_owner_id:
 		return  # No change
 
-	tile.owner_id = new_owner_id
+	# OPTIMIZATION: Incrementally update owner cache instead of invalidating
+	_update_owner_cache_incremental(tile, old_owner, new_owner_id)
 
-	# Invalidate owner cache
-	_invalidate_owner_cache()
+	tile.owner_id = new_owner_id
 
 	# Emit event (using mock EventBus pattern - will be replaced with real EventBus)
 	_emit_tile_captured(position, old_owner, new_owner_id)
@@ -422,34 +426,81 @@ func _validate_map_data(data: Dictionary) -> bool:
 func _invalidate_cache() -> void:
 	"""Invalidates all caches."""
 	_cache_dirty = true
+	_type_cache_dirty = true
+	_owner_cache_dirty = true
 	_tile_type_cache.clear()
 	_owner_cache.clear()
 
 func _invalidate_owner_cache() -> void:
 	"""Invalidates only the owner cache."""
+	_owner_cache_dirty = true
 	_owner_cache.clear()
+
+func _invalidate_type_cache() -> void:
+	"""Invalidates only the type cache."""
+	_type_cache_dirty = true
+	_tile_type_cache.clear()
 
 func _rebuild_cache_if_needed() -> void:
-	"""Rebuilds caches if they're marked dirty."""
-	if not _cache_dirty:
-		return
+	"""Rebuilds caches if they're marked dirty (OPTIMIZED: Only rebuilds dirty caches)."""
+	# OPTIMIZATION: Only rebuild specific caches that are dirty
+	if _type_cache_dirty:
+		_rebuild_type_cache()
 
+	if _owner_cache_dirty:
+		_rebuild_owner_cache()
+
+	_cache_dirty = false
+
+func _rebuild_type_cache() -> void:
+	"""Rebuilds only the type cache."""
 	_tile_type_cache.clear()
-	_owner_cache.clear()
 
-	# Rebuild caches by scanning all tiles
 	for tile in _tiles:
-		# Type cache
 		if not _tile_type_cache.has(tile.tile_type):
 			_tile_type_cache[tile.tile_type] = []
 		_tile_type_cache[tile.tile_type].append(tile)
 
-		# Owner cache
+	_type_cache_dirty = false
+
+func _rebuild_owner_cache() -> void:
+	"""Rebuilds only the owner cache."""
+	_owner_cache.clear()
+
+	for tile in _tiles:
 		if not _owner_cache.has(tile.owner_id):
 			_owner_cache[tile.owner_id] = []
 		_owner_cache[tile.owner_id].append(tile)
 
-	_cache_dirty = false
+	_owner_cache_dirty = false
+
+## OPTIMIZATION: Incrementally update owner cache without full rebuild
+func _update_owner_cache_incremental(tile: Tile, old_owner: int, new_owner: int) -> void:
+	"""
+	Updates owner cache incrementally for a single tile change.
+
+	This avoids scanning all 120,000 tiles for a single ownership change.
+
+	Args:
+		tile: The tile that changed ownership
+		old_owner: Previous owner ID
+		new_owner: New owner ID
+	"""
+	# Skip if cache isn't built yet (will be built on first query)
+	if _owner_cache_dirty or _owner_cache.is_empty():
+		return
+
+	# Remove from old owner's list
+	if _owner_cache.has(old_owner):
+		var old_list = _owner_cache[old_owner]
+		var index = old_list.find(tile)
+		if index >= 0:
+			old_list.remove_at(index)
+
+	# Add to new owner's list
+	if not _owner_cache.has(new_owner):
+		_owner_cache[new_owner] = []
+	_owner_cache[new_owner].append(tile)
 
 # ============================================================================
 # EVENT EMISSION (Mock - will be replaced with EventBus)

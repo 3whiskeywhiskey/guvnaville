@@ -793,6 +793,1075 @@
       ],
       "rarity": "uncommon",
       "tags": ["environmental"]
+    },
+    {
+      "id": "bandit_parley",
+      "name": "Bandit Negotiation",
+      "description": "A notorious bandit chief requests a meeting under flag of truce. They claim to have valuable intelligence.",
+      "triggers": {
+        "turn_range": {"min": 20, "max": 100},
+        "faction_state": {"has_trade_routes": true}
+      },
+      "choices": [
+        {
+          "id": "meet_them",
+          "text": "Hear them out",
+          "consequences": {
+            "resource_changes": {"culture_points": 10, "scrap": 25},
+            "narrative_text": "They reveal rival faction movements in exchange for safe passage. Useful intelligence."
+          }
+        },
+        {
+          "id": "ambush_them",
+          "text": "Set an ambush",
+          "consequences": {
+            "spawn_units": [{"unit_type": "raider", "count": 2}],
+            "resource_changes": {"scrap": 30, "fuel": 15},
+            "reputation_change": -15,
+            "narrative_text": "You capture the bandits and their supplies. But word spreads of your treachery."
+          }
+        },
+        {
+          "id": "refuse_meeting",
+          "text": "Refuse to meet",
+          "consequences": {
+            "narrative_text": "You turn away the messenger. The bandits disappear back into the wasteland."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["diplomatic", "combat"]
+    },
+    {
+      "id": "mechanical_breakdown",
+      "name": "Critical Equipment Failure",
+      "description": "A crucial piece of machinery breaks down. Without repairs, production will halt.",
+      "triggers": {
+        "turn_range": {"min": 15, "max": 100},
+        "required_buildings": ["workshop"]
+      },
+      "choices": [
+        {
+          "id": "emergency_repair",
+          "text": "Emergency repairs",
+          "requirements": {"resources": {"scrap": 40}, "units": ["engineer"]},
+          "consequences": {
+            "resource_changes": {"scrap": -40},
+            "narrative_text": "Your engineers work miracles. The machine roars back to life."
+          }
+        },
+        {
+          "id": "scavenge_parts",
+          "text": "Scavenge replacement parts",
+          "consequences": {
+            "resource_changes": {"fuel": -15},
+            "morale_change": -5,
+            "narrative_text": "It takes time, but you find working parts. Production resumes, delayed."
+          }
+        },
+        {
+          "id": "improvise_workaround",
+          "text": "Improvise a workaround",
+          "requirements": {"culture_nodes": ["engineering_corps"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 15},
+            "narrative_text": "Creative engineering finds an alternative solution. Less efficient, but functional."
+          }
+        }
+      ],
+      "rarity": "common",
+      "tags": ["economic", "technological"]
+    },
+    {
+      "id": "skilled_immigrant",
+      "name": "Talented Newcomer",
+      "description": "A highly skilled individual arrives seeking sanctuary. They could greatly benefit your faction.",
+      "triggers": {
+        "turn_range": {"min": 10, "max": 100},
+        "resource_thresholds": {"food_min": 30}
+      },
+      "choices": [
+        {
+          "id": "welcome_specialist",
+          "text": "Welcome them warmly",
+          "consequences": {
+            "resource_changes": {"food": -10, "culture_points": 25},
+            "morale_change": 10,
+            "narrative_text": "The newcomer shares valuable skills and knowledge. Your community is enriched."
+          }
+        },
+        {
+          "id": "test_loyalty",
+          "text": "Test their loyalty first",
+          "consequences": {
+            "resource_changes": {"culture_points": 15},
+            "narrative_text": "After proving themselves, they join fully. Trust must be earned."
+          }
+        },
+        {
+          "id": "extract_knowledge",
+          "text": "Extract their knowledge forcefully",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 20},
+            "morale_change": -8,
+            "reputation_change": -10,
+            "narrative_text": "You gain their knowledge, but lose their loyalty. Fear maintains order."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["social", "cultural"]
+    },
+    {
+      "id": "toxic_rain",
+      "name": "Acid Rain Storm",
+      "description": "Black clouds release toxic rain. Corrosive and deadly to exposed equipment and people.",
+      "triggers": {
+        "turn_range": {"min": 10, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "seal_everything",
+          "text": "Seal all buildings and equipment",
+          "requirements": {"resources": {"scrap": 30}},
+          "consequences": {
+            "resource_changes": {"scrap": -30},
+            "narrative_text": "Quick action prevents damage. Your infrastructure survives intact."
+          }
+        },
+        {
+          "id": "collect_rainwater",
+          "text": "Collect the rainwater for study",
+          "requirements": {"culture_nodes": ["scientific_method"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 20, "medicine": -10},
+            "narrative_text": "Dangerous research yields insights into environmental contamination."
+          }
+        },
+        {
+          "id": "minimal_precautions",
+          "text": "Take minimal precautions",
+          "consequences": {
+            "resource_changes": {"scrap": -20, "medicine": -5},
+            "morale_change": -5,
+            "narrative_text": "Corrosion damages equipment and several people suffer chemical burns."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["environmental"]
+    },
+    {
+      "id": "bunker_discovery",
+      "name": "Hidden Underground Shelter",
+      "description": "Children playing discover a hidden bunker entrance beneath rubble. What's inside?",
+      "triggers": {
+        "turn_range": {"min": 5, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "full_exploration",
+          "text": "Fully explore the bunker",
+          "consequences": {
+            "resource_changes": {"scrap": 40, "food": 30, "medicine": 20},
+            "narrative_text": "The bunker yields preserved supplies and useful equipment."
+          }
+        },
+        {
+          "id": "cautious_approach",
+          "text": "Proceed cautiously",
+          "requirements": {"units": ["engineer"]},
+          "consequences": {
+            "resource_changes": {"scrap": 50, "food": 40, "medicine": 25, "fuel": 20},
+            "narrative_text": "Careful exploration reveals even more supplies, including fuel reserves."
+          }
+        },
+        {
+          "id": "seal_it",
+          "text": "Seal it for later",
+          "consequences": {
+            "narrative_text": "You mark the location for future exploration when you have more resources."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["exploration", "economic"]
+    },
+    {
+      "id": "succession_crisis",
+      "name": "Leadership Succession",
+      "description": "Your second-in-command falls ill. Who will take their place in the chain of command?",
+      "triggers": {
+        "turn_range": {"min": 30, "max": 100},
+        "faction_state": {"settlement_count_min": 2}
+      },
+      "choices": [
+        {
+          "id": "military_leader",
+          "text": "Promote the military commander",
+          "consequences": {
+            "spawn_units": [{"unit_type": "soldier", "count": 2}],
+            "morale_change": -3,
+            "narrative_text": "Military discipline strengthens, but some fear growing militarism."
+          }
+        },
+        {
+          "id": "civilian_leader",
+          "text": "Elevate a civilian administrator",
+          "requirements": {"culture_nodes": ["democratic_council"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 20},
+            "morale_change": 10,
+            "narrative_text": "Civilian control is maintained. The people appreciate democratic principles."
+          }
+        },
+        {
+          "id": "council_rule",
+          "text": "Form a ruling council",
+          "consequences": {
+            "resource_changes": {"culture_points": 15},
+            "morale_change": 5,
+            "narrative_text": "Shared leadership distributes power. Decisions will take longer but be more balanced."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["political", "social"]
+    },
+    {
+      "id": "contraband_discovery",
+      "name": "Illegal Goods Uncovered",
+      "description": "Guards discover a hidden cache of prohibited items being smuggled into your settlement.",
+      "triggers": {
+        "turn_range": {"min": 20, "max": 100},
+        "faction_state": {"settlement_count_min": 1}
+      },
+      "choices": [
+        {
+          "id": "punish_smugglers",
+          "text": "Punish the smugglers harshly",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "morale_change": -10,
+            "narrative_text": "Public punishment deters future smuggling. Fear maintains order."
+          }
+        },
+        {
+          "id": "confiscate_items",
+          "text": "Confiscate but show mercy",
+          "consequences": {
+            "resource_changes": {"scrap": 25},
+            "morale_change": 3,
+            "narrative_text": "You take the contraband but spare the smugglers. A measured response."
+          }
+        },
+        {
+          "id": "legalize_trade",
+          "text": "Legalize and tax the trade",
+          "requirements": {"culture_nodes": ["trade_networks"]},
+          "consequences": {
+            "resource_changes": {"scrap": 15, "culture_points": 10},
+            "morale_change": 8,
+            "narrative_text": "Practical economics. Regulate what you cannot eliminate."
+          }
+        }
+      ],
+      "rarity": "common",
+      "tags": ["social", "economic"]
+    },
+    {
+      "id": "veteran_returns",
+      "name": "War Veteran Arrives",
+      "description": "A grizzled military veteran from before the apocalypse seeks to join your faction.",
+      "triggers": {
+        "turn_range": {"min": 15, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "military_trainer",
+          "text": "Make them a military trainer",
+          "consequences": {
+            "resource_changes": {"culture_points": 20},
+            "spawn_units": [{"unit_type": "soldier", "count": 1}],
+            "narrative_text": "The veteran trains your forces in old-world military tactics. Discipline improves."
+          }
+        },
+        {
+          "id": "strategic_advisor",
+          "text": "Appoint as strategic advisor",
+          "requirements": {"culture_nodes": ["organized_warfare"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 30},
+            "narrative_text": "Their strategic knowledge proves invaluable in planning operations."
+          }
+        },
+        {
+          "id": "distrust_them",
+          "text": "Keep them at arm's length",
+          "consequences": {
+            "narrative_text": "Old soldiers carry old grudges. You accept them but watch carefully."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["military", "social"]
+    },
+    {
+      "id": "cultural_schism",
+      "name": "Cultural Divide",
+      "description": "Two groups within your faction clash over fundamental values. The community fractures.",
+      "triggers": {
+        "turn_range": {"min": 40, "max": 100},
+        "faction_state": {"settlement_count_min": 2}
+      },
+      "choices": [
+        {
+          "id": "force_unity",
+          "text": "Enforce cultural uniformity",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "morale_change": -15,
+            "resource_changes": {"culture_points": 10},
+            "narrative_text": "You impose a single cultural standard. Unity through suppression."
+          }
+        },
+        {
+          "id": "celebrate_diversity",
+          "text": "Embrace cultural diversity",
+          "requirements": {"culture_nodes": ["democratic_council"]},
+          "consequences": {
+            "morale_change": 15,
+            "resource_changes": {"culture_points": 25},
+            "narrative_text": "Different perspectives strengthen the whole. Tolerance becomes policy."
+          }
+        },
+        {
+          "id": "let_them_separate",
+          "text": "Allow peaceful separation",
+          "consequences": {
+            "morale_change": -5,
+            "narrative_text": "One group leaves to found their own settlement. Painful but peaceful."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["cultural", "social", "political"]
+    },
+    {
+      "id": "factory_reactivation",
+      "name": "Functional Factory Found",
+      "description": "Scouts discover an intact pre-war factory. With power, it could produce valuable goods.",
+      "triggers": {
+        "turn_range": {"min": 25, "max": 100},
+        "required_buildings": ["workshop"]
+      },
+      "choices": [
+        {
+          "id": "weapons_production",
+          "text": "Convert to weapons manufacturing",
+          "requirements": {"resources": {"scrap": 60, "fuel": 40}},
+          "consequences": {
+            "resource_changes": {"scrap": -60, "fuel": -40},
+            "spawn_units": [{"unit_type": "soldier", "count": 3}],
+            "narrative_text": "Assembly lines produce weapons. Your military power grows."
+          }
+        },
+        {
+          "id": "goods_production",
+          "text": "Produce trade goods",
+          "requirements": {"culture_nodes": ["trade_networks"]},
+          "consequences": {
+            "resource_changes": {"scrap": 40, "culture_points": 30},
+            "narrative_text": "Manufacturing creates wealth. Trading partners are eager for your goods."
+          }
+        },
+        {
+          "id": "strip_for_parts",
+          "text": "Salvage the machinery",
+          "consequences": {
+            "resource_changes": {"scrap": 100},
+            "narrative_text": "You dismantle the factory for parts. Immediate gain, lost opportunity."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["economic", "industrial"]
+    },
+    {
+      "id": "oracle_appears",
+      "name": "The Prophet",
+      "description": "A charismatic individual claiming divine visions gathers followers. They speak of destiny.",
+      "triggers": {
+        "turn_range": {"min": 30, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "embrace_prophet",
+          "text": "Recognize their spiritual authority",
+          "consequences": {
+            "morale_change": 20,
+            "resource_changes": {"culture_points": 35},
+            "narrative_text": "Faith provides hope in dark times. The prophet becomes a cultural leader."
+          }
+        },
+        {
+          "id": "tolerate_religion",
+          "text": "Allow but don't endorse",
+          "consequences": {
+            "morale_change": 8,
+            "resource_changes": {"culture_points": 15},
+            "narrative_text": "Freedom of belief, within limits. The prophet preaches, you govern."
+          }
+        },
+        {
+          "id": "ban_preaching",
+          "text": "Suppress the movement",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "morale_change": -12,
+            "narrative_text": "You exile the prophet. Their followers resent your interference."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["cultural", "social", "story"]
+    },
+    {
+      "id": "locust_swarm",
+      "name": "Mutant Insect Plague",
+      "description": "A swarm of mutated locusts descends on your crops, threatening the harvest.",
+      "triggers": {
+        "turn_range": {"min": 20, "max": 100},
+        "required_buildings": ["farm"]
+      },
+      "choices": [
+        {
+          "id": "chemical_warfare",
+          "text": "Use chemical pesticides",
+          "requirements": {"resources": {"medicine": 20}},
+          "consequences": {
+            "resource_changes": {"medicine": -20, "food": -15},
+            "narrative_text": "Chemicals kill the swarm but contaminate some crops."
+          }
+        },
+        {
+          "id": "fire_barriers",
+          "text": "Create fire barriers",
+          "requirements": {"resources": {"fuel": 25}},
+          "consequences": {
+            "resource_changes": {"fuel": -25, "food": -10},
+            "narrative_text": "Flames drive them away. Scorched earth, but the harvest mostly survives."
+          }
+        },
+        {
+          "id": "harvest_insects",
+          "text": "Harvest the insects as food",
+          "consequences": {
+            "resource_changes": {"food": 15},
+            "morale_change": -8,
+            "narrative_text": "Protein is protein. Your people eat what they must."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["environmental", "economic"]
+    },
+    {
+      "id": "tech_breakthrough",
+      "name": "Scientific Discovery",
+      "description": "Your researchers achieve a breakthrough in understanding pre-war technology.",
+      "triggers": {
+        "turn_range": {"min": 35, "max": 100},
+        "required_buildings": ["lab"]
+      },
+      "choices": [
+        {
+          "id": "share_knowledge",
+          "text": "Share discovery with allies",
+          "requirements": {"culture_nodes": ["trade_networks"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 40},
+            "reputation_change": 20,
+            "narrative_text": "Open science benefits all. Your generosity builds alliances."
+          }
+        },
+        {
+          "id": "weaponize_discovery",
+          "text": "Weaponize the technology",
+          "requirements": {"culture_nodes": ["organized_warfare"]},
+          "consequences": {
+            "spawn_units": [{"unit_type": "specialist", "count": 1}],
+            "resource_changes": {"culture_points": 30},
+            "narrative_text": "Knowledge is power. Military applications are prioritized."
+          }
+        },
+        {
+          "id": "civilian_applications",
+          "text": "Focus on civilian use",
+          "consequences": {
+            "resource_changes": {"culture_points": 35, "scrap": 20},
+            "morale_change": 12,
+            "narrative_text": "Technology improves daily life. Production and comfort increase."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["technological", "cultural"]
+    },
+    {
+      "id": "blood_feud",
+      "name": "Family Vendetta",
+      "description": "An old blood feud between two families threatens to tear your settlement apart.",
+      "triggers": {
+        "turn_range": {"min": 20, "max": 100},
+        "faction_state": {"settlement_count_min": 1}
+      },
+      "choices": [
+        {
+          "id": "impose_justice",
+          "text": "Impose neutral justice",
+          "consequences": {
+            "morale_change": -5,
+            "resource_changes": {"culture_points": 15},
+            "narrative_text": "You enforce law impartially. Neither family is happy, but order is maintained."
+          }
+        },
+        {
+          "id": "exile_troublemakers",
+          "text": "Exile both families",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "morale_change": -10,
+            "narrative_text": "You banish both sides. The settlement is more peaceful, if less populated."
+          }
+        },
+        {
+          "id": "mediate_peace",
+          "text": "Mediate a reconciliation",
+          "requirements": {"culture_nodes": ["democratic_council"]},
+          "consequences": {
+            "morale_change": 15,
+            "resource_changes": {"culture_points": 20},
+            "narrative_text": "Patient negotiation brings peace. Old wounds begin to heal."
+          }
+        }
+      ],
+      "rarity": "common",
+      "tags": ["social", "political"]
+    },
+    {
+      "id": "earthquake",
+      "name": "Seismic Tremor",
+      "description": "The ground shakes violently. Buildings crack and supplies scatter.",
+      "triggers": {
+        "turn_range": {"min": 10, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "emergency_repairs",
+          "text": "Begin emergency repairs",
+          "requirements": {"resources": {"scrap": 50}},
+          "consequences": {
+            "resource_changes": {"scrap": -50},
+            "narrative_text": "Quick repairs prevent further collapse. Structural integrity is restored."
+          }
+        },
+        {
+          "id": "triage_buildings",
+          "text": "Focus on critical structures",
+          "consequences": {
+            "resource_changes": {"scrap": -25, "fuel": -10},
+            "narrative_text": "You save the most important buildings. Others will have to wait."
+          }
+        },
+        {
+          "id": "accept_damage",
+          "text": "Accept the damage",
+          "consequences": {
+            "resource_changes": {"scrap": -15, "food": -10},
+            "morale_change": -10,
+            "narrative_text": "Limited resources mean limited response. The settlement bears its scars."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["environmental"]
+    },
+    {
+      "id": "pre_war_video",
+      "name": "Old World Recording",
+      "description": "A functioning video player is found with recordings from before the apocalypse.",
+      "triggers": {
+        "turn_range": {"min": 15, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "public_viewing",
+          "text": "Show publicly",
+          "consequences": {
+            "morale_change": -8,
+            "resource_changes": {"culture_points": 20},
+            "narrative_text": "Seeing the old world brings both longing and determination to rebuild."
+          }
+        },
+        {
+          "id": "study_privately",
+          "text": "Study for intelligence",
+          "requirements": {"culture_nodes": ["old_world_knowledge"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 30},
+            "narrative_text": "The recordings contain valuable technical and historical information."
+          }
+        },
+        {
+          "id": "destroy_it",
+          "text": "Destroy the recording",
+          "consequences": {
+            "morale_change": 5,
+            "narrative_text": "The past is dead. You focus on the present and future."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["story", "cultural"]
+    },
+    {
+      "id": "whistleblower",
+      "name": "Corruption Exposed",
+      "description": "Someone exposes corruption among your administrators. Resources have been stolen.",
+      "triggers": {
+        "turn_range": {"min": 25, "max": 100},
+        "faction_state": {"settlement_count_min": 2}
+      },
+      "choices": [
+        {
+          "id": "public_trial",
+          "text": "Hold a public trial",
+          "requirements": {"culture_nodes": ["democratic_council"]},
+          "consequences": {
+            "morale_change": 10,
+            "resource_changes": {"culture_points": 25},
+            "narrative_text": "Transparent justice is served. Trust in leadership is restored."
+          }
+        },
+        {
+          "id": "quiet_punishment",
+          "text": "Punish quietly",
+          "consequences": {
+            "resource_changes": {"scrap": 20},
+            "morale_change": -5,
+            "narrative_text": "You recover stolen goods but rumors spread about what really happened."
+          }
+        },
+        {
+          "id": "coverup",
+          "text": "Cover up the corruption",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "morale_change": -15,
+            "narrative_text": "You silence the whistleblower. But trust erodes beneath the surface."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["political", "social"]
+    },
+    {
+      "id": "rival_embassy",
+      "name": "Diplomatic Mission",
+      "description": "A rival faction sends diplomats requesting formal relations and a non-aggression pact.",
+      "triggers": {
+        "turn_range": {"min": 30, "max": 100},
+        "faction_state": {"settlement_count_min": 2}
+      },
+      "choices": [
+        {
+          "id": "accept_treaty",
+          "text": "Sign non-aggression pact",
+          "requirements": {"culture_nodes": ["trade_networks"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 30},
+            "reputation_change": 15,
+            "narrative_text": "Peace dividends flow as trade and cooperation replace tension."
+          }
+        },
+        {
+          "id": "conditional_peace",
+          "text": "Negotiate favorable terms",
+          "consequences": {
+            "resource_changes": {"scrap": 40, "culture_points": 15},
+            "reputation_change": 5,
+            "narrative_text": "You drive a hard bargain. Peace, but on your terms."
+          }
+        },
+        {
+          "id": "reject_diplomacy",
+          "text": "Reject their offer",
+          "consequences": {
+            "reputation_change": -10,
+            "narrative_text": "You refuse to treat with them. Tensions remain high."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["diplomatic", "political"]
+    },
+    {
+      "id": "child_genius",
+      "name": "Prodigy Child",
+      "description": "A remarkably intelligent child shows extraordinary aptitude for science and engineering.",
+      "triggers": {
+        "turn_range": {"min": 20, "max": 100},
+        "required_buildings": ["shelter"]
+      },
+      "choices": [
+        {
+          "id": "formal_education",
+          "text": "Provide advanced education",
+          "requirements": {"culture_nodes": ["education_system"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 40},
+            "narrative_text": "You nurture brilliance. In time, they will change the world."
+          }
+        },
+        {
+          "id": "apprenticeship",
+          "text": "Apprentice to specialists",
+          "requirements": {"units": ["specialist"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 30},
+            "narrative_text": "Hands-on learning accelerates their development."
+          }
+        },
+        {
+          "id": "normal_childhood",
+          "text": "Let them have a normal childhood",
+          "consequences": {
+            "morale_change": 8,
+            "resource_changes": {"culture_points": 15},
+            "narrative_text": "Genius or not, they deserve to be a child. They'll contribute when ready."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["story", "cultural"]
+    },
+    {
+      "id": "water_poisoning",
+      "name": "Contaminated Water Supply",
+      "description": "Your water source shows signs of contamination. People are falling ill.",
+      "triggers": {
+        "turn_range": {"min": 15, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "purify_water",
+          "text": "Emergency purification",
+          "requirements": {"resources": {"medicine": 25}},
+          "consequences": {
+            "resource_changes": {"medicine": -25},
+            "narrative_text": "Chemical treatment makes the water safe. Crisis averted."
+          }
+        },
+        {
+          "id": "find_new_source",
+          "text": "Search for new water source",
+          "requirements": {"units": ["scout"]},
+          "consequences": {
+            "resource_changes": {"fuel": -20, "medicine": 15},
+            "narrative_text": "Scouts locate a clean spring. You relocate water operations."
+          }
+        },
+        {
+          "id": "boil_all_water",
+          "text": "Mandate boiling all water",
+          "consequences": {
+            "resource_changes": {"fuel": -15, "medicine": -10},
+            "narrative_text": "Fuel-intensive but effective. Illness rates drop."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["environmental", "medical"]
+    },
+    {
+      "id": "artistic_movement",
+      "name": "Cultural Renaissance",
+      "description": "Artists and musicians emerge, creating new works that capture post-apocalyptic life.",
+      "triggers": {
+        "turn_range": {"min": 40, "max": 100},
+        "faction_state": {"settlement_count_min": 2}
+      },
+      "choices": [
+        {
+          "id": "patronize_arts",
+          "text": "Become patron of the arts",
+          "requirements": {"resources": {"scrap": 30, "food": 20}},
+          "consequences": {
+            "resource_changes": {"scrap": -30, "food": -20, "culture_points": 50},
+            "morale_change": 20,
+            "narrative_text": "Culture flourishes under your support. A new golden age begins."
+          }
+        },
+        {
+          "id": "allow_expression",
+          "text": "Allow but don't fund",
+          "consequences": {
+            "resource_changes": {"culture_points": 25},
+            "morale_change": 10,
+            "narrative_text": "Art finds its own way. Creativity needs freedom, not funding."
+          }
+        },
+        {
+          "id": "practical_focus",
+          "text": "Discourage 'frivolous' activities",
+          "consequences": {
+            "morale_change": -10,
+            "narrative_text": "Survival demands practicality. Art is a luxury you cannot afford."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["cultural", "social"]
+    },
+    {
+      "id": "military_coup",
+      "name": "Military Takeover Attempt",
+      "description": "Ambitious officers attempt to seize power through military force.",
+      "triggers": {
+        "turn_range": {"min": 50, "max": 100},
+        "faction_state": {"at_war": true}
+      },
+      "choices": [
+        {
+          "id": "crush_coup",
+          "text": "Crush the rebellion",
+          "requirements": {"units": ["soldier"]},
+          "consequences": {
+            "spawn_units": [{"unit_type": "militia", "count": 2}],
+            "morale_change": -10,
+            "narrative_text": "Loyal forces defeat the conspirators. Authority is maintained through force."
+          }
+        },
+        {
+          "id": "negotiate_compromise",
+          "text": "Negotiate power-sharing",
+          "requirements": {"culture_nodes": ["democratic_council"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 25},
+            "morale_change": 5,
+            "narrative_text": "Compromise avoids bloodshed. The military gains representation in government."
+          }
+        },
+        {
+          "id": "step_down",
+          "text": "Voluntarily step down",
+          "consequences": {
+            "morale_change": 15,
+            "reputation_change": 20,
+            "narrative_text": "Your peaceful transition wins hearts. Leadership changes but stability remains."
+          }
+        }
+      ],
+      "rarity": "epic",
+      "tags": ["political", "military", "story"]
+    },
+    {
+      "id": "archive_found",
+      "name": "Digital Archive Discovery",
+      "description": "Intact servers containing pre-war internet archives are discovered. Petabytes of information.",
+      "triggers": {
+        "turn_range": {"min": 35, "max": 100},
+        "required_buildings": ["lab"]
+      },
+      "choices": [
+        {
+          "id": "systematic_study",
+          "text": "Systematically study the data",
+          "requirements": {"culture_nodes": ["old_world_knowledge", "scientific_method"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 80},
+            "narrative_text": "Years of research lie ahead. But human knowledge has been recovered."
+          }
+        },
+        {
+          "id": "practical_extraction",
+          "text": "Extract practical knowledge",
+          "consequences": {
+            "resource_changes": {"culture_points": 50, "scrap": 30},
+            "narrative_text": "You focus on immediately useful information. Technical manuals and blueprints."
+          }
+        },
+        {
+          "id": "sell_access",
+          "text": "Sell access to other factions",
+          "requirements": {"culture_nodes": ["trade_networks"]},
+          "consequences": {
+            "resource_changes": {"scrap": 80, "fuel": 60, "culture_points": 40},
+            "reputation_change": 15,
+            "narrative_text": "Knowledge is currency. Other factions pay handsomely for access."
+          }
+        }
+      ],
+      "rarity": "epic",
+      "tags": ["technological", "story", "cultural"]
+    },
+    {
+      "id": "pandemic_threat",
+      "name": "Disease Pandemic",
+      "description": "A virulent disease spreads across the region. Multiple settlements are affected.",
+      "triggers": {
+        "turn_range": {"min": 40, "max": 100},
+        "faction_state": {"has_trade_routes": true}
+      },
+      "choices": [
+        {
+          "id": "close_borders",
+          "text": "Quarantine all trade",
+          "consequences": {
+            "resource_changes": {"food": -30, "scrap": -20},
+            "morale_change": -15,
+            "narrative_text": "Isolation protects you but strangles the economy. You survive, alone."
+          }
+        },
+        {
+          "id": "develop_cure",
+          "text": "Race to develop a cure",
+          "requirements": {"culture_nodes": ["scientific_method"], "resources": {"medicine": 50}},
+          "consequences": {
+            "resource_changes": {"medicine": -50, "culture_points": 60},
+            "reputation_change": 30,
+            "narrative_text": "Your scientists create a vaccine. Thousands of lives are saved across factions."
+          }
+        },
+        {
+          "id": "controlled_exposure",
+          "text": "Allow controlled exposure",
+          "consequences": {
+            "resource_changes": {"medicine": -30},
+            "morale_change": -20,
+            "narrative_text": "Risky strategy. Survivors develop immunity, but losses are heavy."
+          }
+        }
+      ],
+      "rarity": "epic",
+      "tags": ["medical", "environmental", "story"]
+    },
+    {
+      "id": "time_capsule",
+      "name": "Pre-War Time Capsule",
+      "description": "Construction crews unearth a time capsule from 50 years before the apocalypse.",
+      "triggers": {
+        "turn_range": {"min": 10, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "public_opening",
+          "text": "Open it publicly",
+          "consequences": {
+            "resource_changes": {"culture_points": 20, "scrap": 15},
+            "morale_change": 10,
+            "narrative_text": "Messages from the past inspire hope. Technology and memorabilia spark joy."
+          }
+        },
+        {
+          "id": "museum_display",
+          "text": "Create museum display",
+          "requirements": {"culture_nodes": ["education_system"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 35},
+            "morale_change": 15,
+            "narrative_text": "You preserve history. Future generations will know the world before."
+          }
+        },
+        {
+          "id": "ignore_it",
+          "text": "Bury it again",
+          "consequences": {
+            "narrative_text": "The past is irrelevant. You focus on the future."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["story", "cultural"]
+    },
+    {
+      "id": "solar_eclipse",
+      "name": "Total Solar Eclipse",
+      "description": "The moon blocks the sun completely. Darkness at midday sparks fear and wonder.",
+      "triggers": {
+        "turn_range": {"min": 1, "max": 100}
+      },
+      "choices": [
+        {
+          "id": "scientific_observation",
+          "text": "Observe scientifically",
+          "requirements": {"culture_nodes": ["scientific_method"]},
+          "consequences": {
+            "resource_changes": {"culture_points": 15},
+            "narrative_text": "You study the celestial event. Knowledge dispels superstition."
+          }
+        },
+        {
+          "id": "spiritual_ceremony",
+          "text": "Hold spiritual ceremony",
+          "consequences": {
+            "morale_change": 12,
+            "resource_changes": {"culture_points": 10},
+            "narrative_text": "You mark the moment with ritual. Shared experience strengthens community."
+          }
+        },
+        {
+          "id": "ignore_event",
+          "text": "Continue normal operations",
+          "consequences": {
+            "narrative_text": "It's just an eclipse. Work continues."
+          }
+        }
+      ],
+      "rarity": "rare",
+      "tags": ["environmental", "cultural"]
+    },
+    {
+      "id": "desertion_wave",
+      "name": "Mass Desertion",
+      "description": "Harsh conditions drive multiple people to desert, seeking better lives elsewhere.",
+      "triggers": {
+        "turn_range": {"min": 25, "max": 100},
+        "resource_thresholds": {"food_min": 20}
+      },
+      "choices": [
+        {
+          "id": "improve_conditions",
+          "text": "Improve living conditions",
+          "requirements": {"resources": {"food": 40, "scrap": 30}},
+          "consequences": {
+            "resource_changes": {"food": -40, "scrap": -30},
+            "morale_change": 20,
+            "narrative_text": "Investment in quality of life pays off. Desertion stops, loyalty grows."
+          }
+        },
+        {
+          "id": "hunt_deserters",
+          "text": "Hunt down deserters",
+          "requirements": {"culture_nodes": ["strongman_rule"]},
+          "consequences": {
+            "morale_change": -15,
+            "narrative_text": "You make examples of deserters. Others stay through fear, not loyalty."
+          }
+        },
+        {
+          "id": "let_them_go",
+          "text": "Let them leave peacefully",
+          "consequences": {
+            "morale_change": 5,
+            "narrative_text": "Freedom to leave means those who stay choose to be here. Quality over quantity."
+          }
+        }
+      ],
+      "rarity": "uncommon",
+      "tags": ["social", "political"]
     }
   ]
 }

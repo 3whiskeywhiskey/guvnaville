@@ -147,6 +147,7 @@ func end_game(victory_type: String, winning_faction: int) -> void:
 	# Clean up
 	is_game_active = false
 	is_paused = false
+	current_state = null
 
 ## Pause the game
 func pause_game() -> void:

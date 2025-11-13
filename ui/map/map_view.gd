@@ -39,10 +39,16 @@ var units_at_position: Dictionary = {}  # Vector3i -> Array[int (unit_ids)]
 
 # Highlights
 var active_highlights: Array[ColorRect] = []
+var highlight_pool: Array[ColorRect] = []  # Pool for reusing highlight rectangles
+const HIGHLIGHT_POOL_SIZE: int = 200  # Pre-allocate highlight pool
 
 # State
 var current_render_mode: RenderMode = RenderMode.NORMAL
 var is_initialized: bool = false
+
+# Performance caching
+var _last_camera_bounds: Rect2i = Rect2i()
+var _camera_moved_threshold: int = 10  # Only update chunks if camera moves this many pixels
 
 # Performance stats
 var render_stats: Dictionary = {
@@ -152,17 +158,12 @@ func render_units(units: Array) -> void:
 	print("MapView: %d units rendered in %d ms" % [units.size(), elapsed])
 
 ## Update fog of war visualization for a specific faction
+## OPTIMIZED: Only creates visibility map for tiles that need it
 func render_fog_of_war(faction_id: int, visible_tiles: Array) -> void:
-	# Build visibility map
+	# Build visibility map - OPTIMIZED: Only store visible tiles instead of all tiles
 	var visibility_map = {}
 
-	# Mark all tiles as hidden initially
-	for x in range(map_size.x):
-		for y in range(map_size.y):
-			var pos = Vector3i(x, y, 0)
-			visibility_map[pos] = FogRenderer.VisibilityLevel.HIDDEN
-
-	# Mark visible tiles
+	# Mark visible tiles (skip the expensive iteration over all tiles)
 	for tile_pos in visible_tiles:
 		if tile_pos is Vector3i:
 			visibility_map[tile_pos] = FogRenderer.VisibilityLevel.VISIBLE
@@ -170,11 +171,12 @@ func render_fog_of_war(faction_id: int, visible_tiles: Array) -> void:
 	# Render fog
 	fog_renderer.render_fog(faction_id, visibility_map)
 
-	# Hide enemy units in fog
+	# Hide enemy units in fog - OPTIMIZED: Only check units, not all tiles
 	for unit_id in unit_renderers:
 		var renderer = unit_renderers[unit_id]
 		var unit_pos = renderer.current_position
-		var is_visible = visibility_map.get(unit_pos, FogRenderer.VisibilityLevel.HIDDEN) == FogRenderer.VisibilityLevel.VISIBLE
+		# Unit is visible only if its position is in the visibility_map
+		var is_visible = visibility_map.has(unit_pos) and visibility_map[unit_pos] == FogRenderer.VisibilityLevel.VISIBLE
 		renderer.set_unit_visible(is_visible)
 
 ## Update a single tile's rendering
@@ -229,6 +231,7 @@ func center_camera_on(tile_position: Vector3i) -> void:
 	camera_centered.emit(tile_position)
 
 ## Highlight multiple tiles with a colored overlay
+## OPTIMIZED: Uses object pooling to reuse highlight rectangles
 func highlight_tiles(positions: Array, color: Color) -> void:
 	clear_highlights()
 
@@ -236,18 +239,33 @@ func highlight_tiles(positions: Array, color: Color) -> void:
 		if not pos is Vector3i:
 			continue
 
-		var highlight = ColorRect.new()
-		highlight.size = Vector2(TILE_SIZE, TILE_SIZE)
+		var highlight: ColorRect
+		# Try to get from pool first (object pooling optimization)
+		if highlight_pool.size() > 0:
+			highlight = highlight_pool.pop_back()
+			highlight.visible = true
+		else:
+			# Pool exhausted, create new one
+			highlight = ColorRect.new()
+			highlight.size = Vector2(TILE_SIZE, TILE_SIZE)
+			highlight.z_index = 5  # Above tiles, below units
+			add_child(highlight)
+
 		highlight.position = Vector2(pos.x * TILE_SIZE, pos.y * TILE_SIZE)
 		highlight.color = color
-		highlight.z_index = 5  # Above tiles, below units
-		add_child(highlight)
 		active_highlights.append(highlight)
 
 ## Remove all tile highlights
+## OPTIMIZED: Returns highlights to pool instead of destroying them
 func clear_highlights() -> void:
 	for highlight in active_highlights:
-		highlight.queue_free()
+		# Return to pool instead of destroying (object pooling optimization)
+		highlight.visible = false
+		if highlight_pool.size() < HIGHLIGHT_POOL_SIZE:
+			highlight_pool.append(highlight)
+		else:
+			highlight.queue_free()  # Pool is full, destroy it
+
 	active_highlights.clear()
 	highlights_cleared.emit()
 
@@ -322,6 +340,9 @@ func _initialize_components() -> void:
 	fog_renderer = FogRenderer.new()
 	add_child(fog_renderer)
 
+	# Pre-allocate highlight pool for performance
+	_initialize_highlight_pool()
+
 ## Create chunks for the map
 func _create_chunks() -> void:
 	var chunks_x = ceili(float(map_size.x) / CHUNK_SIZE)
@@ -371,17 +392,34 @@ func _get_tiles_for_chunk(chunk_pos: Vector2i) -> Array:
 	return tiles
 
 ## Update visible chunks based on camera position
+## OPTIMIZED: Only updates if camera moved significantly, reduces per-frame overhead
 func _update_visible_chunks() -> void:
 	if not is_initialized:
 		return
 
 	var camera_bounds = camera_controller.get_camera_bounds()
+
+	# OPTIMIZATION: Skip update if camera hasn't moved much
+	if not _camera_moved_significantly(camera_bounds):
+		return
+
+	_last_camera_bounds = camera_bounds
 	var new_visible_chunks: Array[Vector2i] = []
 
-	# Find chunks in view
-	for chunk_pos in chunks.keys():
-		var chunk = chunks[chunk_pos]
-		if chunk.renderer.is_in_view(camera_bounds):
+	# OPTIMIZATION: Calculate chunk bounds from camera bounds to avoid checking all chunks
+	var min_chunk_x = max(0, camera_bounds.position.x / CHUNK_SIZE)
+	var max_chunk_x = min((camera_bounds.position.x + camera_bounds.size.x) / CHUNK_SIZE + 1, ceili(float(map_size.x) / CHUNK_SIZE))
+	var min_chunk_y = max(0, camera_bounds.position.y / CHUNK_SIZE)
+	var max_chunk_y = min((camera_bounds.position.y + camera_bounds.size.y) / CHUNK_SIZE + 1, ceili(float(map_size.y) / CHUNK_SIZE))
+
+	# Only check chunks that could be visible based on camera bounds
+	for cx in range(min_chunk_x, max_chunk_x):
+		for cy in range(min_chunk_y, max_chunk_y):
+			var chunk_pos = Vector2i(cx, cy)
+			if not chunk_pos in chunks:
+				continue
+
+			var chunk = chunks[chunk_pos]
 			new_visible_chunks.append(chunk_pos)
 
 			# Show chunk if not visible
@@ -442,3 +480,33 @@ func _on_camera_moved(new_position: Vector2) -> void:
 
 func _on_camera_zoomed(zoom_level: int) -> void:
 	camera_zoomed.emit(zoom_level)
+
+# ============================================================================
+# PERFORMANCE OPTIMIZATION HELPERS
+# ============================================================================
+
+## Initialize highlight pool for object pooling
+func _initialize_highlight_pool() -> void:
+	highlight_pool.clear()
+	for i in range(HIGHLIGHT_POOL_SIZE):
+		var highlight = ColorRect.new()
+		highlight.size = Vector2(TILE_SIZE, TILE_SIZE)
+		highlight.z_index = 5
+		highlight.visible = false
+		add_child(highlight)
+		highlight_pool.append(highlight)
+
+## Check if camera moved significantly enough to warrant chunk update
+func _camera_moved_significantly(new_bounds: Rect2i) -> bool:
+	# First update always counts
+	if _last_camera_bounds.size == Vector2i.ZERO:
+		return true
+
+	# Check if camera moved more than threshold
+	var pos_diff = new_bounds.position - _last_camera_bounds.position
+	var moved_distance = abs(pos_diff.x) + abs(pos_diff.y)
+
+	# Also update if size changed (zoom)
+	var size_changed = new_bounds.size != _last_camera_bounds.size
+
+	return moved_distance > _camera_moved_threshold or size_changed

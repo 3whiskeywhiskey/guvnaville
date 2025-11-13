@@ -35,6 +35,20 @@ func _ready() -> void:
 		input_handler.end_turn_requested.connect(_on_end_turn_requested)
 		input_handler.action_requested.connect(_on_action_requested)
 
+	# Setup tooltips
+	_setup_tooltips()
+
+func _setup_tooltips() -> void:
+	"""Add tooltips to HUD elements"""
+	if end_turn_button:
+		TooltipHelper.add_tooltip(end_turn_button,
+			TooltipHelper.format_tooltip_with_shortcut("End Turn",
+				TooltipHelper.TooltipTexts.END_TURN, "Space or Enter"))
+	if turn_indicator:
+		TooltipHelper.add_tooltip(turn_indicator, TooltipHelper.TooltipTexts.TURN_INDICATOR)
+	if minimap:
+		TooltipHelper.add_tooltip(minimap, TooltipHelper.TooltipTexts.MINIMAP)
+
 func _on_end_turn_pressed() -> void:
 	_on_end_turn_requested()
 

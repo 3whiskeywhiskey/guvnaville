@@ -875,6 +875,956 @@
       "tags": ["natural", "food_rich", "medicine_rich"]
     },
     {
+      "id": "pentagon_ruins",
+      "name": "Pentagon Fortress",
+      "type": "military_base",
+      "resources": {
+        "scrap": {"initial": 200, "max": 280, "regen_rate": 0.5},
+        "fuel": {"initial": 130, "max": 180, "regen_rate": 0.4},
+        "medicine": {"initial": 70, "max": 100, "regen_rate": 0.15}
+      },
+      "description": "The massive five-sided military headquarters still stands, though heavily damaged. Its classified vaults contain military secrets.",
+      "special_features": [
+        {
+          "id": "command_center",
+          "name": "Strategic Command",
+          "description": "Military coordination bonus",
+          "effect": {"defense_bonus": 20}
+        }
+      ],
+      "danger_level": 5,
+      "defenders": {
+        "unit_types": ["soldier", "heavy"],
+        "count_range": {"min": 6, "max": 10}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 180, "fuel": 100, "medicine": 60},
+        "culture_points": 60
+      },
+      "is_settleable": true,
+      "tags": ["military", "fortified", "unique", "valuable"]
+    },
+    {
+      "id": "abandoned_airport_small",
+      "name": "Regional Airfield",
+      "type": "airport",
+      "resources": {
+        "scrap": {"initial": 110, "max": 160, "regen_rate": 0.3},
+        "fuel": {"initial": 70, "max": 100, "regen_rate": 0.25}
+      },
+      "description": "A small civilian airport with a handful of rusting aircraft and maintenance equipment.",
+      "special_features": [],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 90, "fuel": 50}
+      },
+      "is_settleable": true,
+      "tags": ["transport", "fuel"]
+    },
+    {
+      "id": "toxic_waste_site",
+      "name": "Hazardous Waste Facility",
+      "type": "industrial_complex",
+      "resources": {
+        "fuel": {"initial": 160, "max": 220, "regen_rate": 0.7}
+      },
+      "description": "Chemical drums leak toxic sludge. Dangerous but rich in fuel-like substances.",
+      "special_features": [
+        {
+          "id": "contamination",
+          "name": "Toxic Environment",
+          "description": "Units take periodic damage",
+          "effect": {}
+        }
+      ],
+      "danger_level": 4,
+      "capture_bonus": {
+        "resources": {"fuel": 140}
+      },
+      "is_settleable": false,
+      "tags": ["dangerous", "industrial", "fuel_rich"]
+    },
+    {
+      "id": "abandoned_mall",
+      "name": "Westfield Shopping Center",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 145, "max": 200, "regen_rate": 0.35},
+        "food": {"initial": 60, "max": 80, "regen_rate": 0.1},
+        "medicine": {"initial": 40, "max": 60, "regen_rate": 0.1}
+      },
+      "description": "Multi-level shopping complex with looted stores. Food court and pharmacy still have supplies.",
+      "special_features": [],
+      "danger_level": 2,
+      "defenders": {
+        "unit_types": ["raider", "militia"],
+        "count_range": {"min": 3, "max": 5}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 120, "food": 50, "medicine": 30}
+      },
+      "is_settleable": true,
+      "tags": ["commercial", "scrap"]
+    },
+    {
+      "id": "concrete_factory",
+      "name": "Cement Works",
+      "type": "industrial_complex",
+      "resources": {
+        "scrap": {"initial": 190, "max": 270, "regen_rate": 0.6}
+      },
+      "description": "Massive cement silos and processing equipment. Building materials in abundance.",
+      "special_features": [
+        {
+          "id": "construction_hub",
+          "name": "Building Materials",
+          "description": "Reduced building costs",
+          "effect": {"resource_bonus": {"scrap": 9}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 170}
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "construction"]
+    },
+    {
+      "id": "high_rise_apartments",
+      "name": "Skyline Towers",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 120, "max": 170, "regen_rate": 0.3},
+        "food": {"initial": 50, "max": 70, "regen_rate": 0.1}
+      },
+      "description": "Luxury high-rise apartments now crumbling. Balconies dangle precariously.",
+      "special_features": [
+        {
+          "id": "high_vantage",
+          "name": "Observation Decks",
+          "description": "Vision bonus",
+          "effect": {"vision_range_bonus": 2}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 100, "food": 40}
+      },
+      "is_settleable": true,
+      "tags": ["residential", "urban"]
+    },
+    {
+      "id": "military_academy",
+      "name": "West Point Military Academy",
+      "type": "military_base",
+      "resources": {
+        "scrap": {"initial": 130, "max": 180, "regen_rate": 0.35}
+      },
+      "description": "Elite officer training facility with parade grounds and armories. Discipline incarnate.",
+      "special_features": [
+        {
+          "id": "training_grounds",
+          "name": "Elite Training",
+          "description": "Faster unit production",
+          "effect": {"resource_bonus": {"culture_points": 4}}
+        }
+      ],
+      "danger_level": 3,
+      "capture_bonus": {
+        "resources": {"scrap": 110},
+        "culture_points": 35
+      },
+      "is_settleable": true,
+      "tags": ["military", "training", "cultural"]
+    },
+    {
+      "id": "oil_drilling_platform",
+      "name": "Offshore Oil Rig",
+      "type": "seaport",
+      "resources": {
+        "fuel": {"initial": 320, "max": 450, "regen_rate": 1.5}
+      },
+      "description": "A massive drilling platform abandoned in the bay. Oil still flows from deep reserves.",
+      "special_features": [
+        {
+          "id": "oil_extraction",
+          "name": "Active Oil Well",
+          "description": "Massive fuel production",
+          "effect": {"resource_bonus": {"fuel": 20}}
+        }
+      ],
+      "danger_level": 4,
+      "capture_requirements": {
+        "culture_nodes": ["engineering_corps"]
+      },
+      "capture_bonus": {
+        "resources": {"fuel": 300},
+        "culture_points": 40
+      },
+      "is_settleable": true,
+      "tags": ["fuel_rich", "strategic", "valuable", "naval"]
+    },
+    {
+      "id": "luxury_hotel",
+      "name": "Grand Plaza Hotel",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 95, "max": 130, "regen_rate": 0.25},
+        "food": {"initial": 70, "max": 100, "regen_rate": 0.15}
+      },
+      "description": "Five-star hotel with intact kitchens and supply rooms. Chandeliers hang from ornate ceilings.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 80, "food": 60}
+      },
+      "is_settleable": true,
+      "tags": ["commercial", "shelter"]
+    },
+    {
+      "id": "coal_mine",
+      "name": "Black Mountain Coal Mine",
+      "type": "mine",
+      "resources": {
+        "fuel": {"initial": 240, "max": 340, "regen_rate": 1.0},
+        "scrap": {"initial": 120, "max": 170, "regen_rate": 0.3}
+      },
+      "description": "Deep shaft mine with coal seams still accessible. Dangerous but valuable.",
+      "special_features": [
+        {
+          "id": "coal_extraction",
+          "name": "Coal Deposits",
+          "description": "Fuel production bonus",
+          "effect": {"resource_bonus": {"fuel": 12}}
+        }
+      ],
+      "danger_level": 3,
+      "capture_bonus": {
+        "resources": {"fuel": 200, "scrap": 100}
+      },
+      "is_settleable": true,
+      "tags": ["mining", "fuel_rich", "dangerous"]
+    },
+    {
+      "id": "university_hospital",
+      "name": "City University Medical Center",
+      "type": "hospital",
+      "resources": {
+        "medicine": {"initial": 230, "max": 310, "regen_rate": 0.5},
+        "scrap": {"initial": 70, "max": 100, "regen_rate": 0.15}
+      },
+      "description": "Teaching hospital with research labs and extensive medical supplies.",
+      "special_features": [
+        {
+          "id": "medical_research",
+          "name": "Research Hospital",
+          "description": "Medicine and culture bonus",
+          "effect": {"resource_bonus": {"medicine": 8, "culture_points": 3}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"medicine": 200},
+        "culture_points": 30
+      },
+      "is_settleable": true,
+      "tags": ["medical", "medicine_rich", "research"]
+    },
+    {
+      "id": "nuclear_plant",
+      "name": "Three Mile Island Nuclear Facility",
+      "type": "power_plant",
+      "resources": {
+        "fuel": {"initial": 280, "max": 400, "regen_rate": 2.0}
+      },
+      "description": "Nuclear reactor in cold shutdown. If restarted, it could power an entire region.",
+      "special_features": [
+        {
+          "id": "nuclear_power",
+          "name": "Nuclear Reactor",
+          "description": "Extreme fuel production",
+          "effect": {"resource_bonus": {"fuel": 25}}
+        }
+      ],
+      "danger_level": 5,
+      "capture_requirements": {
+        "culture_nodes": ["power_generation", "old_world_knowledge"],
+        "units": ["specialist", "engineer"]
+      },
+      "capture_bonus": {
+        "resources": {"fuel": 350},
+        "culture_points": 60
+      },
+      "is_settleable": true,
+      "tags": ["power", "strategic", "valuable", "dangerous"]
+    },
+    {
+      "id": "casino_strip",
+      "name": "Las Vegas Strip Ruins",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 170, "max": 240, "regen_rate": 0.4},
+        "fuel": {"initial": 80, "max": 120, "regen_rate": 0.2}
+      },
+      "description": "Neon signs dark, slot machines silent. The house always wins, even in apocalypse.",
+      "special_features": [
+        {
+          "id": "entertainment_district",
+          "name": "Former Entertainment Hub",
+          "description": "Morale bonus",
+          "effect": {"resource_bonus": {"culture_points": 4}}
+        }
+      ],
+      "danger_level": 3,
+      "defenders": {
+        "unit_types": ["raider", "militia"],
+        "count_range": {"min": 4, "max": 7}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 150, "fuel": 70}
+      },
+      "is_settleable": true,
+      "tags": ["commercial", "urban", "valuable"]
+    },
+    {
+      "id": "slum_district",
+      "name": "Favela Ruins",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 85, "max": 120, "regen_rate": 0.2},
+        "food": {"initial": 45, "max": 60, "regen_rate": 0.1}
+      },
+      "description": "Makeshift housing built on top of more makeshift housing. A maze of survival.",
+      "special_features": [],
+      "danger_level": 2,
+      "defenders": {
+        "unit_types": ["militia"],
+        "count_range": {"min": 2, "max": 4}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 70, "food": 35}
+      },
+      "is_settleable": true,
+      "tags": ["residential", "urban"]
+    },
+    {
+      "id": "tire_factory",
+      "name": "Rubber Manufacturing Plant",
+      "type": "industrial_complex",
+      "resources": {
+        "scrap": {"initial": 140, "max": 200, "regen_rate": 0.4},
+        "fuel": {"initial": 100, "max": 140, "regen_rate": 0.3}
+      },
+      "description": "Vulcanized rubber production facility. Useful materials for vehicles and equipment.",
+      "special_features": [],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 120, "fuel": 80}
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "manufacturing"]
+    },
+    {
+      "id": "naval_base",
+      "name": "Norfolk Naval Station",
+      "type": "military_base",
+      "resources": {
+        "scrap": {"initial": 190, "max": 260, "regen_rate": 0.5},
+        "fuel": {"initial": 140, "max": 190, "regen_rate": 0.4}
+      },
+      "description": "The world's largest naval base. Aircraft carriers rust in port, but the base infrastructure is solid.",
+      "special_features": [
+        {
+          "id": "naval_power",
+          "name": "Naval Infrastructure",
+          "description": "Military production bonus",
+          "effect": {"defense_bonus": 18}
+        }
+      ],
+      "danger_level": 4,
+      "defenders": {
+        "unit_types": ["soldier", "heavy"],
+        "count_range": {"min": 5, "max": 8}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 170, "fuel": 120},
+        "culture_points": 40
+      },
+      "is_settleable": true,
+      "tags": ["military", "naval", "strategic"]
+    },
+    {
+      "id": "subway_station",
+      "name": "Grand Central Terminal",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 125, "max": 170, "regen_rate": 0.35}
+      },
+      "description": "Massive train station with underground passages. A hub connecting the city.",
+      "special_features": [
+        {
+          "id": "transit_hub",
+          "name": "Underground Network",
+          "description": "Movement bonus",
+          "effect": {}
+        }
+      ],
+      "danger_level": 3,
+      "defenders": {
+        "unit_types": ["raider"],
+        "count_range": {"min": 3, "max": 5}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 110}
+      },
+      "is_settleable": true,
+      "tags": ["urban", "underground", "transport"]
+    },
+    {
+      "id": "paper_mill",
+      "name": "Industrial Paper Mill",
+      "type": "industrial_complex",
+      "resources": {
+        "scrap": {"initial": 110, "max": 160, "regen_rate": 0.3},
+        "fuel": {"initial": 60, "max": 90, "regen_rate": 0.2}
+      },
+      "description": "Pulp processing facility with massive machinery. Useful scrap and fuel reserves.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 95, "fuel": 50}
+      },
+      "is_settleable": true,
+      "tags": ["industrial"]
+    },
+    {
+      "id": "rural_church",
+      "name": "Country Chapel",
+      "type": "ruins",
+      "resources": {
+        "food": {"initial": 60, "max": 80, "regen_rate": 0.15}
+      },
+      "description": "Small church with a cemetery. Simple but peaceful. Survivors gather here for hope.",
+      "special_features": [
+        {
+          "id": "sanctuary",
+          "name": "Sacred Ground",
+          "description": "Morale bonus",
+          "effect": {"resource_bonus": {"culture_points": 2}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "culture_points": 15
+      },
+      "is_settleable": true,
+      "tags": ["cultural", "shelter"]
+    },
+    {
+      "id": "radio_tower",
+      "name": "Broadcast Tower Complex",
+      "type": "infrastructure",
+      "resources": {
+        "scrap": {"initial": 75, "max": 110, "regen_rate": 0.2}
+      },
+      "description": "Towering radio antenna reaching into the sky. Could broadcast across hundreds of miles.",
+      "special_features": [
+        {
+          "id": "long_range_comms",
+          "name": "Broadcasting Station",
+          "description": "Extended vision and diplomacy",
+          "effect": {"vision_range_bonus": 4}
+        }
+      ],
+      "danger_level": 2,
+      "capture_requirements": {
+        "culture_nodes": ["old_world_knowledge"]
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 65},
+        "culture_points": 30
+      },
+      "is_settleable": false,
+      "tags": ["communications", "strategic"]
+    },
+    {
+      "id": "landfill",
+      "name": "Mega Landfill",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 260, "max": 380, "regen_rate": 0.8}
+      },
+      "description": "Mountains of garbage. One person's trash is literally another's treasure.",
+      "special_features": [
+        {
+          "id": "endless_salvage",
+          "name": "Waste Mountains",
+          "description": "Extreme scrap production",
+          "effect": {"resource_bonus": {"scrap": 15}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 240}
+      },
+      "is_settleable": false,
+      "tags": ["scrap_rich", "ugly"]
+    },
+    {
+      "id": "meat_packing_plant",
+      "name": "Swift & Company Meatworks",
+      "type": "industrial_complex",
+      "resources": {
+        "food": {"initial": 190, "max": 260, "regen_rate": 0.6},
+        "scrap": {"initial": 80, "max": 110, "regen_rate": 0.2}
+      },
+      "description": "Industrial slaughterhouse with cold storage. Some freezers still contain preserved meat.",
+      "special_features": [
+        {
+          "id": "cold_storage",
+          "name": "Refrigeration Units",
+          "description": "Food preservation bonus",
+          "effect": {"resource_bonus": {"food": 8}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"food": 170, "scrap": 70}
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "food_rich"]
+    },
+    {
+      "id": "gated_community",
+      "name": "Prestige Heights",
+      "type": "settlement_site",
+      "resources": {
+        "scrap": {"initial": 105, "max": 150, "regen_rate": 0.25},
+        "food": {"initial": 65, "max": 90, "regen_rate": 0.15}
+      },
+      "description": "Walled suburban community with intact homes. The elite's refuge, now empty.",
+      "special_features": [
+        {
+          "id": "security_walls",
+          "name": "Perimeter Walls",
+          "description": "Defense bonus",
+          "effect": {"defense_bonus": 12}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 90, "food": 55}
+      },
+      "is_settleable": true,
+      "tags": ["residential", "defensive"]
+    },
+    {
+      "id": "steel_mill",
+      "name": "Bethlehem Steel Works",
+      "type": "industrial_complex",
+      "resources": {
+        "scrap": {"initial": 280, "max": 400, "regen_rate": 1.0}
+      },
+      "description": "Massive steel production facility. Blast furnaces cold but material everywhere.",
+      "special_features": [
+        {
+          "id": "metallurgy",
+          "name": "Steel Processing",
+          "description": "Extreme scrap production",
+          "effect": {"resource_bonus": {"scrap": 16}}
+        }
+      ],
+      "danger_level": 3,
+      "capture_bonus": {
+        "resources": {"scrap": 260},
+        "culture_points": 25
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "scrap_rich", "strategic"]
+    },
+    {
+      "id": "army_depot",
+      "name": "Aberdeen Proving Grounds",
+      "type": "military_base",
+      "resources": {
+        "scrap": {"initial": 160, "max": 220, "regen_rate": 0.4},
+        "fuel": {"initial": 100, "max": 140, "regen_rate": 0.3}
+      },
+      "description": "Weapons testing facility with ranges and munitions storage. Live ordnance still present.",
+      "special_features": [
+        {
+          "id": "weapons_testing",
+          "name": "Proving Grounds",
+          "description": "Military research bonus",
+          "effect": {"resource_bonus": {"culture_points": 4}}
+        }
+      ],
+      "danger_level": 4,
+      "defenders": {
+        "unit_types": ["soldier"],
+        "count_range": {"min": 4, "max": 6}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 140, "fuel": 80},
+        "culture_points": 30
+      },
+      "is_settleable": true,
+      "tags": ["military", "research", "dangerous"]
+    },
+    {
+      "id": "state_capitol",
+      "name": "State Capitol Building",
+      "type": "monument",
+      "resources": {},
+      "description": "Marble columns and golden dome. A symbol of governmental authority and civilization.",
+      "special_features": [
+        {
+          "id": "seat_of_power",
+          "name": "Government Center",
+          "description": "Culture and diplomatic bonus",
+          "effect": {"resource_bonus": {"culture_points": 7}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "culture_points": 45
+      },
+      "is_settleable": false,
+      "tags": ["monument", "cultural", "political"]
+    },
+    {
+      "id": "homeless_camp",
+      "name": "Tent City",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 50, "max": 70, "regen_rate": 0.1},
+        "food": {"initial": 30, "max": 40, "regen_rate": 0.05}
+      },
+      "description": "Makeshift shelters where the desperate once survived. Meager but honest.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 40, "food": 25}
+      },
+      "is_settleable": true,
+      "tags": ["shelter", "poor"]
+    },
+    {
+      "id": "wind_farm",
+      "name": "Windmill Ridge",
+      "type": "power_plant",
+      "resources": {
+        "fuel": {"initial": 140, "max": 200, "regen_rate": 1.1}
+      },
+      "description": "Rows of wind turbines still spinning. Clean energy in a dirty world.",
+      "special_features": [
+        {
+          "id": "wind_power",
+          "name": "Wind Generation",
+          "description": "Renewable fuel production",
+          "effect": {"resource_bonus": {"fuel": 11}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_requirements": {
+        "culture_nodes": ["power_generation"]
+      },
+      "capture_bonus": {
+        "resources": {"fuel": 130},
+        "culture_points": 25
+      },
+      "is_settleable": true,
+      "tags": ["power", "fuel_rich", "renewable"]
+    },
+    {
+      "id": "library_main",
+      "name": "Central Public Library",
+      "type": "ruins",
+      "resources": {},
+      "description": "Books line the shelves in silent rows. Knowledge waiting to be rediscovered.",
+      "special_features": [
+        {
+          "id": "knowledge_repository",
+          "name": "Book Collection",
+          "description": "Culture advancement",
+          "effect": {"resource_bonus": {"culture_points": 6}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "culture_points": 35
+      },
+      "is_settleable": true,
+      "tags": ["cultural", "education"]
+    },
+    {
+      "id": "water_tower",
+      "name": "Municipal Water Tower",
+      "type": "infrastructure",
+      "resources": {
+        "medicine": {"initial": 100, "max": 140, "regen_rate": 0.3}
+      },
+      "description": "Elevated water storage tank. With filtration, clean water for hundreds.",
+      "special_features": [
+        {
+          "id": "water_supply",
+          "name": "Fresh Water",
+          "description": "Health and medicine bonus",
+          "effect": {"resource_bonus": {"medicine": 6}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"medicine": 85},
+        "culture_points": 15
+      },
+      "is_settleable": false,
+      "tags": ["infrastructure", "medicine_rich"]
+    },
+    {
+      "id": "concert_hall",
+      "name": "Symphony Hall",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 65, "max": 90, "regen_rate": 0.15}
+      },
+      "description": "Ornate performance venue with pristine acoustics. Music once filled these halls.",
+      "special_features": [
+        {
+          "id": "cultural_venue",
+          "name": "Arts Center",
+          "description": "Culture bonus",
+          "effect": {"resource_bonus": {"culture_points": 4}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "culture_points": 25
+      },
+      "is_settleable": true,
+      "tags": ["cultural", "arts"]
+    },
+    {
+      "id": "rail_junction",
+      "name": "Union Station Rail Hub",
+      "type": "industrial_complex",
+      "resources": {
+        "scrap": {"initial": 175, "max": 240, "regen_rate": 0.5},
+        "fuel": {"initial": 85, "max": 120, "regen_rate": 0.25}
+      },
+      "description": "Major rail interchange with dozens of tracks. Cargo trains frozen in time.",
+      "special_features": [
+        {
+          "id": "logistics_hub",
+          "name": "Rail Network",
+          "description": "Resource transport bonus",
+          "effect": {"resource_bonus": {"scrap": 7}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 155, "fuel": 70}
+      },
+      "is_settleable": true,
+      "tags": ["transport", "industrial"]
+    },
+    {
+      "id": "fire_station",
+      "name": "City Fire Department",
+      "type": "infrastructure",
+      "resources": {
+        "scrap": {"initial": 70, "max": 100, "regen_rate": 0.2},
+        "fuel": {"initial": 50, "max": 70, "regen_rate": 0.15}
+      },
+      "description": "Fire trucks and emergency equipment. Tools for rescue and demolition.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 60, "fuel": 40}
+      },
+      "is_settleable": true,
+      "tags": ["infrastructure", "emergency"]
+    },
+    {
+      "id": "missile_range",
+      "name": "White Sands Missile Range",
+      "type": "military_base",
+      "resources": {
+        "fuel": {"initial": 130, "max": 180, "regen_rate": 0.35},
+        "scrap": {"initial": 110, "max": 150, "regen_rate": 0.25}
+      },
+      "description": "Vast testing ground for military missiles. Unexploded ordnance makes it treacherous.",
+      "special_features": [
+        {
+          "id": "test_range",
+          "name": "Missile Testing Site",
+          "description": "Military research",
+          "effect": {"resource_bonus": {"culture_points": 5}}
+        }
+      ],
+      "danger_level": 5,
+      "capture_requirements": {
+        "culture_nodes": ["old_world_knowledge"]
+      },
+      "capture_bonus": {
+        "resources": {"fuel": 110, "scrap": 95},
+        "culture_points": 40
+      },
+      "is_settleable": false,
+      "tags": ["military", "dangerous", "research"]
+    },
+    {
+      "id": "amusement_pier",
+      "name": "Seaside Boardwalk",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 90, "max": 125, "regen_rate": 0.2},
+        "food": {"initial": 40, "max": 55, "regen_rate": 0.1}
+      },
+      "description": "Carnival rides rust over the ocean. Cotton candy stands and arcade games abandoned.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 75, "food": 30}
+      },
+      "is_settleable": false,
+      "tags": ["ruins", "coastal"]
+    },
+    {
+      "id": "desalination_plant",
+      "name": "Seawater Treatment Facility",
+      "type": "infrastructure",
+      "resources": {
+        "medicine": {"initial": 110, "max": 160, "regen_rate": 0.35}
+      },
+      "description": "Converts seawater to fresh water. Critical infrastructure for coastal settlements.",
+      "special_features": [
+        {
+          "id": "water_purification",
+          "name": "Desalination",
+          "description": "Medicine production",
+          "effect": {"resource_bonus": {"medicine": 7}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_requirements": {
+        "culture_nodes": ["engineering_corps"]
+      },
+      "capture_bonus": {
+        "resources": {"medicine": 95},
+        "culture_points": 25
+      },
+      "is_settleable": true,
+      "tags": ["infrastructure", "medicine_rich", "coastal"]
+    },
+    {
+      "id": "scrapyard",
+      "name": "Auto Salvage Yard",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 200, "max": 280, "regen_rate": 0.6}
+      },
+      "description": "Acres of wrecked vehicles stacked high. A picker's paradise.",
+      "special_features": [
+        {
+          "id": "vehicle_parts",
+          "name": "Auto Parts",
+          "description": "Scrap bonus",
+          "effect": {"resource_bonus": {"scrap": 10}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 180}
+      },
+      "is_settleable": true,
+      "tags": ["scrap_rich", "industrial"]
+    },
+    {
+      "id": "brewery",
+      "name": "Industrial Brewery",
+      "type": "industrial_complex",
+      "resources": {
+        "food": {"initial": 120, "max": 170, "regen_rate": 0.4},
+        "medicine": {"initial": 50, "max": 70, "regen_rate": 0.1}
+      },
+      "description": "Fermentation tanks and grain silos. Alcohol has multiple uses in the wasteland.",
+      "special_features": [
+        {
+          "id": "fermentation",
+          "name": "Brewing Facility",
+          "description": "Food and medicine production",
+          "effect": {"resource_bonus": {"food": 5, "medicine": 3}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"food": 105, "medicine": 40}
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "food"]
+    },
+    {
+      "id": "dam_ruins",
+      "name": "Collapsed Dam",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 140, "max": 190, "regen_rate": 0.35}
+      },
+      "description": "A broken dam with drained reservoir. Concrete debris and twisted rebar everywhere.",
+      "special_features": [],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 125}
+      },
+      "is_settleable": false,
+      "tags": ["ruins", "infrastructure"]
+    },
+    {
+      "id": "museum_natural_history",
+      "name": "Natural History Museum",
+      "type": "ruins",
+      "resources": {},
+      "description": "Dinosaur skeletons and dioramas preserved in climate-controlled halls. A window to the ancient past.",
+      "special_features": [
+        {
+          "id": "educational_exhibits",
+          "name": "Museum Collection",
+          "description": "Culture advancement",
+          "effect": {"resource_bonus": {"culture_points": 5}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "culture_points": 30
+      },
+      "is_settleable": true,
+      "tags": ["cultural", "education"]
+    },
+    {
+      "id": "movie_studio",
+      "name": "Hollywood Studios",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 115, "max": 160, "regen_rate": 0.3}
+      },
+      "description": "Sound stages and prop warehouses. The dream factory fallen silent.",
+      "special_features": [
+        {
+          "id": "entertainment_legacy",
+          "name": "Film Industry",
+          "description": "Culture bonus",
+          "effect": {"resource_bonus": {"culture_points": 4}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "culture_points": 25
+      },
+      "is_settleable": true,
+      "tags": ["cultural", "commercial"]
+    },
+    {
       "id": "auto_factory",
       "name": "Detroit Auto Plant",
       "type": "industrial_complex",
@@ -1199,6 +2149,1133 @@
       },
       "is_settleable": false,
       "tags": ["unique", "mysterious", "dangerous", "valuable"]
+    },
+    {
+      "id": "particle_accelerator",
+      "name": "Fermilab Particle Accelerator",
+      "type": "research_facility",
+      "resources": {
+        "scrap": {"initial": 150, "max": 210, "regen_rate": 0.4}
+      },
+      "description": "Miles of underground tunnels where particles once collided at light speed. Cutting-edge physics equipment remains.",
+      "special_features": [
+        {
+          "id": "advanced_physics",
+          "name": "Particle Physics Lab",
+          "description": "Extreme research bonus",
+          "effect": {"resource_bonus": {"culture_points": 8}}
+        }
+      ],
+      "danger_level": 3,
+      "capture_requirements": {
+        "culture_nodes": ["old_world_knowledge", "scientific_method"]
+      },
+      "capture_bonus": {
+        "culture_points": 70,
+        "unlock_tech": "advanced_physics"
+      },
+      "is_settleable": true,
+      "tags": ["research", "tech", "unique"]
+    },
+    {
+      "id": "cargo_docks",
+      "name": "Container Port Terminal",
+      "type": "seaport",
+      "resources": {
+        "scrap": {"initial": 195, "max": 270, "regen_rate": 0.55}
+      },
+      "description": "Massive shipping containers stacked like building blocks. Each one holds unknown cargo.",
+      "special_features": [
+        {
+          "id": "cargo_storage",
+          "name": "Container Terminal",
+          "description": "Resource storage bonus",
+          "effect": {"resource_bonus": {"scrap": 8}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 175}
+      },
+      "is_settleable": true,
+      "tags": ["seaport", "storage", "scrap"]
+    },
+    {
+      "id": "trailer_park",
+      "name": "Mobile Home Community",
+      "type": "settlement_site",
+      "resources": {
+        "scrap": {"initial": 90, "max": 130, "regen_rate": 0.2},
+        "food": {"initial": 55, "max": 75, "regen_rate": 0.12}
+      },
+      "description": "Rows of trailers on cinderblocks. Simple living for simple times.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 75, "food": 45}
+      },
+      "is_settleable": true,
+      "tags": ["residential", "shelter"]
+    },
+    {
+      "id": "chocolate_factory",
+      "name": "Confectionery Plant",
+      "type": "industrial_complex",
+      "resources": {
+        "food": {"initial": 160, "max": 220, "regen_rate": 0.5},
+        "scrap": {"initial": 70, "max": 100, "regen_rate": 0.15}
+      },
+      "description": "Conveyor belts frozen mid-production. Surprisingly, some chocolate has survived intact.",
+      "special_features": [
+        {
+          "id": "sugar_processing",
+          "name": "Food Processing",
+          "description": "Food production bonus",
+          "effect": {"resource_bonus": {"food": 7}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"food": 145, "scrap": 60}
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "food"]
+    },
+    {
+      "id": "electronics_factory",
+      "name": "Silicon Valley Fab Plant",
+      "type": "industrial_complex",
+      "resources": {
+        "scrap": {"initial": 165, "max": 230, "regen_rate": 0.45}
+      },
+      "description": "Microchip fabrication facility with clean rooms and advanced machinery.",
+      "special_features": [
+        {
+          "id": "high_tech_salvage",
+          "name": "Electronics Production",
+          "description": "Tech research bonus",
+          "effect": {"resource_bonus": {"culture_points": 5, "scrap": 7}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_requirements": {
+        "culture_nodes": ["old_world_knowledge"]
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 150},
+        "culture_points": 35
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "tech"]
+    },
+    {
+      "id": "golf_course",
+      "name": "Country Club Greens",
+      "type": "natural_resource",
+      "resources": {
+        "food": {"initial": 110, "max": 150, "regen_rate": 0.4}
+      },
+      "description": "Manicured lawns gone wild. The elite's playground now grows food.",
+      "special_features": [
+        {
+          "id": "open_space",
+          "name": "Fertile Grounds",
+          "description": "Food production",
+          "effect": {"resource_bonus": {"food": 5}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"food": 95}
+      },
+      "is_settleable": true,
+      "tags": ["natural", "food"]
+    },
+    {
+      "id": "aquarium",
+      "name": "National Aquarium",
+      "type": "ruins",
+      "resources": {
+        "food": {"initial": 80, "max": 110, "regen_rate": 0.25},
+        "medicine": {"initial": 40, "max": 55, "regen_rate": 0.08}
+      },
+      "description": "Massive tanks once held marine life. Some fish populations have survived and multiplied.",
+      "special_features": [
+        {
+          "id": "aquaculture",
+          "name": "Fish Tanks",
+          "description": "Sustainable food source",
+          "effect": {"resource_bonus": {"food": 4}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"food": 70, "medicine": 30}
+      },
+      "is_settleable": true,
+      "tags": ["food", "unique"]
+    },
+    {
+      "id": "prison_labor_camp",
+      "name": "Federal Penitentiary",
+      "type": "military_base",
+      "resources": {
+        "scrap": {"initial": 100, "max": 140, "regen_rate": 0.25}
+      },
+      "description": "Maximum security prison with high walls and guard towers. Easily defensible.",
+      "special_features": [
+        {
+          "id": "prison_fortifications",
+          "name": "Prison Security",
+          "description": "Major defense bonus",
+          "effect": {"defense_bonus": 15}
+        }
+      ],
+      "danger_level": 3,
+      "defenders": {
+        "unit_types": ["raider", "militia"],
+        "count_range": {"min": 4, "max": 7}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 85}
+      },
+      "is_settleable": true,
+      "tags": ["defensive", "fortified"]
+    },
+    {
+      "id": "grain_elevator",
+      "name": "Midwest Grain Silo",
+      "type": "farm",
+      "resources": {
+        "food": {"initial": 240, "max": 330, "regen_rate": 0.85}
+      },
+      "description": "Towering silos filled with preserved grain. Enough to feed hundreds for months.",
+      "special_features": [
+        {
+          "id": "grain_storage",
+          "name": "Grain Reserves",
+          "description": "Massive food bonus",
+          "effect": {"resource_bonus": {"food": 13}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"food": 220}
+      },
+      "is_settleable": true,
+      "tags": ["food_rich", "strategic"]
+    },
+    {
+      "id": "amusement_park_large",
+      "name": "Six Flags Adventure Park",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 135, "max": 185, "regen_rate": 0.35}
+      },
+      "description": "Roller coasters frozen mid-loop. Ticket booths and concession stands ransacked.",
+      "special_features": [],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 120}
+      },
+      "is_settleable": true,
+      "tags": ["ruins", "scrap"]
+    },
+    {
+      "id": "missile_submarine",
+      "name": "Beached Nuclear Submarine",
+      "type": "military_base",
+      "resources": {
+        "fuel": {"initial": 200, "max": 280, "regen_rate": 0.6},
+        "scrap": {"initial": 140, "max": 190, "regen_rate": 0.35}
+      },
+      "description": "A nuclear submarine run aground. Its reactor and weapons systems are highly valuable.",
+      "special_features": [
+        {
+          "id": "nuclear_submarine",
+          "name": "Naval Nuclear Power",
+          "description": "Fuel and military tech",
+          "effect": {"resource_bonus": {"fuel": 10, "culture_points": 4}}
+        }
+      ],
+      "danger_level": 4,
+      "capture_requirements": {
+        "culture_nodes": ["old_world_knowledge", "engineering_corps"]
+      },
+      "capture_bonus": {
+        "resources": {"fuel": 180, "scrap": 120},
+        "culture_points": 50
+      },
+      "is_settleable": false,
+      "tags": ["military", "naval", "unique", "valuable"]
+    },
+    {
+      "id": "vineyard",
+      "name": "Wine Country Estate",
+      "type": "farm",
+      "resources": {
+        "food": {"initial": 130, "max": 180, "regen_rate": 0.45},
+        "medicine": {"initial": 60, "max": 80, "regen_rate": 0.15}
+      },
+      "description": "Rolling hills of grapevines. Wine production has medicinal and trade value.",
+      "special_features": [
+        {
+          "id": "viticulture",
+          "name": "Vineyard Operations",
+          "description": "Food and medicine production",
+          "effect": {"resource_bonus": {"food": 6, "medicine": 3}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"food": 115, "medicine": 50}
+      },
+      "is_settleable": true,
+      "tags": ["agriculture", "food", "medicine"]
+    },
+    {
+      "id": "satellite_ground_station",
+      "name": "Deep Space Network Station",
+      "type": "research_facility",
+      "resources": {
+        "scrap": {"initial": 95, "max": 135, "regen_rate": 0.25}
+      },
+      "description": "Massive satellite dishes pointed at the cosmos. Communication infrastructure remains functional.",
+      "special_features": [
+        {
+          "id": "satellite_comms",
+          "name": "Space Communications",
+          "description": "Extreme vision range",
+          "effect": {"vision_range_bonus": 5}
+        }
+      ],
+      "danger_level": 2,
+      "capture_requirements": {
+        "culture_nodes": ["old_world_knowledge"]
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 80},
+        "culture_points": 35
+      },
+      "is_settleable": false,
+      "tags": ["tech", "communications", "strategic"]
+    },
+    {
+      "id": "race_track",
+      "name": "NASCAR Speedway",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 125, "max": 175, "regen_rate": 0.35},
+        "fuel": {"initial": 95, "max": 130, "regen_rate": 0.25}
+      },
+      "description": "Oval track with grandstands. Pit row has salvageable automotive equipment.",
+      "special_features": [
+        {
+          "id": "vehicle_expertise",
+          "name": "Racing Facility",
+          "description": "Vehicle bonus",
+          "effect": {"resource_bonus": {"fuel": 6}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 110, "fuel": 80}
+      },
+      "is_settleable": true,
+      "tags": ["sport", "vehicle"]
+    },
+    {
+      "id": "national_cemetery",
+      "name": "Arlington National Cemetery",
+      "type": "monument",
+      "resources": {},
+      "description": "Endless rows of white headstones honor the fallen. A solemn reminder of sacrifice.",
+      "special_features": [
+        {
+          "id": "memorial_site",
+          "name": "Honored Dead",
+          "description": "Morale and culture bonus",
+          "effect": {"resource_bonus": {"culture_points": 6}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "culture_points": 40
+      },
+      "is_settleable": false,
+      "tags": ["monument", "cultural", "memorial"]
+    },
+    {
+      "id": "geothermal_plant",
+      "name": "Geothermal Power Station",
+      "type": "power_plant",
+      "resources": {
+        "fuel": {"initial": 190, "max": 270, "regen_rate": 1.3}
+      },
+      "description": "Taps into the Earth's heat. Reliable and renewable power from below.",
+      "special_features": [
+        {
+          "id": "geothermal_energy",
+          "name": "Earth Power",
+          "description": "Continuous fuel generation",
+          "effect": {"resource_bonus": {"fuel": 14}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_requirements": {
+        "culture_nodes": ["power_generation", "engineering_corps"]
+      },
+      "capture_bonus": {
+        "resources": {"fuel": 175},
+        "culture_points": 30
+      },
+      "is_settleable": true,
+      "tags": ["power", "renewable", "fuel_rich"]
+    },
+    {
+      "id": "abandoned_church",
+      "name": "Cathedral Ruins",
+      "type": "monument",
+      "resources": {},
+      "description": "Gothic spires reach skyward. Stained glass windows filter colored light across empty pews.",
+      "special_features": [
+        {
+          "id": "spiritual_center",
+          "name": "Place of Worship",
+          "description": "Culture and morale",
+          "effect": {"resource_bonus": {"culture_points": 5}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "culture_points": 30
+      },
+      "is_settleable": true,
+      "tags": ["cultural", "monument", "shelter"]
+    },
+    {
+      "id": "movie_theater",
+      "name": "Multiplex Cinema",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 75, "max": 105, "regen_rate": 0.18}
+      },
+      "description": "Theaters with torn screens and sticky floors. Popcorn machines rust in the lobby.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 65}
+      },
+      "is_settleable": true,
+      "tags": ["commercial", "entertainment"]
+    },
+    {
+      "id": "botanical_research",
+      "name": "Plant Research Institute",
+      "type": "research_facility",
+      "resources": {
+        "food": {"initial": 140, "max": 195, "regen_rate": 0.5},
+        "medicine": {"initial": 90, "max": 125, "regen_rate": 0.25}
+      },
+      "description": "Seed bank and experimental crops. The key to agricultural recovery.",
+      "special_features": [
+        {
+          "id": "seed_vault",
+          "name": "Genetic Seed Bank",
+          "description": "Food and medicine research",
+          "effect": {"resource_bonus": {"food": 7, "medicine": 5, "culture_points": 4}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_requirements": {
+        "culture_nodes": ["scientific_method"]
+      },
+      "capture_bonus": {
+        "resources": {"food": 125, "medicine": 75},
+        "culture_points": 40
+      },
+      "is_settleable": true,
+      "tags": ["research", "agriculture", "valuable"]
+    },
+    {
+      "id": "airforce_base",
+      "name": "Edwards Air Force Base",
+      "type": "military_base",
+      "resources": {
+        "scrap": {"initial": 185, "max": 255, "regen_rate": 0.5},
+        "fuel": {"initial": 155, "max": 215, "regen_rate": 0.45}
+      },
+      "description": "Test flight facility with hangars full of experimental aircraft. Top secret projects remain.",
+      "special_features": [
+        {
+          "id": "air_superiority",
+          "name": "Aviation Center",
+          "description": "Military tech bonus",
+          "effect": {"defense_bonus": 16, "resource_bonus": {"culture_points": 5}}
+        }
+      ],
+      "danger_level": 4,
+      "defenders": {
+        "unit_types": ["soldier", "heavy"],
+        "count_range": {"min": 5, "max": 9}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 165, "fuel": 135},
+        "culture_points": 45
+      },
+      "is_settleable": true,
+      "tags": ["military", "aviation", "strategic"]
+    },
+    {
+      "id": "border_wall",
+      "name": "Border Security Zone",
+      "type": "military_base",
+      "resources": {
+        "scrap": {"initial": 115, "max": 160, "regen_rate": 0.3}
+      },
+      "description": "Miles of security fence with watchtowers. A monument to division.",
+      "special_features": [
+        {
+          "id": "border_defenses",
+          "name": "Security Infrastructure",
+          "description": "Defense bonus",
+          "effect": {"defense_bonus": 10}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 100}
+      },
+      "is_settleable": false,
+      "tags": ["military", "defensive"]
+    },
+    {
+      "id": "logging_camp",
+      "name": "Timber Mill",
+      "type": "industrial_complex",
+      "resources": {
+        "scrap": {"initial": 155, "max": 215, "regen_rate": 0.45},
+        "fuel": {"initial": 70, "max": 100, "regen_rate": 0.2}
+      },
+      "description": "Sawmill and lumber yard. Trees can be harvested for building materials.",
+      "special_features": [
+        {
+          "id": "lumber_production",
+          "name": "Forestry Operations",
+          "description": "Construction materials",
+          "effect": {"resource_bonus": {"scrap": 7}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 140, "fuel": 60}
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "construction"]
+    },
+    {
+      "id": "convention_center",
+      "name": "Expo Convention Hall",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 145, "max": 200, "regen_rate": 0.4}
+      },
+      "description": "Massive exhibition hall that once hosted trade shows. Now empty and echoing.",
+      "special_features": [
+        {
+          "id": "large_space",
+          "name": "Exhibition Hall",
+          "description": "Population capacity",
+          "effect": {}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 130}
+      },
+      "is_settleable": true,
+      "tags": ["commercial", "shelter"]
+    },
+    {
+      "id": "mount_rushmore",
+      "name": "Mount Rushmore Monument",
+      "type": "monument",
+      "resources": {},
+      "description": "Four presidents carved in stone watch over the wasteland. An enduring symbol.",
+      "special_features": [
+        {
+          "id": "national_monument",
+          "name": "Presidential Memorial",
+          "description": "Major culture bonus",
+          "effect": {"resource_bonus": {"culture_points": 9}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "culture_points": 55
+      },
+      "is_settleable": false,
+      "tags": ["monument", "unique", "cultural", "valuable"]
+    },
+    {
+      "id": "fishery",
+      "name": "Coastal Fishing Port",
+      "type": "seaport",
+      "resources": {
+        "food": {"initial": 175, "max": 245, "regen_rate": 0.65}
+      },
+      "description": "Fishing boats and processing facilities. The ocean still provides.",
+      "special_features": [
+        {
+          "id": "fishing_fleet",
+          "name": "Commercial Fishing",
+          "description": "Food production",
+          "effect": {"resource_bonus": {"food": 9}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"food": 160}
+      },
+      "is_settleable": true,
+      "tags": ["seaport", "food_rich"]
+    },
+    {
+      "id": "abandoned_city_center",
+      "name": "Central Business District",
+      "type": "city_ruins",
+      "resources": {
+        "scrap": {"initial": 215, "max": 300, "regen_rate": 0.6},
+        "medicine": {"initial": 65, "max": 90, "regen_rate": 0.15}
+      },
+      "description": "Skyscrapers and office towers gutted by fire. Corporate headquarters now shelter for survivors.",
+      "special_features": [],
+      "danger_level": 3,
+      "defenders": {
+        "unit_types": ["raider", "militia"],
+        "count_range": {"min": 4, "max": 7}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 195, "medicine": 55}
+      },
+      "is_settleable": true,
+      "tags": ["urban", "scrap_rich"]
+    },
+    {
+      "id": "asteroid_crater",
+      "name": "Meteor Impact Site",
+      "type": "wasteland_anomaly",
+      "resources": {
+        "scrap": {"initial": 180, "max": 250, "regen_rate": 0.5}
+      },
+      "description": "A crater from a recent meteor strike. Strange minerals and debris scatter the site.",
+      "special_features": [
+        {
+          "id": "meteor_materials",
+          "name": "Extraterrestrial Materials",
+          "description": "Unique salvage",
+          "effect": {"resource_bonus": {"scrap": 10, "culture_points": 6}}
+        }
+      ],
+      "danger_level": 3,
+      "capture_requirements": {
+        "culture_nodes": ["scientific_method"]
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 165},
+        "culture_points": 50
+      },
+      "is_settleable": false,
+      "tags": ["unique", "valuable", "mysterious"]
+    },
+    {
+      "id": "rv_dealership",
+      "name": "RV & Camper Sales Lot",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 130, "max": 180, "regen_rate": 0.35},
+        "fuel": {"initial": 75, "max": 105, "regen_rate": 0.2}
+      },
+      "description": "Rows of recreational vehicles. Mobile shelters that could be useful.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 115, "fuel": 65}
+      },
+      "is_settleable": true,
+      "tags": ["commercial", "vehicle"]
+    },
+    {
+      "id": "monastery",
+      "name": "Mountain Monastery",
+      "type": "settlement_site",
+      "resources": {
+        "food": {"initial": 85, "max": 120, "regen_rate": 0.25},
+        "medicine": {"initial": 60, "max": 85, "regen_rate": 0.15}
+      },
+      "description": "Isolated religious community with gardens and herb cultivation. Peace in solitude.",
+      "special_features": [
+        {
+          "id": "spiritual_retreat",
+          "name": "Monastic Life",
+          "description": "Culture and health bonus",
+          "effect": {"resource_bonus": {"medicine": 4, "culture_points": 3}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"food": 75, "medicine": 50},
+        "culture_points": 25
+      },
+      "is_settleable": true,
+      "tags": ["cultural", "isolated", "shelter"]
+    },
+    {
+      "id": "paintball_arena",
+      "name": "Tactical Paintball Complex",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 65, "max": 90, "regen_rate": 0.15}
+      },
+      "description": "Obstacle courses and bunkers. Good for military training.",
+      "special_features": [
+        {
+          "id": "training_facility",
+          "name": "Combat Training",
+          "description": "Unit training bonus",
+          "effect": {"resource_bonus": {"culture_points": 2}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 55}
+      },
+      "is_settleable": true,
+      "tags": ["training", "sport"]
+    },
+    {
+      "id": "tunnel_network",
+      "name": "Smuggler's Tunnels",
+      "type": "bunker",
+      "resources": {
+        "scrap": {"initial": 95, "max": 135, "regen_rate": 0.25}
+      },
+      "description": "Hidden underground passages used for illegal trade. Secretive and defensible.",
+      "special_features": [
+        {
+          "id": "secret_passages",
+          "name": "Hidden Routes",
+          "description": "Movement and stealth bonus",
+          "effect": {"defense_bonus": 8}
+        }
+      ],
+      "danger_level": 3,
+      "defenders": {
+        "unit_types": ["raider"],
+        "count_range": {"min": 3, "max": 5}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 85}
+      },
+      "is_settleable": true,
+      "tags": ["underground", "hidden", "defensive"]
+    },
+    {
+      "id": "ice_cream_factory",
+      "name": "Dairy Processing Plant",
+      "type": "industrial_complex",
+      "resources": {
+        "food": {"initial": 150, "max": 210, "regen_rate": 0.5},
+        "medicine": {"initial": 40, "max": 55, "regen_rate": 0.1}
+      },
+      "description": "Milk processing and refrigeration equipment. Some dairy products remain frozen.",
+      "special_features": [
+        {
+          "id": "refrigeration",
+          "name": "Cold Storage",
+          "description": "Food preservation",
+          "effect": {"resource_bonus": {"food": 7}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"food": 135, "medicine": 30}
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "food"]
+    },
+    {
+      "id": "rest_stop",
+      "name": "Highway Rest Area",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 70, "max": 100, "regen_rate": 0.18},
+        "food": {"initial": 45, "max": 60, "regen_rate": 0.1},
+        "fuel": {"initial": 40, "max": 55, "regen_rate": 0.12}
+      },
+      "description": "Gas station and restaurants along the interstate. A waypoint for travelers.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 60, "food": 35, "fuel": 30}
+      },
+      "is_settleable": true,
+      "tags": ["commercial", "transport"]
+    },
+    {
+      "id": "rocket_factory",
+      "name": "SpaceX Launch Complex",
+      "type": "research_facility",
+      "resources": {
+        "scrap": {"initial": 190, "max": 265, "regen_rate": 0.55},
+        "fuel": {"initial": 145, "max": 200, "regen_rate": 0.4}
+      },
+      "description": "Rocket assembly building and launch pads. Reach for the stars once more.",
+      "special_features": [
+        {
+          "id": "aerospace_tech",
+          "name": "Space Program",
+          "description": "Advanced technology",
+          "effect": {"resource_bonus": {"fuel": 9, "culture_points": 7}}
+        }
+      ],
+      "danger_level": 3,
+      "capture_requirements": {
+        "culture_nodes": ["old_world_knowledge", "engineering_corps"]
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 175, "fuel": 130},
+        "culture_points": 60
+      },
+      "is_settleable": true,
+      "tags": ["research", "tech", "unique", "valuable"]
+    },
+    {
+      "id": "wildlife_refuge",
+      "name": "Everglades Wildlife Preserve",
+      "type": "natural_resource",
+      "resources": {
+        "food": {"initial": 165, "max": 230, "regen_rate": 0.6},
+        "medicine": {"initial": 70, "max": 95, "regen_rate": 0.18}
+      },
+      "description": "Swampland teeming with life. Dangerous but bountiful hunting grounds.",
+      "special_features": [
+        {
+          "id": "wetlands",
+          "name": "Swamp Ecosystem",
+          "description": "Food and medicine production",
+          "effect": {"resource_bonus": {"food": 8, "medicine": 4}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"food": 150, "medicine": 60}
+      },
+      "is_settleable": true,
+      "tags": ["natural", "food_rich", "medicine_rich"]
+    },
+    {
+      "id": "crashed_plane",
+      "name": "Airplane Crash Site",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 105, "max": 145, "regen_rate": 0.3},
+        "fuel": {"initial": 60, "max": 85, "regen_rate": 0.15}
+      },
+      "description": "A passenger jet embedded in the earth. Luggage and cargo scattered for miles.",
+      "special_features": [],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 95, "fuel": 50}
+      },
+      "is_settleable": false,
+      "tags": ["ruins", "aviation"]
+    },
+    {
+      "id": "nuclear_bunker_luxury",
+      "name": "Billionaire's Survival Bunker",
+      "type": "vault",
+      "resources": {
+        "food": {"initial": 280, "max": 280, "regen_rate": 0},
+        "medicine": {"initial": 170, "max": 170, "regen_rate": 0},
+        "fuel": {"initial": 200, "max": 200, "regen_rate": 0}
+      },
+      "description": "Luxury underground complex built by the ultra-wealthy. Fully stocked and pristine.",
+      "special_features": [
+        {
+          "id": "luxury_amenities",
+          "name": "Luxury Facilities",
+          "description": "Superior living conditions",
+          "effect": {"resource_bonus": {"culture_points": 6}}
+        }
+      ],
+      "danger_level": 3,
+      "capture_requirements": {
+        "culture_nodes": ["old_world_knowledge"]
+      },
+      "capture_bonus": {
+        "resources": {"food": 280, "medicine": 170, "fuel": 200},
+        "culture_points": 65
+      },
+      "is_settleable": true,
+      "tags": ["vault", "unique", "valuable"]
+    },
+    {
+      "id": "textile_mill",
+      "name": "Cotton Textile Factory",
+      "type": "industrial_complex",
+      "resources": {
+        "scrap": {"initial": 125, "max": 175, "regen_rate": 0.35}
+      },
+      "description": "Looms and spinning equipment. Cloth production for clothing and trade.",
+      "special_features": [
+        {
+          "id": "textile_production",
+          "name": "Fabric Manufacturing",
+          "description": "Resource bonus",
+          "effect": {"resource_bonus": {"scrap": 6}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 110}
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "manufacturing"]
+    },
+    {
+      "id": "ski_mountain",
+      "name": "Alpine Ski Mountain",
+      "type": "settlement_site",
+      "resources": {
+        "food": {"initial": 75, "max": 105, "regen_rate": 0.22}
+      },
+      "description": "Mountain resort with excellent defensive position and clean air.",
+      "special_features": [
+        {
+          "id": "mountain_fortress",
+          "name": "Mountain Stronghold",
+          "description": "Defense and vision",
+          "effect": {"defense_bonus": 14, "vision_range_bonus": 3}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"food": 65}
+      },
+      "is_settleable": true,
+      "tags": ["defensible", "isolated", "mountain"]
+    },
+    {
+      "id": "recycling_center",
+      "name": "Municipal Recycling Facility",
+      "type": "industrial_complex",
+      "resources": {
+        "scrap": {"initial": 185, "max": 260, "regen_rate": 0.55}
+      },
+      "description": "Sorting equipment and compactors. Mountains of recyclable materials.",
+      "special_features": [
+        {
+          "id": "recycling_operations",
+          "name": "Material Recovery",
+          "description": "Scrap production",
+          "effect": {"resource_bonus": {"scrap": 9}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 170}
+      },
+      "is_settleable": true,
+      "tags": ["industrial", "scrap_rich"]
+    },
+    {
+      "id": "canyon_ruins",
+      "name": "Ancient Canyon Dwellings",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 60, "max": 85, "regen_rate": 0.15}
+      },
+      "description": "Pre-Colombian cliff dwellings carved into rock. Shelter that has lasted millennia.",
+      "special_features": [
+        {
+          "id": "ancient_architecture",
+          "name": "Historical Site",
+          "description": "Culture bonus",
+          "effect": {"defense_bonus": 10, "resource_bonus": {"culture_points": 4}}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "culture_points": 30
+      },
+      "is_settleable": true,
+      "tags": ["ancient", "defensive", "cultural"]
+    },
+    {
+      "id": "biomass_plant",
+      "name": "Biomass Energy Facility",
+      "type": "power_plant",
+      "resources": {
+        "fuel": {"initial": 155, "max": 220, "regen_rate": 0.9}
+      },
+      "description": "Converts organic waste to energy. Sustainable fuel from biological material.",
+      "special_features": [
+        {
+          "id": "biomass_energy",
+          "name": "Organic Fuel",
+          "description": "Renewable fuel",
+          "effect": {"resource_bonus": {"fuel": 9}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_requirements": {
+        "culture_nodes": ["engineering_corps"]
+      },
+      "capture_bonus": {
+        "resources": {"fuel": 140},
+        "culture_points": 25
+      },
+      "is_settleable": true,
+      "tags": ["power", "renewable", "fuel"]
+    },
+    {
+      "id": "drive_in_theater",
+      "name": "Sunset Drive-In Movies",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 80, "max": 115, "regen_rate": 0.2}
+      },
+      "description": "Outdoor movie screen and rusting speaker posts. Parking lot overgrown with weeds.",
+      "special_features": [],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 70}
+      },
+      "is_settleable": true,
+      "tags": ["entertainment", "ruins"]
+    },
+    {
+      "id": "mint_facility",
+      "name": "Federal Reserve Mint",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 110, "max": 155, "regen_rate": 0.3}
+      },
+      "description": "Money printing facility with vaults. Currency is worthless, but the metal has value.",
+      "special_features": [
+        {
+          "id": "precious_metals",
+          "name": "Metal Reserve",
+          "description": "Scrap bonus",
+          "effect": {"resource_bonus": {"scrap": 7}}
+        }
+      ],
+      "danger_level": 3,
+      "defenders": {
+        "unit_types": ["soldier"],
+        "count_range": {"min": 3, "max": 5}
+      },
+      "capture_bonus": {
+        "resources": {"scrap": 100}
+      },
+      "is_settleable": true,
+      "tags": ["government", "scrap"]
+    },
+    {
+      "id": "haunted_asylum",
+      "name": "Abandoned Mental Hospital",
+      "type": "hospital",
+      "resources": {
+        "medicine": {"initial": 145, "max": 200, "regen_rate": 0.4},
+        "scrap": {"initial": 90, "max": 125, "regen_rate": 0.22}
+      },
+      "description": "Psychiatric facility with disturbing history. Medical supplies remain in locked wards.",
+      "special_features": [
+        {
+          "id": "institutional_medicine",
+          "name": "Psychiatric Ward",
+          "description": "Medicine stockpile",
+          "effect": {"resource_bonus": {"medicine": 7}}
+        }
+      ],
+      "danger_level": 3,
+      "capture_bonus": {
+        "resources": {"medicine": 130, "scrap": 80}
+      },
+      "is_settleable": true,
+      "tags": ["medical", "medicine_rich", "creepy"]
+    },
+    {
+      "id": "lighthouse",
+      "name": "Coastal Lighthouse",
+      "type": "infrastructure",
+      "resources": {
+        "scrap": {"initial": 55, "max": 80, "regen_rate": 0.12}
+      },
+      "description": "Towering beacon on rocky shore. Could guide ships or signal across distances.",
+      "special_features": [
+        {
+          "id": "navigation_beacon",
+          "name": "Signal Tower",
+          "description": "Vision bonus",
+          "effect": {"vision_range_bonus": 4}
+        }
+      ],
+      "danger_level": 1,
+      "capture_bonus": {
+        "resources": {"scrap": 45}
+      },
+      "is_settleable": false,
+      "tags": ["coastal", "communications"]
+    },
+    {
+      "id": "pawn_shop_district",
+      "name": "Pawn Shop Row",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 135, "max": 190, "regen_rate": 0.38},
+        "medicine": {"initial": 35, "max": 50, "regen_rate": 0.08}
+      },
+      "description": "String of pawn shops with random salvage. Guns, electronics, jewelry, everything.",
+      "special_features": [
+        {
+          "id": "miscellaneous_goods",
+          "name": "Random Inventory",
+          "description": "Mixed resources",
+          "effect": {"resource_bonus": {"scrap": 6}}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 120, "medicine": 30}
+      },
+      "is_settleable": true,
+      "tags": ["commercial", "scrap"]
+    },
+    {
+      "id": "skyscraper_penthouse",
+      "name": "Luxury Penthouse Tower",
+      "type": "ruins",
+      "resources": {
+        "scrap": {"initial": 105, "max": 150, "regen_rate": 0.28},
+        "food": {"initial": 60, "max": 85, "regen_rate": 0.15}
+      },
+      "description": "Top floors of elite residential tower. Panoramic views of the wasteland.",
+      "special_features": [
+        {
+          "id": "observation_deck",
+          "name": "Penthouse View",
+          "description": "Vision bonus",
+          "effect": {"vision_range_bonus": 3}
+        }
+      ],
+      "danger_level": 2,
+      "capture_bonus": {
+        "resources": {"scrap": 95, "food": 50}
+      },
+      "is_settleable": true,
+      "tags": ["residential", "urban", "luxury"]
     },
     {
       "id": "fallout_shelter",

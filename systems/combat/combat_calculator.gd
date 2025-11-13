@@ -188,7 +188,8 @@ static func get_casualty_percentage(outcome: int, is_winner: bool) -> float:
 		CombatResult.CombatOutcome.DEFENDER_VICTORY:
 			return CASUALTY_LOSER if is_winner else CASUALTY_WINNER
 		CombatResult.CombatOutcome.DEFENDER_DECISIVE_VICTORY:
-			return randf_range(CASUALTY_DECISIVE_LOSER_MIN, CASUALTY_DECISIVE_LOSER_MAX) if is_winner else CASUALTY_DECISIVE_WINNER
+			# Fixed: Winner (defender) gets low casualties, loser (attacker) gets high casualties
+			return CASUALTY_DECISIVE_WINNER if is_winner else randf_range(CASUALTY_DECISIVE_LOSER_MIN, CASUALTY_DECISIVE_LOSER_MAX)
 		CombatResult.CombatOutcome.RETREAT:
 			# Retreating side takes more casualties
 			return 0.15 if is_winner else 0.40
